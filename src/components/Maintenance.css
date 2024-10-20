@@ -1,0 +1,37 @@
+/* src/App.css */
+
+.app {
+    position: relative; /* Ensure the app is positioned correctly */
+  }
+  
+  .blurred {
+    filter: blur(5px); /* Add a blur effect to the background content */
+    pointer-events: none; /* Prevent interaction with blurred content */
+  }
+  
+  /* Styles for the maintenance overlay */
+  .maintenance-overlay {
+    position: fixed; /* Fix position to cover entire viewport */
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    right: 0; /* Align to the right */
+    bottom: 0; /* Align to the bottom */
+    background: rgba(0, 0, 0, 0.8); /* Dark background with transparency */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    flex-direction: column; /* Stack items vertically */
+    color: white; /* Text color */
+    z-index: 1000; /* Ensure it's on top of other content */
+  }
+  
+  .maintenance-overlay h1 {
+    font-size: 2em; /* Larger font size for the heading */
+    margin-bottom: 0.5em; /* Space below heading */
+  }
+  
+  .maintenance-overlay p {
+    text-align: center; /* Center text alignment */
+    margin: 0.5em 0; /* Margin for spacing */
+  }
+  
