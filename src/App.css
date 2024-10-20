@@ -196,6 +196,51 @@
   width: 48%; /* Two fields side by side */
 }
 
+/* src/App.css */
+.blurred {
+  filter: blur(5px); /* Adjust blur intensity */
+  pointer-events: none; /* Prevent interactions with blurred content */
+}
+/* Add these styles to your existing CSS */
+
+.app {
+  position: relative; /* This ensures the overlay is positioned correctly */
+  overflow: hidden; /* Prevents scrollbars from showing */
+}
+
+.maintenance-overlay {
+  position: fixed; /* Fix it to the viewport */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8); /* White background with slight transparency */
+  backdrop-filter: blur(10px); /* Apply blur effect */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it appears on top of everything */
+}
+
+.maintenance-message {
+  text-align: center;
+  padding: 20px;
+  border: 2px solid #ccc; /* Optional: border around the message box */
+  background: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+  color: white; /* Text color */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.maintenance-message h2 {
+  font-size: 2rem; /* Larger font for the main message */
+  margin: 0; /* Remove default margin */
+}
+
+.maintenance-message p {
+  font-size: 1.2rem; /* Adjust font size */
+}
+
+
 /* Larger description field */
 .sell-your-car textarea {
   width: 100%; /* Full width for description */
