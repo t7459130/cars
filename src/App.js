@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css'; // Ensure CSS is imported
-import { FaBeer } from 'react-icons/fa';
+import { FaSearch, FaPhone, FaTimes, FaBars } from 'react-icons/fa';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Sellyourcar from './Sellyourcar'; // Import Sell Your Car component
 import Inventory from './Inventory'; // Import Inventory component
