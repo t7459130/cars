@@ -214,7 +214,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.8); /* White background with slight transparency */
+  background: rgba(255, 255, 255, 0.4); /* White background with slight transparency */
   backdrop-filter: blur(10px); /* Apply blur effect */
   display: flex;
   justify-content: center;
