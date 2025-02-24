@@ -50,4 +50,445 @@
 }
 
 .banner-image {
-  width: 100%; /* Make the
+  width: 100%; /* Make the banner image responsive */
+  max-height: 400px; /* Set a maximum height */
+  object-fit: cover; /* Cover the area without distortion */
+}
+
+.banner-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add shadow for readability */
+}
+
+/* Add to App.css */
+
+/* Hamburger Menu Button */
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  position: relative; /* Positioning for the lines */
+  z-index: 10; /* Ensure it sits above other elements */
+  padding: 10px;
+}
+
+/* Hamburger Icon Lines */
+
+
+/* Navbar Styles */
+/* Add this to your existing App.css */
+
+/* App.css */
+
+/* Hamburger menu button styles */
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000000;
+  font-size: 24px;
+}
+
+/* Nav menu styles */
+/* Nav Menu Styles */
+.nav-menu {
+  position: fixed;         /* Fix the menu to the right side of the viewport */
+  top: 0; 
+  right: -300px;          /* Hide completely off-screen */
+  width: 250px;           /* Width of the menu */
+  height: 100%;           /* Full height */
+  background-color: #333; /* Dark background */
+  color: #fff;            /* White text */
+  transition: right 0.3s ease; /* Smooth transition for sliding effect */
+  padding: 20px;          /* Padding for content */
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5); /* Optional shadow effect */
+  z-index: 15;            /* Stack above other elements */
+}
+
+/* When the menu is active, bring it into view */
+.nav-menu.active {
+  right: 0;               /* Slide in */
+}
+
+/* Menu list styles */
+.nav-menu ul {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove default padding */
+}
+
+/* Menu item styles */
+.nav-menu li {
+  margin: 15px 0; /* Spacing between items */
+}
+
+.nav-menu a {
+  color: #fff; /* White text */
+  text-decoration: none; /* No underline */
+}
+
+.nav-menu a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+/* Active class to show the menu */
+.nav-menu.active {
+  right: 0; /* Bring the menu into view */
+}
+
+
+
+/* Additional styles for a sleek look */
+.header {
+  background-color: #ffffff; /* Light background for header */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow */
+}
+
+.header-right {
+  display: flex; /* Align right items in a row */
+  align-items: center; /* Center vertically */
+}
+
+
+
+/* Sell Your Car Section */
+.sell-your-car {
+  max-width: 600px;
+  margin: 20px auto; /* Center the form with margin */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+}
+
+/* Make the form fields more boxy */
+.sell-your-car input,
+.sell-your-car select,
+.sell-your-car textarea {
+  padding: 15px; /* Increase padding for a boxy feel */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border 0.3s; /* Smooth border transition */
+  width: calc(100% - 22px); /* Full width minus padding */
+}
+
+/* Flex container for name fields */
+.name-fields {
+  display: flex;
+  justify-content: space-between; /* Space between name fields */
+}
+
+/* Flex container for car details */
+.car-details {
+  display: flex;
+  justify-content: space-between; /* Space between car fields */
+}
+
+/* Adjust each input field width */
+.name-fields input,
+.car-details input {
+  width: 48%; /* Two fields side by side */
+}
+
+/* src/App.css */
+.blurred {
+  filter: blur(5px); /* Adjust blur intensity */
+  pointer-events: none; /* Prevent interactions with blurred content */
+}
+/* Add these styles to your existing CSS */
+
+.app {
+  position: relative; /* This ensures the overlay is positioned correctly */
+  overflow: hidden; /* Prevents scrollbars from showing */
+}
+
+
+*/
+/* Larger description field */
+.sell-your-car textarea {
+  width: 100%; /* Full width for description */
+  height: 100px; /* Increase height */
+}
+
+/* Form heading styles */
+.sell-your-car h2 {
+  text-align: center;
+  color: #2c3e50; /* Title color */
+}
+
+
+/* About Us Section */
+.about-us {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+.about-image {
+  width: 300px; /* Fixed width for the image */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-text {
+  flex: 1;
+  margin-left: 20px;
+}
+
+/* Latest Arrivals Section */
+.latest-arrivals {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+.car-listings {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.car-card {
+  background: #ecf0f1;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px;
+  width: 30%; /* Adjust as needed */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.car-card:hover {
+  transform: scale(1.05); /* Scale effect on hover */
+}
+
+.car-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.car-details {
+  padding: 10px;
+}
+
+/* Contact Us Section */
+.contact-us {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+.contact-image {
+  width: 300px; /* Fixed width for the image */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Mailing List Section */
+.mailing-list {
+  padding: 20px;
+  background: #2c3e50;
+  border-radius: 8px;
+  color: white;
+  margin: 20px;
+  text-align: center;
+}
+
+.mailing-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.mailing-form input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 250px; /* Fixed width */
+  margin-right: 10px;
+}
+
+.mailing-form button {
+  padding: 10px 20px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.mailing-form button:hover {
+  background-color: #c0392b;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 10px;
+  background: #34495e;
+  color: white;
+}
+
+/* Add to App.css */
+.testimonials {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.testimonial-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.testimonial-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  width: 300px; /* Set a fixed width for cards */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.testimonial-card:hover {
+  transform: scale(1.05); /* Scale effect on hover */
+}
+
+.quote {
+  font-style: italic;
+  color: #555;
+}
+
+.author {
+  font-weight: bold;
+  margin-top: 10px;
+  color: #333;
+}
+
+/* Add to App.css */
+.other-services {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.services-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.service-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  width: 300px; /* Set a fixed width for cards */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.service-card:hover {
+  transform: scale(1.05); /* Scale effect on hover */
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: #4CAF50; /* Customize the title color */
+}
+
+/* Add to App.css */
+.news-and-events {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.events-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.event-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  width: 300px; /* Set a fixed width for cards */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.event-card:hover {
+  transform: scale(1.05); /* Scale effect on hover */
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: hsl(56, 100%, 50%); /* Customize the title color */
+}
+
+/* Add to App.css */
+.contact-us {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.mail-form {
+  margin-top: 20px;
+}
+
+.mail-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 250px; /* Set width of input */
+}
+
+.mail-form button {
+  padding: 10px;
+  margin-left: 10px; /* Space between input and button */
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.mail-form button:hover {
+  background-color: #45a049; /* Darker shade on hover */
+}
