@@ -86,13 +86,13 @@ function App() {
 
           {/* Hamburger Menu on the Right */}
           <div className="header-right">
-            <button className={menu-btn ${isMenuOpen ? 'open' : ''}} onClick={toggleMenu}>
+            <button className={`menu-btn ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
               {isMenuOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>
 
           {/* Collapsible Menu */}
-          <nav ref={menuRef} className={nav-menu ${isMenuOpen ? 'active' : ''}}>
+          <nav ref={menuRef} className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
             <ul>
               <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
               <li><Link to="/about" onClick={toggleMenu}>About Us</Link></li>
@@ -141,7 +141,7 @@ function App() {
                   <div className="car-listings">
                     {carsForSale.map((car) => (
                       <div key={car.id} className="car-card">
-                        <img src={car.img} alt={${car.make} ${car.model}} />
+                        <img src={car.img} alt={`${car.make} ${car.model}`} />
                         <div className="car-details">
                           <h3>{car.year} {car.make} {car.model}</h3>
                           <p>Price: {car.price}</p>
@@ -171,4 +171,4 @@ function App() {
   );
 }
 
-export default App;import React, { useState, useEffect, useRef } from 'react';
+export default App;
