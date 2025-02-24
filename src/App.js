@@ -162,14 +162,6 @@ function App() {
           </Routes>
         </main>
 
-        {/* Maintenance Overlay */}
-        <div className="maintenance-overlay">
-          <div className="maintenance-message">
-            <h2>Down for Maintenance</h2>
-            <p>We'll be back with you shortly. Please call us at +4444444444 or email at example.com</p>
-          </div>
-        </div>
-
         {/* Footer */}
         <footer className="footer">
           <p>&copy; {new Date().getFullYear()} Your Dealership. All rights reserved.</p>
