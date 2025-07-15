@@ -2,17 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import './App.css'; // Ensure CSS is imported
 import { FaSearch, FaBars, FaTimes, FaPhone } from 'react-icons/fa'; // Added phone icon
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Sellyourcar from './Sellyourcar'; // Import Sell Your Car component
-import Inventory from './Inventory'; // Import Inventory component
-import Testimonials from './Testimonials'; // Import Testimonials component
-import OtherServices from './OtherServices'; // Import Other Services component
-import NewsAndEvents from './NewsAndEvents'; // Import News and Events component
-import ContactUs from './ContactUs'; // Import Contact Us component
-import CarDetail from './CarDetail'; // Import CarDetail component
-import Car1 from './Car1';  // Import Car1.js
-import Car2 from './Car2';  // Import Car2.js
-import Car3 from './Car3';  // Import Car3.js
-
+import Sellyourcar from './Sellyourcar'; 
+import Inventory from './Inventory'; 
+import Testimonials from './Testimonials'; 
+import OtherServices from './OtherServices'; 
+import NewsAndEvents from './NewsAndEvents'; 
+import ContactUs from './ContactUs'; 
+import CarDetail from './CarDetail'; 
+import Car1 from './Car1';  
+import Car2 from './Car2';  
+import Car3 from './Car3';  
 
 // Placeholder images
 import aboutImage from './images/car1.jpg';
@@ -22,7 +21,7 @@ import bentleyLogo from './images/bentley.png';
 import porscheLogo from './images/porsche.png';
 import rollsLogo from './images/rolls.png';
 import ferrariLogo from './images/ferrari.png';
-import lamborghiniLogo from './images/lamborghini.png'; // Import the Lamborghini logo here
+import lamborghiniLogo from './images/lamborghini.png'; 
 
 // Car images for sale
 import car1 from './images/car1.jpg';
@@ -35,9 +34,9 @@ function App() {
   const menuRef = useRef(null); // Reference for the menu
 
   const carsForSale = [
-    { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1, description: 'The Tesla Model S is an all-electric luxury sedan with cutting-edge technology and performance.' },
-    { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000', img: car2, description: 'The BMW i8 is a plug-in hybrid sports car combining futuristic design and efficiency.' },
-    { id: 3, make: 'Audi', model: 'R8', year: 2019, price: '$150,000', img: car3, description: 'The Audi R8 is a high-performance sports car with striking looks and powerful performance.' },
+    { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1 },
+    { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000', img: car2 },
+    { id: 3, make: 'Audi', model: 'R8', year: 2019, price: '$150,000', img: car3 },
   ];
 
   const toggleMenu = () => {
@@ -74,7 +73,7 @@ function App() {
             </button>
             <Link to="/contact" className="call-me">
               <FaPhone />
-              <span className="phone-number">123-456-7890</span> {/* Random phone number */}
+              <span className="phone-number">123-456-7890</span> 
             </Link>
             {isSearchOpen && <input type="text" placeholder="Search..." className="search-input" />}
           </div>
