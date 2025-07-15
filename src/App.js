@@ -191,21 +191,44 @@ function App() {
           </Routes>
         </main>
 
-        {/* Cookie Consent Banner */}
-        {!cookiesAccepted && (
-          <div className="cookie-consent">
-            <p>
-              We use cookies to improve your experience. By using this site, you agree to our 
-              <a href="/privacy-policy">Privacy Policy</a>.
-            </p>
-            <button onClick={acceptCookies}>Accept Cookies</button>
-            <button onClick={declineCookies}>Decline</button>
-          </div>
-        )}
-
         {/* Footer */}
         <footer className="footer">
-          <p>&copy; {new Date().getFullYear()} Your Dealership. All rights reserved.</p>
+          <div className="footer-content">
+            <div className="footer-logo">
+              <img src={astonLogo} alt="Logo" />
+            </div>
+            <div className="footer-details">
+              <p>Romans International</p>
+              <p>Brighton Road, Banstead, Surrey, SM7 1AT</p>
+              <p>01737 363700</p>
+              <p>
+                Romans International are authorised and regulated by the Financial Conduct Authority
+                (“FCA”) under Firm Reference Number (FRN) 660610. We are a credit broker, not a lender,
+                and we do not charge a fee for our credit broking services.
+              </p>
+              <p>
+                We can introduce you to a limited number of lenders and their finance products, which may
+                have different interest rates and charges. We typically receive commission from them, 
+                calculated by vehicle age or loan amount. Commission does not affect the amount you pay.
+              </p>
+            </div>
+            <div className="footer-links">
+              <Link to="/inventory">Current Stock</Link>
+              <Link to="/sell">Sell Your Car</Link>
+              <Link to="/sold">Previously Sold</Link>
+              <Link to="/contact">Contact Us</Link>
+              <Link to="/luxury-cars">Luxury Cars</Link>
+              <p>&copy; 2025 All Rights Reserved</p>
+              <p>Website by 67 Degrees</p>
+              <div className="footer-legal">
+                <Link to="/sitemap">Sitemap</Link> | 
+                <Link to="/cookie-policy">Cookie Policy</Link> | 
+                <Link to="/privacy-policy">Privacy Policy</Link> | 
+                <Link to="/complaints-procedure">Complaints Procedure</Link> | 
+                <Link to="/modern-slavery">Modern Slavery Statement</Link>
+              </div>
+            </div>
+          </div>
         </footer>
       </div>
     </Router>

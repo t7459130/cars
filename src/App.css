@@ -454,3 +454,47 @@ h3 {
 .cookie-consent button:hover {
   background-color: #e65a4e;
 }
+
+.footer {
+  background-color: #f1f1f1;
+  padding: 30px 0;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.footer .footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-logo img {
+  width: 100px;
+}
+
+.footer-details {
+  margin: 20px 0;
+}
+
+.footer-links {
+  margin-top: 20px;
+}
+
+.footer-links a {
+  margin-right: 15px;
+  color: #333;
+  text-decoration: none;
+}
+
+.footer-legal {
+  margin-top: 20px;
+}
+
+.footer-legal a {
+  margin: 0 10px;
+  color: #333;
+  text-decoration: none;
+}
+
