@@ -274,8 +274,7 @@
 .footer {
   text-align: center;
   padding: 10px;
-  background: #34495e;
-  color: white;
+  background-color: #FFD700; 
 }
 
 /* Testimonials Section */
