@@ -1,39 +1,16 @@
 // src/Inventory.js
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
-// Car images for each car in the inventory
-import car1_1 from './images/car1.jpg';
-import car1_2 from './images/car1.jpg';
-import car2_1 from './images/car1.jpg';
-import car2_2 from './images/car1.jpg';
-// You can continue to import all the images for different cars
+import car1 from './images/car1.jpg';  // Example car images
+import car2 from './images/car2.jpg';
+import car3 from './images/car3.jpg';
 
 const carsInventory = [
-  { 
-    id: 1, 
-    make: 'Tesla', 
-    model: 'Model S', 
-    year: 2021, 
-    price: '$80,000', 
-    images: [car1_1, car1_2] // Multiple images for the car
-  },
-  { 
-    id: 2, 
-    make: 'BMW', 
-    model: 'i8', 
-    year: 2020, 
-    price: '$120,000', 
-    images: [car2_1, car2_2] // Multiple images for the car
-  },
-  { 
-    id: 3, 
-    make: 'Audi', 
-    model: 'R8', 
-    year: 2019, 
-    price: '$150,000', 
-    images: [car1_1, car1_2] // Example images
-  },
-  // Add more cars here with their respective images
+  { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', image: car1, link: '/car1' },
+  { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000', image: car2, link: '/car2' },
+  { id: 3, make: 'Audi', model: 'R8', year: 2019, price: '$150,000', image: car3, link: '/car3' },
+  // Add more cars here if needed
 ];
 
 const Inventory = () => {
@@ -43,17 +20,9 @@ const Inventory = () => {
       <div className="car-listings">
         {carsInventory.map((car) => (
           <div key={car.id} className="car-card">
-            {/* Display multiple images for each car */}
-            <div className="car-images">
-              {car.images.map((image, index) => (
-                <img 
-                  key={index} 
-                  src={image} 
-                  alt={`${car.make} ${car.model} ${index + 1}`} 
-                  className="car-image"
-                />
-              ))}
-            </div>
+            <Link to={car.link}>
+              <img src={car.image} alt={`${car.make} ${car.model}`} />
+            </Link>
             <div className="car-details">
               <h3>{car.year} {car.make} {car.model}</h3>
               <p>Price: {car.price}</p>
