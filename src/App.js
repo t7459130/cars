@@ -8,6 +8,7 @@ import Testimonials from './Testimonials'; // Import Testimonials component
 import OtherServices from './OtherServices'; // Import Other Services component
 import NewsAndEvents from './NewsAndEvents'; // Import News and Events component
 import ContactUs from './ContactUs'; // Import Contact Us component
+import CarDetail from './CarDetail'; // Import CarDetail component
 
 // Placeholder images
 import aboutImage from './images/car1.jpg';
@@ -17,7 +18,7 @@ import bentleyLogo from './images/bentley.png';
 import porscheLogo from './images/porsche.png';
 import rollsLogo from './images/rolls.png';
 import ferrariLogo from './images/ferrari.png';
-import lamborghiniLogo from './images/lamborghini.png'; // Import the Lamborghini logo
+import lamborghiniLogo from './images/lamborghini.png'; // Import the Lamborghini logo here
 
 // Car images for sale
 import car1 from './images/car1.jpg';
@@ -81,7 +82,7 @@ function App() {
             <img src={porscheLogo} alt="Porsche Logo" className="car-logo" />
             <img src={rollsLogo} alt="Rolls-Royce Logo" className="car-logo" />
             <img src={ferrariLogo} alt="Ferrari Logo" className="car-logo" />
-            <img src={lamborghiniLogo} alt="Lamborghini Logo" className="car-logo" /> {/* Add the Lamborghini logo here */}
+            <img src={lamborghiniLogo} alt="Lamborghini Logo" className="car-logo" />
           </div>
 
           {/* Hamburger Menu on the Right */}
@@ -141,11 +142,13 @@ function App() {
                   <div className="car-listings">
                     {carsForSale.map((car) => (
                       <div key={car.id} className="car-card">
-                        <img src={car.img} alt={`${car.make} ${car.model}`} />
-                        <div className="car-details">
-                          <h3>{car.year} {car.make} {car.model}</h3>
-                          <p>Price: {car.price}</p>
-                        </div>
+                        <Link to={`/car/${car.id}`}>
+                          <img src={car.img} alt={`${car.make} ${car.model}`} />
+                          <div className="car-details">
+                            <h3>{car.year} {car.make} {car.model}</h3>
+                            <p>Price: {car.price}</p>
+                          </div>
+                        </Link>
                       </div>
                     ))}
                   </div>
@@ -159,6 +162,8 @@ function App() {
             <Route path="/services" element={<OtherServices />} />
             <Route path="/testimonials" element={<Testimonials />} />
             <Route path="/inventory" element={<Inventory />} />
+            {/* Route for individual car details */}
+            <Route path="/car/:carId" element={<CarDetail />} />
           </Routes>
         </main>
 

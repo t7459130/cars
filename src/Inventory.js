@@ -1,18 +1,39 @@
 // src/Inventory.js
 import React from 'react';
-import car1 from './images/car1.jpg'; // Ensure you have the correct path to car1 image
+
+// Car images for each car in the inventory
+import car1_1 from './images/car1.jpg';
+import car1_2 from './images/car1.jpg';
+import car2_1 from './images/car1.jpg';
+import car2_2 from './images/car1.jpg';
+// You can continue to import all the images for different cars
 
 const carsInventory = [
-  { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000' },
-  { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000' },
-  { id: 3, make: 'Audi', model: 'R8', year: 2019, price: '$150,000' },
-  { id: 4, make: 'Mercedes-Benz', model: 'C-Class', year: 2022, price: '$55,000' },
-  { id: 5, make: 'Porsche', model: '911', year: 2023, price: '$150,000' },
-  { id: 6, make: 'Jaguar', model: 'F-Type', year: 2021, price: '$102,000' },
-  { id: 7, make: 'Ford', model: 'Mustang', year: 2021, price: '$45,000' },
-  { id: 8, make: 'Chevrolet', model: 'Corvette', year: 2022, price: '$70,000' },
-  { id: 9, make: 'Lexus', model: 'LC', year: 2022, price: '$90,000' },
-  { id: 10, make: 'Ferrari', model: '488 GTB', year: 2018, price: '$250,000' },
+  { 
+    id: 1, 
+    make: 'Tesla', 
+    model: 'Model S', 
+    year: 2021, 
+    price: '$80,000', 
+    images: [car1_1, car1_2] // Multiple images for the car
+  },
+  { 
+    id: 2, 
+    make: 'BMW', 
+    model: 'i8', 
+    year: 2020, 
+    price: '$120,000', 
+    images: [car2_1, car2_2] // Multiple images for the car
+  },
+  { 
+    id: 3, 
+    make: 'Audi', 
+    model: 'R8', 
+    year: 2019, 
+    price: '$150,000', 
+    images: [car1_1, car1_2] // Example images
+  },
+  // Add more cars here with their respective images
 ];
 
 const Inventory = () => {
@@ -22,7 +43,17 @@ const Inventory = () => {
       <div className="car-listings">
         {carsInventory.map((car) => (
           <div key={car.id} className="car-card">
-            <img src={car1} alt={`${car.make} ${car.model}`} />
+            {/* Display multiple images for each car */}
+            <div className="car-images">
+              {car.images.map((image, index) => (
+                <img 
+                  key={index} 
+                  src={image} 
+                  alt={`${car.make} ${car.model} ${index + 1}`} 
+                  className="car-image"
+                />
+              ))}
+            </div>
             <div className="car-details">
               <h3>{car.year} {car.make} {car.model}</h3>
               <p>Price: {car.price}</p>
