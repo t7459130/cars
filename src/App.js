@@ -31,6 +31,7 @@ import car3 from './images/car3.jpg';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [cookiesAccepted, setCookiesAccepted] = useState(false);
   const menuRef = useRef(null); // Reference for the menu
 
   const carsForSale = [
@@ -60,6 +61,26 @@ function App() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isMenuOpen]);
+
+  const acceptCookies = () => {
+    setCookiesAccepted(true);
+    // You can also store this in localStorage to remember the user's choice
+    localStorage.setItem('cookiesAccepted', 'true');
+  };
+
+  const declineCookies = () => {
+    setCookiesAccepted(true);
+    // Optionally, store the user's decline choice
+    localStorage.setItem('cookiesAccepted', 'false');
+  };
+
+  // Check if cookies were accepted previously
+  useEffect(() => {
+    const cookiesConsent = localStorage.getItem('cookiesAccepted');
+    if (cookiesConsent) {
+      setCookiesAccepted(cookiesConsent === 'true');
+    }
+  }, []);
 
   return (
     <Router>
@@ -169,6 +190,18 @@ function App() {
             <Route path="/car/:carId" element={<CarDetail />} />
           </Routes>
         </main>
+
+        {/* Cookie Consent Banner */}
+        {!cookiesAccepted && (
+          <div className="cookie-consent">
+            <p>
+              We use cookies to improve your experience. By using this site, you agree to our 
+              <a href="/privacy-policy">Privacy Policy</a>.
+            </p>
+            <button onClick={acceptCookies}>Accept Cookies</button>
+            <button onClick={declineCookies}>Decline</button>
+          </div>
+        )}
 
         {/* Footer */}
         <footer className="footer">
