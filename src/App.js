@@ -219,7 +219,7 @@ function App() {
               <Link to="/contact">Contact Us</Link>
               <Link to="/luxury-cars">Luxury Cars</Link>
               <p>&copy; 2025 All Rights Reserved</p>
-              <p>Website by 67 Degrees</p>
+              
               <div className="footer-legal">
                 <Link to="/sitemap">Sitemap</Link> | 
                 <Link to="/cookie-policy">Cookie Policy</Link> | 
