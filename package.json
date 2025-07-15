@@ -1,4 +1,5 @@
 {
+{
   "name": "myapp",
   "version": "0.1.0",
   "private": true,
@@ -22,6 +23,7 @@
     "react-icons": "^4.0.0",
     "react-router-dom": "^6.27.0",
     "react-scripts": "5.0.1",
+    "react-helmet": "^6.1.0",  // Added react-helmet
     "stream-browserify": "^3.0.0",
     "url": "^0.11.4",
     "util": "^0.12.5",
