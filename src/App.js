@@ -8,7 +8,10 @@ import Testimonials from './Testimonials'; // Import Testimonials component
 import OtherServices from './OtherServices'; // Import Other Services component
 import NewsAndEvents from './NewsAndEvents'; // Import News and Events component
 import ContactUs from './ContactUs'; // Import Contact Us component
-import CarDetail from './CarDetail'; // Import CarDetail component
+import Car1 from './Car1';  // Import Car1.js
+import Car2 from './Car2';  // Import Car2.js
+import Car3 from './Car3';  // Import Car3.js
+
 
 // Placeholder images
 import aboutImage from './images/car1.jpg';
