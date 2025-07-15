@@ -33,6 +33,7 @@ import car3 from './images/car3.jpg';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [cookiesAccepted, setCookiesAccepted] = useState(false);
   const menuRef = useRef(null); // Reference for the menu
 
   const carsForSale = [
@@ -62,6 +63,26 @@ function App() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isMenuOpen]);
+
+  const acceptCookies = () => {
+    setCookiesAccepted(true);
+    // You can also store this in localStorage to remember the user's choice
+    localStorage.setItem('cookiesAccepted', 'true');
+  };
+
+  const declineCookies = () => {
+    setCookiesAccepted(true);
+    // Optionally, store the user's decline choice
+    localStorage.setItem('cookiesAccepted', 'false');
+  };
+
+  // Check if cookies were accepted previously
+  useEffect(() => {
+    const cookiesConsent = localStorage.getItem('cookiesAccepted');
+    if (cookiesConsent) {
+      setCookiesAccepted(cookiesConsent === 'true');
+    }
+  }, []);
 
   return (
     <Router>
@@ -132,6 +153,9 @@ function App() {
           <Routes>
             <Route path="/" element={
               <>
+                <Helmet>
+                  <title>Home - Car Dealership</title> {/* Set page title */}
+                </Helmet>
                 {/* About Us Section */}
                 <section className="about-us">
                   <div className="about-content">
@@ -166,7 +190,6 @@ function App() {
                 </section>
               </>
             } />
-
             <Route path="/about" element={
               <>
                 <Helmet>
@@ -175,7 +198,6 @@ function App() {
                 <h2>About Us Page</h2>
               </>
             } />
-
             <Route path="/contact" element={
               <>
                 <Helmet>
@@ -184,7 +206,6 @@ function App() {
                 <ContactUs />
               </>
             } />
-
             <Route path="/sell" element={<Sellyourcar />} />
             <Route path="/news" element={<NewsAndEvents />} />
             <Route path="/services" element={<OtherServices />} />
@@ -197,7 +218,42 @@ function App() {
 
         {/* Footer */}
         <footer className="footer">
-          <p>&copy; {new Date().getFullYear()} Your Dealership. All rights reserved.</p>
+          <div className="footer-content">
+            <div className="footer-logo">
+              <img src={astonLogo} alt="Logo" />
+            </div>
+            <div className="footer-details">
+              <p>Nabils Surrey Supercar Website</p>
+              <p>Surrey, England, UK</p>
+              <p>0777777777</p>
+              <p>
+                NabilsSurreySUppercars are authorised and regulated by the Financial Conduct Authority
+                (“FCA”) under Firm Reference Number (FRN) 660610. We are a credit broker, not a lender,
+                and we do not charge a fee for our credit broking services.
+              </p>
+              <p>
+                We can introduce you to a limited number of lenders and their finance products, which may
+                have different interest rates and charges. We typically receive commission from them, 
+                calculated by vehicle age or loan amount. Commission does not affect the amount you pay.
+              </p>
+            </div>
+            <div className="footer-links">
+              <Link to="/inventory">Current Stock</Link>
+              <Link to="/sell">Sell Your Car</Link>
+              <Link to="/sold">Previously Sold</Link>
+              <Link to="/contact">Contact Us</Link>
+              <Link to="/luxury-cars">Luxury Cars</Link>
+              <p>&copy; 2025 All Rights Reserved</p>
+              
+              <div className="footer-legal">
+                <Link to="/sitemap">Sitemap</Link> | 
+                <Link to="/cookie-policy">Cookie Policy</Link> | 
+                <Link to="/privacy-policy">Privacy Policy</Link> | 
+                <Link to="/complaints-procedure">Complaints Procedure</Link> | 
+                <Link to="/modern-slavery">Modern Slavery Statement</Link>
+              </div>
+            </div>
+          </div>
         </footer>
       </div>
     </Router>
