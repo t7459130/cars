@@ -35,9 +35,9 @@ function App() {
   const menuRef = useRef(null); // Reference for the menu
 
   const carsForSale = [
-    { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1 },
-    { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000', img: car2 },
-    { id: 3, make: 'Audi', model: 'R8', year: 2019, price: '$150,000', img: car3 },
+    { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1, description: 'The Tesla Model S is an all-electric luxury sedan with cutting-edge technology and performance.' },
+    { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000', img: car2, description: 'The BMW i8 is a plug-in hybrid sports car combining futuristic design and efficiency.' },
+    { id: 3, make: 'Audi', model: 'R8', year: 2019, price: '$150,000', img: car3, description: 'The Audi R8 is a high-performance sports car with striking looks and powerful performance.' },
   ];
 
   const toggleMenu = () => {
