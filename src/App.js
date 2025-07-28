@@ -44,7 +44,7 @@ function App() {
   const logoBatches = [
     [ferrariLogo, lamborghiniLogo, rollsLogo, bentleyLogo],
     [astonLogo, paganiLogo, bugattiLogo, mercedesLogo],
-    [porscheLogo, astonLogo, ferrariLogo, lamborghiniLogo],
+  //  [porscheLogo, astonLogo, ferrariLogo, lamborghiniLogo],
   ];
 
   const carsForSale = [
