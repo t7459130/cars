@@ -222,47 +222,16 @@ function App() {
         </main>
 
         <footer className="footer">
-          <div className="footer-content">
-            <div className="footer-logo">
-              {/* Footer rotating logo cycling through first set */}
-              <img
-                src={logosSet1[currentIndexSet1]}
-                alt="Rotating Logo"
-                className="car-logo rotating-footer-logo"
-              />
-            </div>
-            <div className="footer-details">
-              <p>Nabils Surrey Supercar Website</p>
-              <p>Surrey, England, UK</p>
-              <p>0777777777</p>
-              <p>
-                NabilsSurreySUppercars are authorised and regulated by the Financial Conduct Authority
-                (“FCA”) under Firm Reference Number (FRN) 660610. We are a credit broker, not a lender,
-                and we do not charge a fee for our credit broking services.
-              </p>
-              <p>
-                We can introduce you to a limited number of lenders and their finance products, which may
-                have different interest rates and charges. We typically receive commission from them, 
-                calculated by vehicle age or loan amount. Commission does not affect the amount you pay.
-              </p>
-            </div>
-            <div className="footer-links">
-              <Link to="/inventory">Current Stock</Link>
-              <Link to="/sell">Sell Your Car</Link>
-              <Link to="/sold">Previously Sold</Link>
-              <Link to="/contact">Contact Us</Link>
-              <Link to="/luxury-cars">Luxury Cars</Link>
-              <p>&copy; 2025 All Rights Reserved</p>
-              <div className="footer-legal">
-                <Link to="/sitemap">Sitemap</Link> | 
-                <Link to="/cookie-policy">Cookie Policy</Link> | 
-                <Link to="/privacy-policy">Privacy Policy</Link> | 
-                <Link to="/complaints-procedure">Complaints Procedure</Link> | 
-                <Link to="/modern-slavery">Modern Slavery Statement</Link>
-              </div>
-            </div>
-          </div>
+          <p>&copy; 2025 Car Dealership. All rights reserved.</p>
         </footer>
+
+        {!cookiesAccepted && (
+          <div className="cookies-consent">
+            <p>This website uses cookies to enhance your experience.</p>
+            <button onClick={acceptCookies}>Accept</button>
+            <button onClick={declineCookies}>Decline</button>
+          </div>
+        )}
       </div>
     </Router>
   );

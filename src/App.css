@@ -1,67 +1,144 @@
-/* App.css */
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* Prevent horizontal scroll caused by offscreen menu */
 body {
-  overflow-x: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f2f2f2;
+  color: #333;
 }
 
 /* Header */
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  position: sticky;
-  top: 0;
-  background-color: rgb(255, 215, 0);
-  z-index: 10;
-  padding: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  position: relative;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Logo bar */
+.header-left, .header-right {
+  flex: 0 0 auto;
+}
+
+.call-me {
+  display: flex;
+  align-items: center;
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+}
+
 .logo-bar {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
-.car-logo {
-  width: 150px;
-  height: auto;
-  margin: 0 15px;
-}
-
-/* Search bar */
-.search-bar {
+/* Logo sets for desktop */
+.desktop-logos {
   display: flex;
+  gap: 2rem;
+}
+
+/* Each set container */
+.logo-set {
+  display: flex;
+  gap: 1rem;
   align-items: center;
 }
 
-.search-icon {
+/* Logos */
+.car-logo {
+  max-width: 80px;
+  height: auto;
+  opacity: 0.5;
+  transition: opacity 0.5s ease;
+}
+
+/* Active logo highlight */
+.active-logo {
+  opacity: 1;
+}
+
+/* Mobile single rotating logo */
+.mobile-logo {
+  display: none;
+  max-width: 80px;
+  height: auto;
+}
+
+/* Menu button */
+.menu-btn {
+  font-size: 1.5rem;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 20px;
+  color: #333;
 }
 
-.search-input {
-  margin-left: 10px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.menu-btn.open {
+  color: #ff0000;
+}
+
+/* Navigation menu */
+.nav-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
   width: 200px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 0 0 4px 4px;
+  z-index: 99;
+}
+
+.nav-menu.active {
+  max-height: 400px; /* enough height for menu */
+}
+
+.nav-menu ul {
+  list-style: none;
+  padding: 1rem;
+}
+
+.nav-menu ul li {
+  margin-bottom: 1rem;
+}
+
+.nav-menu ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+}
+
+.nav-menu ul li a:hover {
+  color: #007BFF;
 }
 
 /* Banner */
 .banner {
   position: relative;
   text-align: center;
+  color: white;
 }
 
 .banner-image {
   width: 100%;
-  max-height: 400px;
+  height: 400px;
   object-fit: cover;
+  filter: brightness(0.6);
 }
 
 .banner-text {
@@ -69,161 +146,78 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* Hamburger Menu */
-/* Navigation Menu */
-.nav-menu {
-  position: fixed;
-  top: 0;
-  right: -100vw; /* Off-screen when hidden */
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(17, 17, 17, 0.90); /* Dark overlay */
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: right 0.3s ease-in-out;
-  z-index: 1000; /* On top of everything */
-  text-align: center;
+.banner-text h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
 }
 
-.nav-menu.active {
-  right: 0; /* Slide in */
-}
-
-.nav-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.nav-menu li {
-  margin: 20px 0;
-}
-
-.nav-menu a {
-  color: #fff;
-  font-size: 24px;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.nav-menu a:hover {
-  color: #f39c12;
-}
-
-/* Hamburger button styling */
-.menu-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #000;
-  cursor: pointer;
-  z-index: 1100; /* Above nav */
-}
-
-
-/* Sell Your Car Section */
-.sell-your-car {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.sell-your-car input,
-.sell-your-car select,
-.sell-your-car textarea {
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: border 0.3s;
-  width: calc(100% - 22px);
-}
-
-/* Flex containers */
-.name-fields, .car-details {
-  display: flex;
-  justify-content: space-between;
-}
-
-.name-fields input,
-.car-details input {
-  width: 48%;
-}
-
-.blurred {
-  filter: blur(5px);
-  pointer-events: none;
-}
-
-/* Larger description field */
-.sell-your-car textarea {
-  width: 100%;
-  height: 100px;
-}
-
-/* Form heading */
-.sell-your-car h2 {
-  text-align: center;
-  color: #2c3e50;
+.banner-text p {
+  font-size: 1.25rem;
 }
 
 /* About Us Section */
 .about-us {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  background: white;
+  background: #fff;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1000px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.about-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
 .about-image {
-  width: 300px;
-  height: auto;
+  max-width: 400px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .about-text {
   flex: 1;
-  margin-left: 20px;
+}
+
+.about-text h2 {
+  margin-bottom: 1rem;
+}
+
+.about-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
 /* Latest Arrivals Section */
 .latest-arrivals {
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin: 20px;
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.latest-arrivals h2 {
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .car-listings {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
 .car-card {
-  background: #ecf0f1;
+  background: #fff;
   border-radius: 8px;
-  padding: 10px;
-  margin: 10px;
-  width: 30%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
+  overflow: hidden;
+  width: 300px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
 }
 
 .car-card:hover {
@@ -232,316 +226,78 @@ body {
 
 .car-card img {
   width: 100%;
-  height: auto;
-  border-radius: 8px;
+  height: 200px;
+  object-fit: cover;
 }
 
-/* Mailing List Section */
-.mailing-list {
-  padding: 20px;
-  background: #2c3e50;
-  border-radius: 8px;
-  color: white;
-  margin: 20px;
-  text-align: center;
+.car-details {
+  padding: 1rem;
 }
 
-.mailing-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
+.car-details h3 {
+  margin-bottom: 0.5rem;
 }
 
-.mailing-form input {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  width: 250px;
-  margin-right: 10px;
-}
-
-.mailing-form button {
-  padding: 10px 20px;
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.mailing-form button:hover {
-  background-color: #c0392b;
+.car-details p {
+  font-weight: bold;
 }
 
 /* Footer */
 .footer {
-  background-color: #FFD700;
-  padding: 30px 0;
+  background: #222;
+  color: #fff;
   text-align: center;
-  font-family: 'Montserrat', sans-serif;
+  padding: 1rem;
+  margin-top: 3rem;
 }
 
-.footer .footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.footer-logo img {
-  width: 100px;
-}
-
-.footer-details {
-  margin: 20px 0;
-}
-
-.footer-links {
-  margin-top: 20px;
-}
-
-.footer-links a {
-  margin-right: 15px;
-  color: #333;
-  text-decoration: none;
-}
-
-.footer-legal {
-  margin-top: 20px;
-}
-
-.footer-legal a {
-  margin: 0 10px;
-  color: #333;
-  text-decoration: none;
-}
-
-/* Testimonials Section */
-.testimonials {
-  padding: 20px;
+/* Cookies consent */
+.cookies-consent {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000000dd;
+  color: white;
+  padding: 1rem;
   text-align: center;
-  background-color: #f9f9f9;
+  z-index: 200;
 }
 
-.testimonial-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
+.cookies-consent button {
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #007BFF;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
-.testimonial-card {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 10px;
-  width: 300px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
+.cookies-consent button:hover {
+  background: #0056b3;
 }
 
-.testimonial-card:hover {
-  transform: scale(1.05);
-}
-
-.quote {
-  font-style: italic;
-  color: #555;
-}
-
-.author {
-  font-weight: bold;
-  margin-top: 10px;
-  color: #333;
-}
-
-/* Other Services Section */
-.other-services {
-  padding: 20px;
-  text-align: center;
-  background-color: #f9f9f9;
-}
-
-.services-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.service-card {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 10px;
-  width: 300px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-}
-
-.service-card:hover {
-  transform: scale(1.05);
-}
-
-h2 {
-  margin-bottom: 20px;
-}
-
-h3 {
-  color: #4CAF50;
-}
-
-/* News and Events Section */
-.news-and-events {
-  padding: 20px;
-  text-align: center;
-  background-color: #f9f9f9;
-}
-
-.events-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.event-card {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 10px;
-  width: 90%;
-  max-width: 700px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-}
-
-.event-card:hover {
-  transform: scale(1.05);
-}
-
-/* Responsive Adjustments */
+/* Responsive */
 @media (max-width: 768px) {
-  .name-fields,
-  .car-details {
-    flex-direction: column;
-  }
-
-  .name-fields input,
-  .car-details input {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .car-listings,
-  .testimonial-list,
-  .services-list {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .car-card,
-  .testimonial-card,
-  .service-card {
-    width: 90%;
-  }
-}
-
-/* Hide rotating logo on desktop, show on mobile */
-.mobile-logo {
-  display: none;
-}
-
-/* Show all logos on desktop */
-.desktop-logos {
-  display: flex;
-}
-
-/* Mobile styles */
-@media (max-width: 768px) {
-.mobile-logo {
-  display: block;
-  width: 120px;
-  height: 60px; /* Force fixed height */
-  object-fit: contain;
-  margin: 0 auto;
-}
-
-
   .desktop-logos {
     display: none;
   }
 
-  .logo-bar {
-    justify-content: center;
+  .mobile-logo {
+    display: block;
+  }
+
+  .about-content {
+    flex-direction: column;
+  }
+
+  .car-listings {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .car-card {
+    width: 90%;
   }
 }
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  background-color: rgb(255, 215, 0);
-  z-index: 10;
-  padding: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.header-left,
-.header-right {
-  width: 20%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.header-right {
-  justify-content: flex-end;
-  z-index: 1101; /* Ensure above nav-menu */
-}
-
-.logo-bar {
-  width: 60%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-}
-
-.call-me {
-  color: black;
-  text-decoration: none;
-}
-
-.menu-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #000;
-  cursor: pointer;
-  z-index: 1101; /* Keep above nav menu */
-}
-
-.nav-menu {
-  position: fixed;
-  top: 0;
-  right: -100vw;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(17, 17, 17, 0.8); /* 50% opacity */
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: right 0.3s ease-in-out;
-  z-index: 1000; /* Below menu button */
-  text-align: center;
-}
-
