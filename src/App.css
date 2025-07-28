@@ -462,12 +462,14 @@ h3 {
 
 /* Mobile styles */
 @media (max-width: 768px) {
-  .mobile-logo {
-    display: block;
-    width: 120px;
-    height: auto;
-    margin: 0 auto;
-  }
+.mobile-logo {
+  display: block;
+  width: 120px;
+  height: 60px; /* Force fixed height */
+  object-fit: contain;
+  margin: 0 auto;
+}
+
 
   .desktop-logos {
     display: none;
