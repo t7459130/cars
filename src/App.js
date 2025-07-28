@@ -134,13 +134,13 @@ function App() {
           <nav ref={menuRef} className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
             <ul>
               <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
+              <li><Link to="/inventory" onClick={toggleMenu}>Inventory</Link></li>
               <li><Link to="/about" onClick={toggleMenu}>About Us</Link></li>
               <li><Link to="/contact" onClick={toggleMenu}>Contact Us</Link></li>
               <li><Link to="/sell" onClick={toggleMenu}>Sell Your Car</Link></li>
               <li><Link to="/news" onClick={toggleMenu}>News and Events</Link></li>
               <li><Link to="/services" onClick={toggleMenu}>Other Services</Link></li>
               <li><Link to="/testimonials" onClick={toggleMenu}>Testimonials</Link></li>
-              <li><Link to="/inventory" onClick={toggleMenu}>Inventory</Link></li>
             </ul>
           </nav>
         </header>
