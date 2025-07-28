@@ -81,18 +81,23 @@
 
 /* Navbar */
 .nav-menu {
-  position: fixed; /* Fix the menu to the right side of the viewport */
+  position: fixed;
   top: 0;
-  right: -300px; /* Hide completely off-screen */
-  width: 250px; /* Width of the menu */
-  height: 100%; /* Full height */
-  background-color: #333; /* Dark background */
-  color: #fff; /* White text */
-  transition: right 0.3s ease; /* Smooth transition for sliding effect */
-  padding: 20px; /* Padding for content */
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5); /* Optional shadow effect */
-  z-index: 15; /* Stack above other elements */
+  right: -100%;
+  width: 100vw; /* Full screen width */
+  height: 100vh; /* Full screen height */
+  background-color: #333;
+  color: #fff;
+  transition: right 0.3s ease;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 15;
 }
+
+.nav-menu.active {
+  right: 0;
+}
+
 
 .nav-menu.active {
   right: 0; /* Slide in */
