@@ -103,8 +103,7 @@ function App() {
         </Helmet>
 
         <header className="header">
-          <div className="search-bar">
-            {/* Removed Search Icon */}
+          <div className="header-left">
             <a href="tel:1234567890" className="call-me" style={{ color: '#000', textDecoration: 'none' }}>
               <FaPhone size={20} />
             </a>
