@@ -12,14 +12,11 @@ import OtherServices from './OtherServices';
 import NewsAndEvents from './NewsAndEvents';
 import ContactUs from './ContactUs';
 import CarDetail from './CarDetail';
-import Car1 from './Car1';
-import Car2 from './Car2';
-import Car3 from './Car3';
 
 import aboutImage from './images/car1.jpg';
 import bannerImage from './images/carwallpaper.webp';
 
-// Logos imported as described:
+// Logos
 import paganiLogo from './images/pagani.png';
 import mercedesLogo from './images/mercedes.png';
 import bugattiLogo from './images/bugatti.png';
@@ -40,23 +37,30 @@ function App() {
   const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
   const menuRef = useRef(null);
 
-  // Define the 3 batches of 4 logos each exactly as you want:
   const logoBatches = [
     [ferrariLogo, lamborghiniLogo, rollsLogo, bentleyLogo],
     [astonLogo, paganiLogo, bugattiLogo, mercedesLogo],
-    // [porscheLogo, astonLogo, ferrariLogo, lamborghiniLogo], // commented out as before
   ];
 
-  // Updated carsForSale here as well for consistent data across the app
+  const footerLogos = [
+    lamborghiniLogo,
+    ferrariLogo,
+    porscheLogo,
+    paganiLogo,
+    mercedesLogo,
+    astonLogo,
+    bugattiLogo,
+    bentleyLogo,
+    rollsLogo,
+  ];
+
   const carsForSale = [
     { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1 },
     { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000', img: car2 },
     { id: 3, make: 'Audi', model: 'R8', year: 2019, price: '$150,000', img: car3 },
   ];
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -65,9 +69,7 @@ function App() {
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isMenuOpen]);
 
   const acceptCookies = () => {
@@ -81,13 +83,10 @@ function App() {
   };
 
   useEffect(() => {
-    const cookiesConsent = localStorage.getItem('cookiesAccepted');
-    if (cookiesConsent) {
-      setCookiesAccepted(cookiesConsent === 'true');
-    }
+    const consent = localStorage.getItem('cookiesAccepted');
+    if (consent) setCookiesAccepted(consent === 'true');
   }, []);
 
-  // Rotate entire batch every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentBatchIndex((prev) => (prev + 1) % logoBatches.length);
@@ -110,7 +109,6 @@ function App() {
             </a>
           </div>
 
-          {/* Banner area with rotating batch of logos next to menu & phone */}
           <div className="logo-bar" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             {logoBatches[currentBatchIndex].map((logo, idx) => (
               <img
@@ -152,7 +150,6 @@ function App() {
             <h1>Welcome to Our Car Dealership</h1>
             <p>Discover our exclusive range of luxury cars.</p>
           </div>
-          {/* No logos here as per your request */}
         </section>
 
         <main>
@@ -232,14 +229,15 @@ function App() {
         <footer className="footer">
           <div className="footer-content">
             <div className="footer-logo">
-              {[lamborghiniLogo, ferrariLogo, paganiLogo, mercedesLogo, astonLogo, bugattiLogo, bentleyLogo]}
-              <img
-                key={idx}
-                src={logo}
-                alt={'Footer Logo ${idx}'}
-                className="car-logo rotating-footer-logo"
-                style={{ width: '50px', height: '50px', objectFit: 'contain' }}
-              />
+              {footerLogos.map((logo, idx) => (
+                <img
+                  key={idx}
+                  src={logo}
+                  alt={`Footer Logo ${idx}`}
+                  className="car-logo rotating-footer-logo"
+                  style={{ width: '50px', height: '50px', objectFit: 'contain', margin: '0 5px' }}
+                />
+              ))}
             </div>
             <div className="footer-details">
               <p>Nabils Surrey Supercar Website</p>
@@ -252,7 +250,7 @@ function App() {
               </p>
               <p>
                 We can introduce you to a limited number of lenders and their finance products, which may
-                have different interest rates and charges. We typically receive commission from them, 
+                have different interest rates and charges. We typically receive commission from them,
                 calculated by vehicle age or loan amount. Commission does not affect the amount you pay.
               </p>
             </div>
