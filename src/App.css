@@ -534,7 +534,7 @@ h3 {
   right: -100vw;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(17, 17, 17, 0.5); /* 50% opacity */
+  background-color: rgba(17, 17, 17, 0.8); /* 50% opacity */
   color: #fff;
   display: flex;
   flex-direction: column;
