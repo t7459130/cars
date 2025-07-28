@@ -117,8 +117,8 @@ function App() {
                 src={logo}
                 alt={`Logo batch ${currentBatchIndex} - ${idx}`}
                 style={{
-                  width: '60px',
-                  height: '60px',
+                  width: '120px',
+                  height: '120px',
                   objectFit: 'contain',
                 }}
               />
