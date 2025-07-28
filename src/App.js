@@ -119,33 +119,23 @@ function App() {
           </div>
 
           {/* Desktop: 4 logos cycling */}
-          <div className="logo-bar desktop-logo-bar" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <div className="logo-bar desktop-logo-bar">
             {logoBatches[currentBatchIndex].map((logo, idx) => (
               <img
                 key={idx}
                 src={logo}
                 alt={`Logo batch ${currentBatchIndex} - ${idx}`}
-                style={{
-                  width: '120px',
-                  height: '120px',
-                  objectFit: 'contain',
-                }}
+                className="desktop-logo"
               />
             ))}
           </div>
 
           {/* Mobile: rotating single footer logo */}
-          <div className="logo-bar mobile-logo-bar" style={{ textAlign: 'center' }}>
+          <div className="logo-bar mobile-logo-bar">
             <img
               src={footerLogos[currentFooterLogoIndex]}
               alt={`Rotating footer logo mobile ${currentFooterLogoIndex}`}
-              style={{
-                width: '60px',
-                height: '60px',
-                objectFit: 'contain',
-                margin: '0 auto',
-                transition: 'opacity 0.5s ease-in-out',
-              }}
+              className="mobile-logo"
             />
           </div>
 
@@ -255,12 +245,7 @@ function App() {
               <img
                 src={footerLogos[currentFooterLogoIndex]}
                 alt={`Footer Logo ${currentFooterLogoIndex}`}
-                style={{
-                  width: '60px',
-                  height: '60px',
-                  objectFit: 'contain',
-                  transition: 'opacity 0.5s ease-in-out',
-                }}
+                className="footer-logo-img"
               />
             </div>
 

@@ -1,7 +1,4 @@
-/* App.css */
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-
 
 /* Prevent horizontal scroll caused by offscreen menu */
 body {
@@ -51,7 +48,6 @@ body {
     max-height: 40px !important;       /* Adjust max height accordingly */
   }
 }
-
 
 /* Search bar */
 .search-bar {
@@ -481,7 +477,7 @@ h3 {
   }
 
   .desktop-logos {
-    display: none;
+    display: none;  /* Hide 4 rotating logos on mobile */
   }
 
   .logo-bar {
@@ -492,6 +488,22 @@ h3 {
     width: 60px !important; /* Shrink to 60px on mobile */
     height: auto !important;
     max-height: 40px !important;       /* Adjust max height accordingly */
+  }
+
+  /* Show only single rotating footer logo on mobile */
+  .mobile-logo-bar {
+    display: block; /* Show single rotating footer logo on mobile */
+    text-align: center;
+  }
+
+  /* Hide desktop logo bar on mobile */
+  .desktop-logo-bar {
+    display: none;
+  }
+
+  /* Footer logo rotating on mobile */
+  .footer-logo-rotating {
+    display: block;
   }
 }
 
@@ -559,7 +571,6 @@ h3 {
 }
 
 /* Show desktop logo bar only on desktop */
-/* Desktop */
 .desktop-logo-bar {
   display: flex;
 }
@@ -569,7 +580,7 @@ h3 {
 }
 
 .footer-logo-rotating {
-  display: block;
+  display: none;
 }
 
 /* Mobile */
