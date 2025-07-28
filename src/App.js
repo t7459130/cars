@@ -1,6 +1,7 @@
+// App.js
 import React, { useState, useEffect, useRef } from 'react';
-import './App.css'; // Ensure CSS is imported
-import { FaSearch, FaBars, FaTimes, FaPhone } from 'react-icons/fa';
+import './App.css';
+import { FaBars, FaTimes, FaPhone } from 'react-icons/fa';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
@@ -15,7 +16,6 @@ import Car1 from './Car1';
 import Car2 from './Car2';  
 import Car3 from './Car3';  
 
-// Placeholder images
 import aboutImage from './images/car1.jpg';
 import bannerImage from './images/carwallpaper.webp';
 import astonLogo from './images/aston.png';
@@ -25,16 +25,14 @@ import rollsLogo from './images/rolls.png';
 import ferrariLogo from './images/ferrari.png';
 import lamborghiniLogo from './images/lamborghini.png'; 
 
-// Car images for sale
 import car1 from './images/car1.jpg';
 import car2 from './images/car2.jpg';
 import car3 from './images/car3.jpg';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
-  const [currentLogoIndex, setCurrentLogoIndex] = useState(0); // New state for logo rotation
+  const [currentLogoIndex, setCurrentLogoIndex] = useState(0);
   const menuRef = useRef(null);
 
   const logos = [
@@ -54,10 +52,6 @@ function App() {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-  };
-
-  const toggleSearch = () => {
-    setIsSearchOpen(!isSearchOpen);
   };
 
   useEffect(() => {
@@ -90,7 +84,6 @@ function App() {
     }
   }, []);
 
-  // Logo rotation for mobile
   useEffect(() => {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
@@ -111,20 +104,14 @@ function App() {
 
         <header className="header">
           <div className="search-bar">
-            <button onClick={toggleSearch} className="search-icon">
-              <FaSearch />
-            </button>
-            <Link to="/contact" className="call-me">
-              <FaPhone />
-              <span className="phone-number">123-456-7890</span>
-            </Link>
-            {isSearchOpen && <input type="text" placeholder="Search..." className="search-input" />}
+            {/* Removed Search Icon */}
+            <a href="tel:1234567890" className="call-me" style={{ color: '#000', textDecoration: 'none' }}>
+              <FaPhone size={20} />
+            </a>
           </div>
 
           <div className="logo-bar">
-            {/* Mobile view: single cycling logo */}
             <img src={logos[currentLogoIndex]} alt="Logo" className="car-logo mobile-logo" />
-            {/* Desktop view: all logos */}
             <div className="desktop-logos">
               {logos.map((logo, index) => (
                 <img key={index} src={logo} alt={`Logo ${index}`} className="car-logo" />
@@ -164,9 +151,7 @@ function App() {
           <Routes>
             <Route path="/" element={
               <>
-                <Helmet>
-                  <title>Home - Car Dealership</title>
-                </Helmet>
+                <Helmet><title>Home - Car Dealership</title></Helmet>
                 <section className="about-us">
                   <div className="about-content">
                     <img src={aboutImage} alt="About Us" className="about-image" />
@@ -199,18 +184,8 @@ function App() {
                 </section>
               </>
             } />
-            <Route path="/about" element={
-              <>
-                <Helmet><title>About Us</title></Helmet>
-                <h2>About Us Page</h2>
-              </>
-            } />
-            <Route path="/contact" element={
-              <>
-                <Helmet><title>Contact Us</title></Helmet>
-                <ContactUs />
-              </>
-            } />
+            <Route path="/about" element={<><Helmet><title>About Us</title></Helmet><h2>About Us Page</h2></>} />
+            <Route path="/contact" element={<><Helmet><title>Contact Us</title></Helmet><ContactUs /></>} />
             <Route path="/sell" element={<Sellyourcar />} />
             <Route path="/news" element={<NewsAndEvents />} />
             <Route path="/services" element={<OtherServices />} />
