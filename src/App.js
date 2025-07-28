@@ -19,13 +19,16 @@ import Car3 from './Car3';
 import aboutImage from './images/car1.jpg';
 import bannerImage from './images/carwallpaper.webp';
 
-// Updated logos:
+// Logos imported as described:
 import paganiLogo from './images/pagani.png';
 import mercedesLogo from './images/mercedes.png';
 import bugattiLogo from './images/bugatti.png';
 import rollsLogo from './images/rolls.png';
 import ferrariLogo from './images/ferrari.png';
 import lamborghiniLogo from './images/lamborghini.png';
+import bentleyLogo from './images/bentley.png';
+import astonLogo from './images/aston.png';
+import porscheLogo from './images/porsche.png';
 
 import car1 from './images/car1.jpg';
 import car2 from './images/car2.jpg';
@@ -34,16 +37,14 @@ import car3 from './images/car3.jpg';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
-  const [currentLogoIndex, setCurrentLogoIndex] = useState(0);
+  const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
   const menuRef = useRef(null);
 
-  const logos = [
-    paganiLogo,
-    mercedesLogo,
-    bugattiLogo,
-    rollsLogo,
-    ferrariLogo,
-    lamborghiniLogo,
+  // Define the 3 batches of 4 logos each exactly as you want:
+  const logoBatches = [
+    [ferrariLogo, lamborghiniLogo, rollsLogo, bentleyLogo],
+    [astonLogo, paganiLogo, bugattiLogo, mercedesLogo],
+    [porscheLogo, astonLogo, ferrariLogo, lamborghiniLogo],
   ];
 
   const carsForSale = [
@@ -85,22 +86,13 @@ function App() {
     }
   }, []);
 
+  // Rotate entire batch every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentLogoIndex((prev) => (prev + 1) % logos.length);
-    }, 3000); // Rotate every 3 seconds
+      setCurrentBatchIndex((prev) => (prev + 1) % logoBatches.length);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
-
-  // Returns 4 logos starting from currentLogoIndex, wrapping around the array
-  const getCurrentDesktopLogos = () => {
-    const batchSize = 4;
-    const start = currentLogoIndex % logos.length;
-    const end = (start + batchSize) % logos.length;
-    return start < end
-      ? logos.slice(start, end)
-      : [...logos.slice(start), ...logos.slice(0, end)];
-  };
 
   return (
     <Router>
@@ -110,22 +102,27 @@ function App() {
           <link rel="icon" href={ferrariLogo} type="image/png" />
         </Helmet>
 
-        <header className="header">
+        <header className="header" style={{ position: 'relative' }}>
           <div className="header-left">
             <a href="tel:1234567890" className="call-me" style={{ color: '#000', textDecoration: 'none' }}>
               <FaPhone size={20} />
             </a>
           </div>
 
-          <div className="logo-bar">
-            {/* Single logo in header, kept small to prevent blocking */}
-            <img
-              src={logos[currentLogoIndex]}
-              alt="Logo"
-              className="car-logo mobile-logo"
-              style={{ width: '50px', height: '50px', objectFit: 'contain' }}
-            />
-            {/* Remove the large desktop logos from header */}
+          {/* Banner area with rotating batch of logos next to menu & phone */}
+          <div className="logo-bar" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            {logoBatches[currentBatchIndex].map((logo, idx) => (
+              <img
+                key={idx}
+                src={logo}
+                alt={`Logo batch ${currentBatchIndex} - ${idx}`}
+                style={{
+                  width: '60px',
+                  height: '60px',
+                  objectFit: 'contain',
+                }}
+              />
+            ))}
           </div>
 
           <div className="header-right">
@@ -154,17 +151,7 @@ function App() {
             <h1>Welcome to Our Car Dealership</h1>
             <p>Discover our exclusive range of luxury cars.</p>
           </div>
-          <div className="rotating-desktop-logos">
-            {getCurrentDesktopLogos().map((logo, index) => (
-              <img
-                key={index}
-                src={logo}
-                alt={`Desktop Logo ${index}`}
-                className="rotating-banner-logo"
-                style={{ width: '80px', height: '80px', objectFit: 'contain', margin: '0 10px' }}
-              />
-            ))}
-          </div>
+          {/* No logos here as per your request */}
         </section>
 
         <main>
@@ -218,7 +205,8 @@ function App() {
         <footer className="footer">
           <div className="footer-content">
             <div className="footer-logo">
-              <img src={logos[currentLogoIndex]} alt="Rotating Logo" className="car-logo rotating-footer-logo" />
+              {/* You can keep footer rotating logo or static */}
+              <img src={logoBatches[currentBatchIndex][0]} alt="Footer Logo" className="car-logo rotating-footer-logo" style={{ width: '50px', height: '50px', objectFit: 'contain' }} />
             </div>
             <div className="footer-details">
               <p>Nabils Surrey Supercar Website</p>
