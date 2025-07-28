@@ -35,6 +35,7 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
   const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
+  const [currentFooterLogoIndex, setCurrentFooterLogoIndex] = useState(0);
   const menuRef = useRef(null);
 
   const logoBatches = [
@@ -91,6 +92,14 @@ function App() {
     const interval = setInterval(() => {
       setCurrentBatchIndex((prev) => (prev + 1) % logoBatches.length);
     }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Footer logo rotation every 1 second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentFooterLogoIndex((prevIndex) => (prevIndex + 1) % footerLogos.length);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -172,7 +181,6 @@ function App() {
                       </div>
                     </div>
                   </section>
-
                   <section className="latest-arrivals">
                     <h2>Latest Arrivals</h2>
                     <div className="car-listings">
@@ -203,21 +211,19 @@ function App() {
               element={
                 <>
                   <Helmet><title>Inventory</title></Helmet>
-                  <div className="inventory-page">
-                    <h2>Inventory</h2>
-                    <div className="car-listings">
-                      {carsForSale.map((car) => (
-                        <div key={car.id} className="car-card">
-                          <Link to={`/car/${car.id}`}>
-                            <img src={car.img} alt={`${car.make} ${car.model}`} />
-                            <div className="car-details">
-                              <h3>{car.year} {car.make} {car.model}</h3>
-                              <p>Price: {car.price}</p>
-                            </div>
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
+                  <h2>Inventory</h2>
+                  <div className="car-listings">
+                    {carsForSale.map((car) => (
+                      <div key={car.id} className="car-card">
+                        <Link to={`/car/${car.id}`}>
+                          <img src={car.img} alt={`${car.make} ${car.model}`} />
+                          <div className="car-details">
+                            <h3>{car.year} {car.make} {car.model}</h3>
+                            <p>Price: {car.price}</p>
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
                   </div>
                 </>
               }
@@ -229,15 +235,16 @@ function App() {
         <footer className="footer">
           <div className="footer-content">
             <div className="footer-logo">
-              {footerLogos.map((logo, idx) => (
-                <img
-                  key={idx}
-                  src={logo}
-                  alt={`Footer Logo ${idx}`}
-                  className="car-logo rotating-footer-logo"
-                  style={{ width: '50px', height: '50px', objectFit: 'contain', margin: '0 5px' }}
-                />
-              ))}
+              <img
+                src={footerLogos[currentFooterLogoIndex]}
+                alt={`Footer Logo ${currentFooterLogoIndex}`}
+                style={{
+                  width: '60px',
+                  height: '60px',
+                  objectFit: 'contain',
+                  transition: 'opacity 0.5s ease-in-out',
+                }}
+              />
             </div>
             <div className="footer-details">
               <p>Nabils Surrey Supercar Website</p>
