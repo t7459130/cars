@@ -35,15 +35,22 @@ body {
   margin: 0 15px;
 }
 
-/* Add this for rotating banner logos to fix size & spacing */
 .rotating-banner-logo {
-  width: 120px !important;  /* fixed width */
-  height: auto !important;  /* maintain aspect ratio */
+  width: 120px !important;
+  height: auto !important;
   margin: 0 10px;
   object-fit: contain;
   vertical-align: middle;
-  max-height: 80px; /* limit max height */
+  max-height: 80px;
 }
+
+@media (max-width: 768px) {
+  .rotating-banner-logo {
+    width: 60px !important; /* Shrink to 60px on mobile */
+    max-height: 40px;       /* Adjust max height accordingly */
+  }
+}
+
 
 /* Search bar */
 .search-bar {
