@@ -493,48 +493,55 @@ h3 {
 
 /* Responsive Styles for Mobile Devices */
 @media (max-width: 768px) {
-  /* Header layout stack */
+  /* Shrink header */
   .header {
     flex-direction: column;
     align-items: flex-start;
     padding: 8px;
-  }
-
-  .logo-bar {
-    justify-content: flex-start;
     width: 100%;
+    box-sizing: border-box;
   }
 
+  /* Shrink logo */
   .car-logo {
-    width: 100px; /* Smaller logo for mobile */
-    margin: 0 10px;
+    width: 90px;
+    margin: 5px 10px;
   }
 
-  .search-bar {
+  /* Stack logo and search bar vertically */
+  .logo-bar {
     width: 100%;
-    margin-top: 10px;
     justify-content: space-between;
   }
 
+  .search-bar {
+    margin-top: 5px;
+    width: 100%;
+    justify-content: space-between;
+    padding-right: 40px; /* Make space for hamburger */
+  }
+
   .search-input {
-    width: 70%; /* Make room for small screens */
-    margin-left: 0;
+    width: 65%;
+    padding: 5px;
+    font-size: 14px;
   }
 
   .search-icon {
-    font-size: 18px; /* Slightly smaller */
+    font-size: 18px;
   }
 
+  /* Fix hamburger positioning */
   .menu-btn {
     font-size: 20px;
-    padding: 8px;
     position: absolute;
     right: 10px;
     top: 10px;
-    z-index: 20; /* Ensure it's above other elements */
+    z-index: 20;
   }
 
-  .nav-menu {
-    width: 80%; /* Smaller menu for smaller screen */
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
   }
 }
