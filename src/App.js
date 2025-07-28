@@ -44,37 +44,69 @@ function App() {
     lamborghiniLogo,
   ];
 
-  const carsForSale = [ /* ... unchanged ... */ ];
+  const carsForSale = [
+    { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1 },
+    { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000', img: car2 },
+    { id: 3, make: 'Audi', model: 'R8', year: 2019, price: '$150,000', img: car3 },
+  ];
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target) && isMenuOpen) {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target) && isMenuOpen) {
         setIsMenuOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [isMenuOpen]);
 
+  const acceptCookies = () => {
+    setCookiesAccepted(true);
+    localStorage.setItem('cookiesAccepted', 'true');
+  };
+
+  const declineCookies = () => {
+    setCookiesAccepted(true);
+    localStorage.setItem('cookiesAccepted', 'false');
+  };
+
   useEffect(() => {
-    const consent = localStorage.getItem('cookiesAccepted');
-    if (consent) setCookiesAccepted(consent === 'true');
+    const cookiesConsent = localStorage.getItem('cookiesAccepted');
+    if (cookiesConsent) {
+      setCookiesAccepted(cookiesConsent === 'true');
+    }
   }, []);
 
-  // Logo rotation for all screen sizes:
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentLogoIndex((prev) => (prev + 4) % logos.length);
+      setCurrentLogoIndex((prev) => (prev + 1) % logos.length);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
 
+  const getCurrentDesktopLogos = () => {
+    const desktopBatchSize = 4;
+    const start = currentLogoIndex % logos.length;
+    const end = (start + desktopBatchSize) % logos.length;
+    return start < end
+      ? logos.slice(start, end)
+      : [...logos.slice(start), ...logos.slice(0, end)];
+  };
+
   return (
     <Router>
       <div className="app">
-        <Helmet><title>Car Dealership</title><link rel="icon" href={ferrariLogo} type="image/png"/></Helmet>
+        <Helmet>
+          <title>Car Dealership</title>
+          <link rel="icon" href={ferrariLogo} type="image/png" />
+        </Helmet>
 
         <header className="header">
           <div className="header-left">
@@ -84,19 +116,10 @@ function App() {
           </div>
 
           <div className="logo-bar">
-            {/* Mobile: one rotating logo */}
             <img src={logos[currentLogoIndex]} alt="Logo" className="car-logo mobile-logo" />
-
-            {/* Desktop: show 4 logos in a row */}
             <div className="desktop-logos">
-              {logos.slice(currentLogoIndex, currentLogoIndex + 4).length === 4
-                ? logos.slice(currentLogoIndex, currentLogoIndex + 4)
-                : [
-                    ...logos.slice(currentLogoIndex),
-                    ...logos.slice(0, 4 - (logos.length - currentLogoIndex)),
-                  ]
-              }.map((logo, idx) => (
-                <img key={idx} src={logo} alt={`Logo ${idx}`} className="car-logo" />
+              {getCurrentDesktopLogos().map((logo, index) => (
+                <img key={index} src={logo} alt={`Logo ${index}`} className="car-logo" />
               ))}
             </div>
           </div>
@@ -121,14 +144,102 @@ function App() {
           </nav>
         </header>
 
-        {/* rest of your component remains exactly the same */}
+        <section className="banner">
+          <img src={bannerImage} alt="Banner" className="banner-image" />
+          <div className="banner-text">
+            <h1>Welcome to Our Car Dealership</h1>
+            <p>Discover our exclusive range of luxury cars.</p>
+          </div>
+          <div className="rotating-desktop-logos">
+            {getCurrentDesktopLogos().map((logo, index) => (
+              <img key={index} src={logo} alt={`Desktop Logo ${index}`} className="rotating-banner-logo" />
+            ))}
+          </div>
+        </section>
+
+        <main>
+          <Routes>
+            <Route path="/" element={
+              <>
+                <Helmet><title>Home - Car Dealership</title></Helmet>
+                <section className="about-us">
+                  <div className="about-content">
+                    <img src={aboutImage} alt="About Us" className="about-image" />
+                    <div className="about-text">
+                      <h2>About Us</h2>
+                      <p>
+                        Welcome to our car dealership. We offer the best selection
+                        of luxury cars. Our team is dedicated to providing you with
+                        excellent service.
+                      </p>
+                    </div>
+                  </div>
+                </section>
+
+                <section className="latest-arrivals">
+                  <h2>Latest Arrivals</h2>
+                  <div className="car-listings">
+                    {carsForSale.map((car) => (
+                      <div key={car.id} className="car-card">
+                        <Link to={`/car/${car.id}`}>
+                          <img src={car.img} alt={`${car.make} ${car.model}`} />
+                          <div className="car-details">
+                            <h3>{car.year} {car.make} {car.model}</h3>
+                            <p>Price: {car.price}</p>
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </>
+            } />
+            <Route path="/about" element={<><Helmet><title>About Us</title></Helmet><h2>About Us Page</h2></>} />
+            <Route path="/contact" element={<><Helmet><title>Contact Us</title></Helmet><ContactUs /></>} />
+            <Route path="/sell" element={<Sellyourcar />} />
+            <Route path="/news" element={<NewsAndEvents />} />
+            <Route path="/services" element={<OtherServices />} />
+            <Route path="/testimonials" element={<Testimonials />} />
+            <Route path="/inventory" element={<Inventory />} />
+            <Route path="/car/:carId" element={<CarDetail />} />
+          </Routes>
+        </main>
 
         <footer className="footer">
           <div className="footer-content">
             <div className="footer-logo">
               <img src={logos[currentLogoIndex]} alt="Rotating Logo" className="car-logo rotating-footer-logo" />
             </div>
-            {/* footer text unchanged */}
+            <div className="footer-details">
+              <p>Nabils Surrey Supercar Website</p>
+              <p>Surrey, England, UK</p>
+              <p>0777777777</p>
+              <p>
+                NabilsSurreySUppercars are authorised and regulated by the Financial Conduct Authority
+                (“FCA”) under Firm Reference Number (FRN) 660610. We are a credit broker, not a lender,
+                and we do not charge a fee for our credit broking services.
+              </p>
+              <p>
+                We can introduce you to a limited number of lenders and their finance products, which may
+                have different interest rates and charges. We typically receive commission from them, 
+                calculated by vehicle age or loan amount. Commission does not affect the amount you pay.
+              </p>
+            </div>
+            <div className="footer-links">
+              <Link to="/inventory">Current Stock</Link>
+              <Link to="/sell">Sell Your Car</Link>
+              <Link to="/sold">Previously Sold</Link>
+              <Link to="/contact">Contact Us</Link>
+              <Link to="/luxury-cars">Luxury Cars</Link>
+              <p>&copy; 2025 All Rights Reserved</p>
+              <div className="footer-legal">
+                <Link to="/sitemap">Sitemap</Link> | 
+                <Link to="/cookie-policy">Cookie Policy</Link> | 
+                <Link to="/privacy-policy">Privacy Policy</Link> | 
+                <Link to="/complaints-procedure">Complaints Procedure</Link> | 
+                <Link to="/modern-slavery">Modern Slavery Statement</Link>
+              </div>
+            </div>
           </div>
         </footer>
       </div>
