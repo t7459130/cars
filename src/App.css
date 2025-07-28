@@ -81,7 +81,7 @@ body {
   right: -100vw; /* Off-screen when hidden */
   width: 100vw;
   height: 100vh;
-  background-color: #111; /* Dark overlay */
+  background-color: rgba(17, 17, 17, 0.5); /* Dark overlay */
   color: #fff;
   display: flex;
   flex-direction: column;
