@@ -597,9 +597,9 @@ h3 {
 
   .mobile-logo {
     display: inline-block; /* Show each mobile logo */
-    width: 60px;   /* Adjust size as needed */
+    width: 100px;   /* Adjust size as needed */
     height: auto;
-    max-height: 40px;
+    max-height:100px;
     object-fit: contain;
     margin: 0 10px;
   }
