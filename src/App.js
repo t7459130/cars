@@ -84,14 +84,12 @@ function App() {
     }
   }, []);
 
+  // Updated: Rotate logos on all screen sizes
   useEffect(() => {
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-      const interval = setInterval(() => {
-        setCurrentLogoIndex((prev) => (prev + 1) % logos.length);
-      }, 1000);
-      return () => clearInterval(interval);
-    }
+    const interval = setInterval(() => {
+      setCurrentLogoIndex((prev) => (prev + 1) % logos.length);
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -197,7 +195,7 @@ function App() {
         <footer className="footer">
           <div className="footer-content">
             <div className="footer-logo">
-              <img src={astonLogo} alt="Logo" />
+              <img src={logos[currentLogoIndex]} alt="Rotating Logo" className="car-logo rotating-footer-logo" />
             </div>
             <div className="footer-details">
               <p>Nabils Surrey Supercar Website</p>
