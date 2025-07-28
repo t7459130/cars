@@ -15,7 +15,7 @@ body {
   background-color: rgb(255, 215, 0);
   z-index: 10;
   padding: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for header */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Logo bar */
@@ -26,9 +26,9 @@ body {
 }
 
 .car-logo {
-  width: 150px; /* Increase the size of logos */
-  height: auto; /* Maintain aspect ratio */
-  margin: 0 15px; /* Space between logos */
+  width: 150px;
+  height: auto;
+  margin: 0 15px;
 }
 
 /* Search bar */
@@ -41,16 +41,15 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 20px; /* Icon size */
+  font-size: 20px;
 }
 
 .search-input {
-  display: inline-block;
   margin-left: 10px;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 200px; /* Width of search input */
+  width: 200px;
 }
 
 /* Banner */
@@ -60,9 +59,9 @@ body {
 }
 
 .banner-image {
-  width: 100%; /* Make the banner image responsive */
-  max-height: 400px; /* Set a maximum height */
-  object-fit: cover; /* Cover the area without distortion */
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
 }
 
 .banner-text {
@@ -71,7 +70,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add shadow for readability */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 /* Hamburger Menu */
@@ -88,9 +87,9 @@ body {
 .nav-menu {
   position: fixed;
   top: 0;
-  right: -100vw; /* Use vw to fully hide offscreen */
-  width: 100vw; /* Full screen width */
-  height: 100vh; /* Full screen height */
+  right: -100vw;
+  width: 100vw;
+  height: 100vh;
   background-color: #333;
   color: #fff;
   transition: right 0.3s ease;
@@ -100,82 +99,75 @@ body {
 }
 
 .nav-menu.active {
-  right: 0; /* Slide in */
+  right: 0;
 }
 
 .nav-menu ul {
-  list-style-type: none; /* Remove bullet points */
-  padding: 0; /* Remove default padding */
+  list-style-type: none;
+  padding: 0;
 }
 
 .nav-menu li {
-  margin: 15px 0; /* Spacing between items */
+  margin: 15px 0;
 }
 
 .nav-menu a {
-  color: #fff; /* White text */
-  text-decoration: none; /* No underline */
+  color: #fff;
+  text-decoration: none;
 }
 
 .nav-menu a:hover {
-  text-decoration: underline; /* Underline on hover */
+  text-decoration: underline;
 }
 
 /* Sell Your Car Section */
 .sell-your-car {
   max-width: 600px;
-  margin: 20px auto; /* Center the form with margin */
+  margin: 20px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f9f9f9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .sell-your-car input,
 .sell-your-car select,
 .sell-your-car textarea {
-  padding: 15px; /* Increase padding for a boxy feel */
+  padding: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
-  transition: border 0.3s; /* Smooth border transition */
-  width: calc(100% - 22px); /* Full width minus padding */
+  transition: border 0.3s;
+  width: calc(100% - 22px);
 }
 
-/* Flex container for name fields */
-.name-fields {
+/* Flex containers */
+.name-fields, .car-details {
   display: flex;
-  justify-content: space-between; /* Space between name fields */
+  justify-content: space-between;
 }
 
-/* Flex container for car details */
-.car-details {
-  display: flex;
-  justify-content: space-between; /* Space between car fields */
-}
-
-/* Adjust each input field width */
 .name-fields input,
 .car-details input {
-  width: 48%; /* Two fields side by side */
+  width: 48%;
 }
 
 .blurred {
-  filter: blur(5px); /* Adjust blur intensity */
-  pointer-events: none; /* Prevent interactions with blurred content */
+  filter: blur(5px);
+  pointer-events: none;
 }
 
 /* Larger description field */
 .sell-your-car textarea {
-  width: 100%; /* Full width for description */
-  height: 100px; /* Increase height */
+  width: 100%;
+  height: 100px;
 }
 
-/* Form heading styles */
+/* Form heading */
 .sell-your-car h2 {
   text-align: center;
-  color: #2c3e50; /* Title color */
+  color: #2c3e50;
 }
 
 /* About Us Section */
@@ -190,7 +182,7 @@ body {
 }
 
 .about-image {
-  width: 300px; /* Fixed width for the image */
+  width: 300px;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -221,13 +213,13 @@ body {
   border-radius: 8px;
   padding: 10px;
   margin: 10px;
-  width: 30%; /* Adjust as needed */
+  width: 30%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
 }
 
 .car-card:hover {
-  transform: scale(1.05); /* Scale effect on hover */
+  transform: scale(1.05);
 }
 
 .car-card img {
@@ -257,7 +249,7 @@ body {
   padding: 10px;
   border: none;
   border-radius: 5px;
-  width: 250px; /* Fixed width */
+  width: 250px;
   margin-right: 10px;
 }
 
@@ -277,7 +269,7 @@ body {
 
 /* Footer */
 .footer {
-  background-color: #FFD700; /* Gold color */
+  background-color: #FFD700;
   padding: 30px 0;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
@@ -338,13 +330,13 @@ body {
   border-radius: 8px;
   padding: 20px;
   margin: 10px;
-  width: 300px; /* Set a fixed width for cards */
+  width: 300px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
 }
 
 .testimonial-card:hover {
-  transform: scale(1.05); /* Scale effect on hover */
+  transform: scale(1.05);
 }
 
 .quote {
@@ -377,13 +369,13 @@ body {
   border-radius: 8px;
   padding: 20px;
   margin: 10px;
-  width: 300px; /* Set a fixed width for cards */
+  width: 300px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
 }
 
 .service-card:hover {
-  transform: scale(1.05); /* Scale effect on hover */
+  transform: scale(1.05);
 }
 
 h2 {
@@ -391,7 +383,7 @@ h2 {
 }
 
 h3 {
-  color: #4CAF50; /* Customize the title color */
+  color: #4CAF50;
 }
 
 /* News and Events Section */
@@ -413,137 +405,39 @@ h3 {
   border-radius: 8px;
   padding: 20px;
   margin: 10px;
-  width: 300px; /* Set a fixed width for cards */
+  width: 90%;
+  max-width: 700px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
 }
 
 .event-card:hover {
-  transform: scale(1.05); /* Scale effect on hover */
+  transform: scale(1.05);
 }
 
-h2 {
-  margin-bottom: 20px;
-}
-
-h3 {
-  color: hsl(56, 100%, 50%); /* Customize the title color */
-}
-
-/* Contact Us Section */
-.contact-us {
-  padding: 20px;
-  text-align: center;
-  background-color: #f9f9f9;
-}
-
-.mail-form {
-  margin-top: 20px;
-}
-
-.mail-form input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 250px; /* Set width of input */
-}
-
-.mail-form button {
-  padding: 10px;
-  margin-left: 10px; /* Space between input and button */
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.mail-form button:hover {
-  background-color: #45a049; /* Darker shade on hover */
-}
-
-/* Cookie Consent Banner */
-.cookie-consent {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.cookie-consent p {
-  margin: 0;
-}
-
-.cookie-consent button {
-  padding: 8px 16px;
-  background-color: #ff6f61;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-family: 'Montserrat', sans-serif;
-  margin-left: 10px;
-  border-radius: 5px;
-}
-
-.cookie-consent button:hover {
-  background-color: #e65a4e;
-}
-
-/* Responsive Styles for Mobile Devices */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  /* Shrink header */
-  .header {
+  .name-fields,
+  .car-details {
     flex-direction: column;
-    align-items: flex-start;
-    padding: 8px;
+  }
+
+  .name-fields input,
+  .car-details input {
     width: 100%;
-    box-sizing: border-box;
+    margin-bottom: 10px;
   }
 
-  /* Shrink logo */
-  .car-logo {
-    width: 90px;
-    margin: 5px 10px;
+  .car-listings,
+  .testimonial-list,
+  .services-list {
+    flex-direction: column;
+    align-items: center;
   }
 
-  /* Stack logo and search bar vertically */
-  .logo-bar {
-    width: 100%;
-    justify-content: space-between;
+  .car-card,
+  .testimonial-card,
+  .service-card {
+    width: 90%;
   }
-
-  .search-bar {
-    margin-top: 5px;
-    width: 100%;
-    justify-content: space-between;
-    padding-right: 40px; /* Make space for hamburger */
-  }
-
-  .search-input {
-    width: 65%;
-    padding: 5px;
-    font-size: 14px;
-  }
-
-  .search-icon {
-    font-size: 18px;
-  }
-
-  /* Fix hamburger positioning */
-  .menu-btn {
-    font-size: 20px;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    z-index: 20;
-  }
-
-  /* Prevent horizontal scroll */
 }
