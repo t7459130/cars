@@ -546,7 +546,3 @@ h3 {
   }
 
   /* Prevent horizontal scroll */
-  body {
-    overflow-x: hidden;
-  }
-}
