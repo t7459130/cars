@@ -1,3 +1,4 @@
+// App.js
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import { FaBars, FaTimes, FaPhone } from 'react-icons/fa';
@@ -17,18 +18,12 @@ import Car3 from './Car3';
 
 import aboutImage from './images/car1.jpg';
 import bannerImage from './images/carwallpaper.webp';
-
-// First set of logos (all same size)
+import astonLogo from './images/aston.png';
+import bentleyLogo from './images/bentley.png';
+import porscheLogo from './images/porsche.png';
+import rollsLogo from './images/rolls.png';
 import ferrariLogo from './images/ferrari.png';
 import lamborghiniLogo from './images/lamborghini.png';
-import rollsLogo from './images/rolls.png';
-import bentleyLogo from './images/bentley.png';
-
-// Second set of logos (all same size)
-import astonLogo from './images/aston.png';
-import paganiLogo from './images/pagani.png';
-import bugattiLogo from './images/bugatti.png';
-import mercedesLogo from './images/mercedes.png';
 
 import car1 from './images/car1.jpg';
 import car2 from './images/car2.jpg';
@@ -37,13 +32,17 @@ import car3 from './images/car3.jpg';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
-  const [currentIndexSet1, setCurrentIndexSet1] = useState(0);
-  const [currentIndexSet2, setCurrentIndexSet2] = useState(0);
+  const [currentLogoIndex, setCurrentLogoIndex] = useState(0);
   const menuRef = useRef(null);
 
-  // Two separate logo arrays as per your order, each set 4 logos
-  const logosSet1 = [ferrariLogo, lamborghiniLogo, rollsLogo, bentleyLogo];
-  const logosSet2 = [astonLogo, paganiLogo, bugattiLogo, mercedesLogo];
+  const logos = [
+    astonLogo,
+    bentleyLogo,
+    porscheLogo,
+    rollsLogo,
+    ferrariLogo,
+    lamborghiniLogo,
+  ];
 
   const carsForSale = [
     { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1 },
@@ -61,8 +60,11 @@ function App() {
         setIsMenuOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [isMenuOpen]);
 
   const acceptCookies = () => {
@@ -82,14 +84,21 @@ function App() {
     }
   }, []);
 
-  // Rotate indexes for both sets every 4 seconds (4000 ms)
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndexSet1((prev) => (prev + 1) % logosSet1.length);
-      setCurrentIndexSet2((prev) => (prev + 1) % logosSet2.length);
-    }, 4000);
+      setCurrentLogoIndex((prev) => (prev + 1) % logos.length);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  const getCurrentDesktopLogos = () => {
+    const desktopBatchSize = 4;
+    const start = currentLogoIndex % logos.length;
+    const end = (start + desktopBatchSize) % logos.length;
+    return start < end
+      ? logos.slice(start, end)
+      : [...logos.slice(start), ...logos.slice(0, end)];
+  };
 
   return (
     <Router>
@@ -107,38 +116,11 @@ function App() {
           </div>
 
           <div className="logo-bar">
-            {/* Mobile view – single rotating logo cycling through first set */}
-            <img
-              src={logosSet1[currentIndexSet1]}
-              alt="Logo"
-              className="car-logo mobile-logo"
-            />
-
-            {/* Desktop view – show both sets side by side with current index */}
+            <img src={logos[currentLogoIndex]} alt="Logo" className="car-logo mobile-logo" />
             <div className="desktop-logos">
-              {/* First 4 logos set */}
-              <div className="logo-set">
-                {logosSet1.map((logo, idx) => (
-                  <img
-                    key={`set1-${idx}`}
-                    src={logo}
-                    alt={`Logo set 1 ${idx}`}
-                    className={`car-logo ${idx === currentIndexSet1 ? 'active-logo' : ''}`}
-                  />
-                ))}
-              </div>
-
-              {/* Second 4 logos set */}
-              <div className="logo-set">
-                {logosSet2.map((logo, idx) => (
-                  <img
-                    key={`set2-${idx}`}
-                    src={logo}
-                    alt={`Logo set 2 ${idx}`}
-                    className={`car-logo ${idx === currentIndexSet2 ? 'active-logo' : ''}`}
-                  />
-                ))}
-              </div>
+              {getCurrentDesktopLogos().map((logo, index) => (
+                <img key={index} src={logo} alt={`Logo ${index}`} className="car-logo" />
+              ))}
             </div>
           </div>
 
@@ -168,48 +150,50 @@ function App() {
             <h1>Welcome to Our Car Dealership</h1>
             <p>Discover our exclusive range of luxury cars.</p>
           </div>
+          <div className="rotating-desktop-logos">
+            {getCurrentDesktopLogos().map((logo, index) => (
+              <img key={index} src={logo} alt={`Desktop Logo ${index}`} className="rotating-banner-logo" />
+            ))}
+          </div>
         </section>
 
         <main>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <Helmet><title>Home - Car Dealership</title></Helmet>
-                  <section className="about-us">
-                    <div className="about-content">
-                      <img src={aboutImage} alt="About Us" className="about-image" />
-                      <div className="about-text">
-                        <h2>About Us</h2>
-                        <p>
-                          Welcome to our car dealership. We offer the best selection
-                          of luxury cars. Our team is dedicated to providing you with
-                          excellent service.
-                        </p>
-                      </div>
+            <Route path="/" element={
+              <>
+                <Helmet><title>Home - Car Dealership</title></Helmet>
+                <section className="about-us">
+                  <div className="about-content">
+                    <img src={aboutImage} alt="About Us" className="about-image" />
+                    <div className="about-text">
+                      <h2>About Us</h2>
+                      <p>
+                        Welcome to our car dealership. We offer the best selection
+                        of luxury cars. Our team is dedicated to providing you with
+                        excellent service.
+                      </p>
                     </div>
-                  </section>
+                  </div>
+                </section>
 
-                  <section className="latest-arrivals">
-                    <h2>Latest Arrivals</h2>
-                    <div className="car-listings">
-                      {carsForSale.map((car) => (
-                        <div key={car.id} className="car-card">
-                          <Link to={`/car/${car.id}`}>
-                            <img src={car.img} alt={`${car.make} ${car.model}`} />
-                            <div className="car-details">
-                              <h3>{car.year} {car.make} {car.model}</h3>
-                              <p>Price: {car.price}</p>
-                            </div>
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                </>
-              }
-            />
+                <section className="latest-arrivals">
+                  <h2>Latest Arrivals</h2>
+                  <div className="car-listings">
+                    {carsForSale.map((car) => (
+                      <div key={car.id} className="car-card">
+                        <Link to={`/car/${car.id}`}>
+                          <img src={car.img} alt={`${car.make} ${car.model}`} />
+                          <div className="car-details">
+                            <h3>{car.year} {car.make} {car.model}</h3>
+                            <p>Price: {car.price}</p>
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </>
+            } />
             <Route path="/about" element={<><Helmet><title>About Us</title></Helmet><h2>About Us Page</h2></>} />
             <Route path="/contact" element={<><Helmet><title>Contact Us</title></Helmet><ContactUs /></>} />
             <Route path="/sell" element={<Sellyourcar />} />
@@ -222,16 +206,42 @@ function App() {
         </main>
 
         <footer className="footer">
-          <p>&copy; 2025 Car Dealership. All rights reserved.</p>
-        </footer>
-
-        {!cookiesAccepted && (
-          <div className="cookies-consent">
-            <p>This website uses cookies to enhance your experience.</p>
-            <button onClick={acceptCookies}>Accept</button>
-            <button onClick={declineCookies}>Decline</button>
+          <div className="footer-content">
+            <div className="footer-logo">
+              <img src={logos[currentLogoIndex]} alt="Rotating Logo" className="car-logo rotating-footer-logo" />
+            </div>
+            <div className="footer-details">
+              <p>Nabils Surrey Supercar Website</p>
+              <p>Surrey, England, UK</p>
+              <p>0777777777</p>
+              <p>
+                NabilsSurreySUppercars are authorised and regulated by the Financial Conduct Authority
+                (“FCA”) under Firm Reference Number (FRN) 660610. We are a credit broker, not a lender,
+                and we do not charge a fee for our credit broking services.
+              </p>
+              <p>
+                We can introduce you to a limited number of lenders and their finance products, which may
+                have different interest rates and charges. We typically receive commission from them, 
+                calculated by vehicle age or loan amount. Commission does not affect the amount you pay.
+              </p>
+            </div>
+            <div className="footer-links">
+              <Link to="/inventory">Current Stock</Link>
+              <Link to="/sell">Sell Your Car</Link>
+              <Link to="/sold">Previously Sold</Link>
+              <Link to="/contact">Contact Us</Link>
+              <Link to="/luxury-cars">Luxury Cars</Link>
+              <p>&copy; 2025 All Rights Reserved</p>
+              <div className="footer-legal">
+                <Link to="/sitemap">Sitemap</Link> | 
+                <Link to="/cookie-policy">Cookie Policy</Link> | 
+                <Link to="/privacy-policy">Privacy Policy</Link> | 
+                <Link to="/complaints-procedure">Complaints Procedure</Link> | 
+                <Link to="/modern-slavery">Modern Slavery Statement</Link>
+              </div>
+            </div>
           </div>
-        )}
+        </footer>
       </div>
     </Router>
   );
