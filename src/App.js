@@ -232,8 +232,7 @@ function App() {
         <footer className="footer">
           <div className="footer-content">
             <div className="footer-logo">
-              {/* You can keep footer rotating logo or static */}
-              {logoBatches.flat().map((logo, idx) => (
+              {[lamborghiniLogo, ferrariLogo, paganiLogo, mercedesLogo, astonLogo, bugattiLogo, bentleyLogo]}
               <img
                 key={idx}
                 src={logo}
