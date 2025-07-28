@@ -2,11 +2,12 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-
 /* Prevent horizontal scroll caused by offscreen menu */
 body {
   overflow-x: hidden;
-  font-family: 'Montserrat', sans-serif; /* Changed to Montserrat */
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 /* Header */
@@ -17,16 +18,37 @@ body {
   position: sticky;
   top: 0;
   background-color: rgb(255, 215, 0);
-  z-index: 10;
-  padding: 10px;
+  z-index: 1100;
+  padding: 10px 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Header left and right containers */
+.header-left,
+.header-right {
+  width: 20%;
+  display: flex;
+  align-items: center;
+}
+
+.header-left {
+  justify-content: flex-start;
+}
+
+.header-right {
+  justify-content: flex-end;
+  z-index: 1101;
 }
 
 /* Logo bar */
 .logo-bar {
+  width: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 15px;
+  position: relative;
+  z-index: 1;
 }
 
 .car-logo {
@@ -35,14 +57,14 @@ body {
   margin: 0 15px;
 }
 
-/* Add this for rotating banner logos to fix size & spacing */
+/* Rotating banner logos fixed size & spacing */
 .rotating-banner-logo {
-  width: 120px !important;  /* fixed width */
-  height: auto !important;  /* maintain aspect ratio */
+  width: 120px !important;
+  height: auto !important;
   margin: 0 10px;
   object-fit: contain;
   vertical-align: middle;
-  max-height: 80px; /* limit max height */
+  max-height: 80px;
 }
 
 /* Search bar */
@@ -87,27 +109,36 @@ body {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* Hamburger Menu */
-/* Navigation Menu */
+/* Hamburger Menu and Navigation */
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #000;
+  cursor: pointer;
+  z-index: 1101;
+}
+
 .nav-menu {
   position: fixed;
   top: 0;
-  right: -100vw; /* Off-screen when hidden */
+  right: -100vw; /* Hidden off-screen */
   width: 100vw;
   height: 100vh;
-  background-color: rgba(17, 17, 17, 0.90); /* Dark overlay */
+  background-color: rgba(17, 17, 17, 0.8); /* Dark overlay */
   color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   transition: right 0.3s ease-in-out;
-  z-index: 1000; /* On top of everything */
+  z-index: 1000;
   text-align: center;
+  padding: 0;
 }
 
 .nav-menu.active {
-  right: 0; /* Slide in */
+  right: 0;
 }
 
 .nav-menu ul {
@@ -131,16 +162,6 @@ body {
   color: #f39c12;
 }
 
-/* Hamburger button styling */
-.menu-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #000;
-  cursor: pointer;
-  z-index: 1100; /* Above nav */
-}
-
 /* Sell Your Car Section */
 .sell-your-car {
   max-width: 600px;
@@ -160,13 +181,16 @@ body {
   border-radius: 5px;
   font-size: 16px;
   transition: border 0.3s;
-  width: calc(100% - 22px);
+  width: calc(100% - 30px);
+  box-sizing: border-box;
 }
 
-/* Flex containers */
-.name-fields, .car-details {
+/* Flex containers for form fields */
+.name-fields,
+.car-details {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .name-fields input,
@@ -174,6 +198,7 @@ body {
   width: 48%;
 }
 
+/* Blur class */
 .blurred {
   filter: blur(5px);
   pointer-events: none;
@@ -227,13 +252,14 @@ body {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  gap: 15px;
 }
 
 .car-card {
   background: #ecf0f1;
   border-radius: 8px;
   padding: 10px;
-  margin: 10px;
+  margin: 10px 0;
   width: 30%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
@@ -312,6 +338,8 @@ body {
 
 .footer-details {
   margin: 20px 0;
+  max-width: 600px;
+  text-align: left;
 }
 
 .footer-links {
@@ -346,13 +374,14 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 20px;
+  gap: 15px;
 }
 
 .testimonial-card {
   background: white;
   border-radius: 8px;
   padding: 20px;
-  margin: 10px;
+  margin: 10px 0;
   width: 300px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
@@ -384,6 +413,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 15px;
   margin-top: 20px;
 }
 
@@ -391,8 +421,7 @@ body {
   background: white;
   border-radius: 8px;
   padding: 20px;
-  margin: 10px;
-  width: 300px;
+  width: 250px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
 }
@@ -401,145 +430,70 @@ body {
   transform: scale(1.05);
 }
 
-h2 {
-  margin-bottom: 20px;
+.service-card h3 {
+  margin-bottom: 10px;
 }
 
-h3 {
-  color: #4CAF50;
-}
-
-/* News and Events Section */
-.news-and-events {
-  padding: 20px;
-  text-align: center;
-  background-color: #f9f9f9;
-}
-
-.events-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.event-card {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 10px;
-  width: 90%;
-  max-width: 700px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-}
-
-.event-card:hover {
-  transform: scale(1.05);
-}
-
-/* Responsive Adjustments */
+/* Responsive */
 @media (max-width: 768px) {
-  .name-fields,
-  .car-details {
-    flex-direction: column;
+  .header-left,
+  .header-right {
+    width: 25%;
   }
 
-  .name-fields input,
-  .car-details input {
-    width: 100%;
-    margin-bottom: 10px;
+  .logo-bar {
+    width: 50%;
+    gap: 8px;
   }
 
-  .car-listings,
-  .testimonial-list,
-  .services-list {
+  .rotating-banner-logo {
+    width: 90px !important;
+    max-height: 60px;
+  }
+
+  .sell-your-car {
+    margin: 20px 10px;
+  }
+
+  .about-us {
     flex-direction: column;
     align-items: center;
   }
 
-  .car-card,
-  .testimonial-card,
+  .about-text {
+    margin-left: 0;
+    margin-top: 15px;
+  }
+
+  .car-listings {
+    flex-direction: column;
+  }
+
+  .car-card {
+    width: 90%;
+    margin: 10px auto;
+  }
+
+  .mailing-form {
+    flex-direction: column;
+  }
+
+  .mailing-form input {
+    margin-right: 0;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .mailing-form button {
+    width: 100%;
+  }
+
+  .services-list {
+    flex-direction: column;
+  }
+
   .service-card {
     width: 90%;
+    margin: 10px auto;
   }
-
-  .mobile-logo {
-    display: block;
-    width: 120px;
-    height: 60px; /* Force fixed height */
-    object-fit: contain;
-    margin: 0 auto;
-  }
-
-  .desktop-logos {
-    display: none;
-  }
-
-  .logo-bar {
-    justify-content: center;
-  }
-}
-
-/* Hide rotating logo on desktop, show on mobile */
-.mobile-logo {
-  display: none;
-}
-
-/* Show all logos on desktop */
-.desktop-logos {
-  display: flex;
-}
-
-.header-left,
-.header-right {
-  width: 20%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.header-right {
-  justify-content: flex-end;
-  z-index: 1101; /* Ensure above nav-menu */
-}
-
-.logo-bar {
-  width: 60%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-}
-
-.call-me {
-  color: black;
-  text-decoration: none;
-}
-
-.menu-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #000;
-  cursor: pointer;
-  z-index: 1101; /* Keep above nav menu */
-}
-
-.nav-menu {
-  position: fixed;
-  top: 0;
-  right: -100vw;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(17, 17, 17, 0.8); /* 50% opacity */
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: right 0.3s ease-in-out;
-  z-index: 1000; /* Below menu button */
-  text-align: center;
 }
