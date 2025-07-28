@@ -18,9 +18,11 @@ import Car3 from './Car3';
 
 import aboutImage from './images/car1.jpg';
 import bannerImage from './images/carwallpaper.webp';
-import astonLogo from './images/aston.png';
-import bentleyLogo from './images/bentley.png';
-import porscheLogo from './images/porsche.png';
+
+// Updated logos:
+import paganiLogo from './images/pagani.png';
+import mercedesLogo from './images/mercedes.png';
+import bugattiLogo from './images/bugatti.png';
 import rollsLogo from './images/rolls.png';
 import ferrariLogo from './images/ferrari.png';
 import lamborghiniLogo from './images/lamborghini.png';
@@ -36,9 +38,9 @@ function App() {
   const menuRef = useRef(null);
 
   const logos = [
-    astonLogo,
-    bentleyLogo,
-    porscheLogo,
+    paganiLogo,
+    mercedesLogo,
+    bugattiLogo,
     rollsLogo,
     ferrariLogo,
     lamborghiniLogo,
@@ -152,7 +154,13 @@ function App() {
           </div>
           <div className="rotating-desktop-logos">
             {getCurrentDesktopLogos().map((logo, index) => (
-              <img key={index} src={logo} alt={`Desktop Logo ${index}`} className="rotating-banner-logo" />
+              <img
+                key={index}
+                src={logo}
+                alt={`Desktop Logo ${index}`}
+                className="rotating-banner-logo"
+                style={{ width: '80px', height: '80px', objectFit: 'contain', margin: '0 10px' }}
+              />
             ))}
           </div>
         </section>
