@@ -3,6 +3,7 @@
 /* Prevent horizontal scroll caused by offscreen menu */
 body {
   overflow-x: hidden;
+  font-family: 'Montserrat', sans-serif; /* Changed to Montserrat */
 }
 
 /* Header */
