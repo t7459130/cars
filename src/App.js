@@ -233,9 +233,11 @@ function App() {
           <div className="footer-content">
             <div className="footer-logo">
               {/* You can keep footer rotating logo or static */}
+              {logoBatches.flat().map((logo, idx) => (
               <img
-                src={logoBatches[currentBatchIndex][0]}
-                alt="Footer Logo"
+                key={idx}
+                src={logo}
+                alt={'Footer Logo ${idx}'}
                 className="car-logo rotating-footer-logo"
                 style={{ width: '50px', height: '50px', objectFit: 'contain' }}
               />
