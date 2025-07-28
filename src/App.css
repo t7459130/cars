@@ -559,35 +559,31 @@ h3 {
 }
 
 /* Show desktop logo bar only on desktop */
+/* Desktop */
 .desktop-logo-bar {
   display: flex;
 }
 
-/* Hide mobile logo bar on desktop */
 .mobile-logo-bar {
   display: none;
 }
 
-/* Footer rotating logo: show on desktop only */
 .footer-logo-rotating {
   display: block;
 }
 
-/* Responsive styles */
+/* Mobile */
 @media (max-width: 768px) {
-  /* Hide desktop 4-logo cycling banner */
   .desktop-logo-bar {
-    display: none;
+    display: none;  /* Hide 4 logos cycling on mobile */
   }
 
-  /* Show mobile single rotating logo in header */
   .mobile-logo-bar {
-    display: block;
+    display: block; /* Show rotating footer logo in header on mobile */
+    text-align: center;
   }
 
-  /* Hide rotating logo in footer on mobile */
   .footer-logo-rotating {
-    display: none;
+    display: block; /* Show footer rotating logo on mobile */
   }
 }
-

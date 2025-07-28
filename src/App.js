@@ -118,11 +118,8 @@ function App() {
             </a>
           </div>
 
-          {/* Desktop: show 4 logos cycling */}
-          <div
-            className="logo-bar desktop-logo-bar"
-            style={{ display: 'flex', alignItems: 'center', gap: '15px' }}
-          >
+          {/* Desktop: 4 logos cycling */}
+          <div className="logo-bar desktop-logo-bar" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             {logoBatches[currentBatchIndex].map((logo, idx) => (
               <img
                 key={idx}
@@ -137,7 +134,7 @@ function App() {
             ))}
           </div>
 
-          {/* Mobile: show single rotating footer logo */}
+          {/* Mobile: rotating single footer logo */}
           <div className="logo-bar mobile-logo-bar" style={{ textAlign: 'center' }}>
             <img
               src={footerLogos[currentFooterLogoIndex]}
@@ -253,7 +250,7 @@ function App() {
 
         <footer className="footer">
           <div className="footer-content">
-            {/* Footer rotating logo (hidden on mobile via CSS) */}
+            {/* Footer rotating logo (visible on all devices) */}
             <div className="footer-logo footer-logo-rotating">
               <img
                 src={footerLogos[currentFooterLogoIndex]}
@@ -282,6 +279,7 @@ function App() {
                 calculated by vehicle age or loan amount. Commission does not affect the amount you pay.
               </p>
             </div>
+
             <div className="footer-links">
               <Link to="/inventory">Current Stock</Link>
               <Link to="/sell">Sell Your Car</Link>
