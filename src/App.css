@@ -47,7 +47,8 @@ body {
 @media (max-width: 768px) {
   .rotating-banner-logo {
     width: 60px !important; /* Shrink to 60px on mobile */
-    max-height: 40px;       /* Adjust max height accordingly */
+    height: auto !important;
+    max-height: 40px !important;       /* Adjust max height accordingly */
   }
 }
 
@@ -486,6 +487,12 @@ h3 {
   .logo-bar {
     justify-content: center;
   }
+
+  .rotating-banner-logo {
+    width: 60px !important; /* Shrink to 60px on mobile */
+    height: auto !important;
+    max-height: 40px !important;       /* Adjust max height accordingly */
+  }
 }
 
 /* Hide rotating logo on desktop, show on mobile */
@@ -550,5 +557,3 @@ h3 {
   z-index: 1000; /* Below menu button */
   text-align: center;
 }
-
-
