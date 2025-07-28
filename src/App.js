@@ -12,14 +12,10 @@ import OtherServices from './OtherServices';
 import NewsAndEvents from './NewsAndEvents';
 import ContactUs from './ContactUs';
 import CarDetail from './CarDetail';
-import Car1 from './Car1';
-import Car2 from './Car2';
-import Car3 from './Car3';
 
 import aboutImage from './images/car1.jpg';
 import bannerImage from './images/carwallpaper.webp';
 
-// Updated logos:
 import paganiLogo from './images/pagani.png';
 import mercedesLogo from './images/mercedes.png';
 import bugattiLogo from './images/bugatti.png';
@@ -89,14 +85,14 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentLogoIndex((prev) => (prev + 1) % logos.length);
-    }, 1000);
+    }, 3000); // Slowed logo rotation to 3s
     return () => clearInterval(interval);
   }, []);
 
   const getCurrentDesktopLogos = () => {
-    const desktopBatchSize = 4;
+    const batchSize = 4;
     const start = currentLogoIndex % logos.length;
-    const end = (start + desktopBatchSize) % logos.length;
+    const end = (start + batchSize) % logos.length;
     return start < end
       ? logos.slice(start, end)
       : [...logos.slice(start), ...logos.slice(0, end)];
@@ -110,26 +106,42 @@ function App() {
           <link rel="icon" href={ferrariLogo} type="image/png" />
         </Helmet>
 
-        <header className="header">
-          <div className="header-left">
+        {/* Banner replaces header */}
+        <section className="banner">
+          <div className="banner-top-bar">
             <a href="tel:1234567890" className="call-me" style={{ color: '#000', textDecoration: 'none' }}>
-              <FaPhone size={20} />
+              <FaPhone size={18} />
             </a>
-          </div>
-
-          <div className="logo-bar">
-            <img src={logos[currentLogoIndex]} alt="Logo" className="car-logo mobile-logo" />
-            <div className="desktop-logos">
-              {getCurrentDesktopLogos().map((logo, index) => (
-                <img key={index} src={logo} alt={`Logo ${index}`} className="car-logo" />
-              ))}
-            </div>
-          </div>
-
-          <div className="header-right">
             <button className={`menu-btn ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
               {isMenuOpen ? <FaTimes /> : <FaBars />}
             </button>
+          </div>
+
+          {/* Mobile logo */}
+          <img
+            src={logos[currentLogoIndex]}
+            alt="Rotating Logo"
+            className="car-logo mobile-logo"
+            style={{ width: '60px', height: '60px', objectFit: 'contain' }}
+          />
+
+          <img src={bannerImage} alt="Banner" className="banner-image" />
+
+          <div className="banner-text">
+            <h1>Welcome to Our Car Dealership</h1>
+            <p>Discover our exclusive range of luxury cars.</p>
+          </div>
+
+          <div className="rotating-desktop-logos">
+            {getCurrentDesktopLogos().map((logo, index) => (
+              <img
+                key={index}
+                src={logo}
+                alt={`Logo ${index}`}
+                className="rotating-banner-logo"
+                style={{ width: '60px', height: '60px', objectFit: 'contain', margin: '0 8px' }}
+              />
+            ))}
           </div>
 
           <nav ref={menuRef} className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
@@ -144,25 +156,6 @@ function App() {
               <li><Link to="/inventory" onClick={toggleMenu}>Inventory</Link></li>
             </ul>
           </nav>
-        </header>
-
-        <section className="banner">
-          <img src={bannerImage} alt="Banner" className="banner-image" />
-          <div className="banner-text">
-            <h1>Welcome to Our Car Dealership</h1>
-            <p>Discover our exclusive range of luxury cars.</p>
-          </div>
-          <div className="rotating-desktop-logos">
-            {getCurrentDesktopLogos().map((logo, index) => (
-              <img
-                key={index}
-                src={logo}
-                alt={`Desktop Logo ${index}`}
-                className="rotating-banner-logo"
-                style={{ width: '80px', height: '80px', objectFit: 'contain', margin: '0 10px' }}
-              />
-            ))}
-          </div>
         </section>
 
         <main>
@@ -216,7 +209,12 @@ function App() {
         <footer className="footer">
           <div className="footer-content">
             <div className="footer-logo">
-              <img src={logos[currentLogoIndex]} alt="Rotating Logo" className="car-logo rotating-footer-logo" />
+              <img
+                src={logos[currentLogoIndex]}
+                alt="Rotating Logo"
+                className="car-logo rotating-footer-logo"
+                style={{ width: '50px', height: '50px', objectFit: 'contain' }}
+              />
             </div>
             <div className="footer-details">
               <p>Nabils Surrey Supercar Website</p>
@@ -224,13 +222,7 @@ function App() {
               <p>0777777777</p>
               <p>
                 NabilsSurreySUppercars are authorised and regulated by the Financial Conduct Authority
-                (“FCA”) under Firm Reference Number (FRN) 660610. We are a credit broker, not a lender,
-                and we do not charge a fee for our credit broking services.
-              </p>
-              <p>
-                We can introduce you to a limited number of lenders and their finance products, which may
-                have different interest rates and charges. We typically receive commission from them, 
-                calculated by vehicle age or loan amount. Commission does not affect the amount you pay.
+                (“FCA”) under Firm Reference Number (FRN) 660610...
               </p>
             </div>
             <div className="footer-links">
