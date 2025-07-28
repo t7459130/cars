@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import { FaBars, FaTimes, FaPhone } from 'react-icons/fa';
@@ -60,11 +59,8 @@ function App() {
         setIsMenuOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isMenuOpen]);
 
   const acceptCookies = () => {
@@ -87,7 +83,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentLogoIndex((prev) => (prev + 1) % logos.length);
-    }, 1000);
+    }, 3000); // smoother rotation every 3s
     return () => clearInterval(interval);
   }, []);
 
@@ -116,7 +112,9 @@ function App() {
           </div>
 
           <div className="logo-bar">
+            {/* Mobile view – single rotating logo */}
             <img src={logos[currentLogoIndex]} alt="Logo" className="car-logo mobile-logo" />
+            {/* Desktop view – batch of rotating logos */}
             <div className="desktop-logos">
               {getCurrentDesktopLogos().map((logo, index) => (
                 <img key={index} src={logo} alt={`Logo ${index}`} className="car-logo" />
@@ -149,11 +147,6 @@ function App() {
           <div className="banner-text">
             <h1>Welcome to Our Car Dealership</h1>
             <p>Discover our exclusive range of luxury cars.</p>
-          </div>
-          <div className="rotating-desktop-logos">
-            {getCurrentDesktopLogos().map((logo, index) => (
-              <img key={index} src={logo} alt={`Desktop Logo ${index}`} className="rotating-banner-logo" />
-            ))}
           </div>
         </section>
 
