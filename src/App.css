@@ -557,3 +557,37 @@ h3 {
   z-index: 1000; /* Below menu button */
   text-align: center;
 }
+
+/* Show desktop logo bar only on desktop */
+.desktop-logo-bar {
+  display: flex;
+}
+
+/* Hide mobile logo bar on desktop */
+.mobile-logo-bar {
+  display: none;
+}
+
+/* Footer rotating logo: show on desktop only */
+.footer-logo-rotating {
+  display: block;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  /* Hide desktop 4-logo cycling banner */
+  .desktop-logo-bar {
+    display: none;
+  }
+
+  /* Show mobile single rotating logo in header */
+  .mobile-logo-bar {
+    display: block;
+  }
+
+  /* Hide rotating logo in footer on mobile */
+  .footer-logo-rotating {
+    display: none;
+  }
+}
+

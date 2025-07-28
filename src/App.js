@@ -118,7 +118,11 @@ function App() {
             </a>
           </div>
 
-          <div className="logo-bar" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          {/* Desktop: show 4 logos cycling */}
+          <div
+            className="logo-bar desktop-logo-bar"
+            style={{ display: 'flex', alignItems: 'center', gap: '15px' }}
+          >
             {logoBatches[currentBatchIndex].map((logo, idx) => (
               <img
                 key={idx}
@@ -131,6 +135,21 @@ function App() {
                 }}
               />
             ))}
+          </div>
+
+          {/* Mobile: show single rotating footer logo */}
+          <div className="logo-bar mobile-logo-bar" style={{ textAlign: 'center' }}>
+            <img
+              src={footerLogos[currentFooterLogoIndex]}
+              alt={`Rotating footer logo mobile ${currentFooterLogoIndex}`}
+              style={{
+                width: '60px',
+                height: '60px',
+                objectFit: 'contain',
+                margin: '0 auto',
+                transition: 'opacity 0.5s ease-in-out',
+              }}
+            />
           </div>
 
           <div className="header-right">
@@ -234,7 +253,8 @@ function App() {
 
         <footer className="footer">
           <div className="footer-content">
-            <div className="footer-logo">
+            {/* Footer rotating logo (hidden on mobile via CSS) */}
+            <div className="footer-logo footer-logo-rotating">
               <img
                 src={footerLogos[currentFooterLogoIndex]}
                 alt={`Footer Logo ${currentFooterLogoIndex}`}
@@ -246,6 +266,7 @@ function App() {
                 }}
               />
             </div>
+
             <div className="footer-details">
               <p>Nabils Surrey Supercar Website</p>
               <p>Surrey, England, UK</p>
@@ -269,10 +290,10 @@ function App() {
               <Link to="/luxury-cars">Luxury Cars</Link>
               <p>&copy; 2025 All Rights Reserved</p>
               <div className="footer-legal">
-                <Link to="/sitemap">Sitemap</Link> | 
-                <Link to="/cookie-policy">Cookie Policy</Link> | 
-                <Link to="/privacy-policy">Privacy Policy</Link> | 
-                <Link to="/complaints-procedure">Complaints Procedure</Link> | 
+                <Link to="/sitemap">Sitemap</Link> |{' '}
+                <Link to="/cookie-policy">Cookie Policy</Link> |{' '}
+                <Link to="/privacy-policy">Privacy Policy</Link> |{' '}
+                <Link to="/complaints-procedure">Complaints Procedure</Link> |{' '}
                 <Link to="/modern-slavery">Modern Slavery Statement</Link>
               </div>
             </div>
