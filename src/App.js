@@ -62,7 +62,6 @@ function App() {
         setIsMenuOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -89,14 +88,15 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentLogoIndex((prev) => (prev + 1) % logos.length);
-    }, 1000);
+    }, 3000); // Rotate every 3 seconds
     return () => clearInterval(interval);
   }, []);
 
+  // Returns 4 logos starting from currentLogoIndex, wrapping around the array
   const getCurrentDesktopLogos = () => {
-    const desktopBatchSize = 4;
+    const batchSize = 4;
     const start = currentLogoIndex % logos.length;
-    const end = (start + desktopBatchSize) % logos.length;
+    const end = (start + batchSize) % logos.length;
     return start < end
       ? logos.slice(start, end)
       : [...logos.slice(start), ...logos.slice(0, end)];
@@ -118,12 +118,14 @@ function App() {
           </div>
 
           <div className="logo-bar">
-            <img src={logos[currentLogoIndex]} alt="Logo" className="car-logo mobile-logo" />
-            <div className="desktop-logos">
-              {getCurrentDesktopLogos().map((logo, index) => (
-                <img key={index} src={logo} alt={`Logo ${index}`} className="car-logo" />
-              ))}
-            </div>
+            {/* Single logo in header, kept small to prevent blocking */}
+            <img
+              src={logos[currentLogoIndex]}
+              alt="Logo"
+              className="car-logo mobile-logo"
+              style={{ width: '50px', height: '50px', objectFit: 'contain' }}
+            />
+            {/* Remove the large desktop logos from header */}
           </div>
 
           <div className="header-right">
