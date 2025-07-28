@@ -44,9 +44,10 @@ function App() {
   const logoBatches = [
     [ferrariLogo, lamborghiniLogo, rollsLogo, bentleyLogo],
     [astonLogo, paganiLogo, bugattiLogo, mercedesLogo],
-  //  [porscheLogo, astonLogo, ferrariLogo, lamborghiniLogo],
+    // [porscheLogo, astonLogo, ferrariLogo, lamborghiniLogo], // commented out as before
   ];
 
+  // Updated carsForSale here as well for consistent data across the app
   const carsForSale = [
     { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1 },
     { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000', img: car2 },
@@ -156,48 +157,74 @@ function App() {
 
         <main>
           <Routes>
-            <Route path="/" element={
-              <>
-                <Helmet><title>Home - Car Dealership</title></Helmet>
-                <section className="about-us">
-                  <div className="about-content">
-                    <img src={aboutImage} alt="About Us" className="about-image" />
-                    <div className="about-text">
-                      <h2>About Us</h2>
-                      <p>
-                        Welcome to our car dealership. We offer the best selection
-                        of luxury cars. Our team is dedicated to providing you with
-                        excellent service.
-                      </p>
-                    </div>
-                  </div>
-                </section>
-
-                <section className="latest-arrivals">
-                  <h2>Latest Arrivals</h2>
-                  <div className="car-listings">
-                    {carsForSale.map((car) => (
-                      <div key={car.id} className="car-card">
-                        <Link to={`/car/${car.id}`}>
-                          <img src={car.img} alt={`${car.make} ${car.model}`} />
-                          <div className="car-details">
-                            <h3>{car.year} {car.make} {car.model}</h3>
-                            <p>Price: {car.price}</p>
-                          </div>
-                        </Link>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Helmet><title>Home - Car Dealership</title></Helmet>
+                  <section className="about-us">
+                    <div className="about-content">
+                      <img src={aboutImage} alt="About Us" className="about-image" />
+                      <div className="about-text">
+                        <h2>About Us</h2>
+                        <p>
+                          Welcome to our car dealership. We offer the best selection
+                          of luxury cars. Our team is dedicated to providing you with
+                          excellent service.
+                        </p>
                       </div>
-                    ))}
-                  </div>
-                </section>
-              </>
-            } />
+                    </div>
+                  </section>
+
+                  <section className="latest-arrivals">
+                    <h2>Latest Arrivals</h2>
+                    <div className="car-listings">
+                      {carsForSale.map((car) => (
+                        <div key={car.id} className="car-card">
+                          <Link to={`/car/${car.id}`}>
+                            <img src={car.img} alt={`${car.make} ${car.model}`} />
+                            <div className="car-details">
+                              <h3>{car.year} {car.make} {car.model}</h3>
+                              <p>Price: {car.price}</p>
+                            </div>
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </>
+              }
+            />
             <Route path="/about" element={<><Helmet><title>About Us</title></Helmet><h2>About Us Page</h2></>} />
             <Route path="/contact" element={<><Helmet><title>Contact Us</title></Helmet><ContactUs /></>} />
             <Route path="/sell" element={<Sellyourcar />} />
             <Route path="/news" element={<NewsAndEvents />} />
             <Route path="/services" element={<OtherServices />} />
             <Route path="/testimonials" element={<Testimonials />} />
-            <Route path="/inventory" element={<Inventory />} />
+            <Route
+              path="/inventory"
+              element={
+                <>
+                  <Helmet><title>Inventory</title></Helmet>
+                  <div className="inventory-page">
+                    <h2>Inventory</h2>
+                    <div className="car-listings">
+                      {carsForSale.map((car) => (
+                        <div key={car.id} className="car-card">
+                          <Link to={`/car/${car.id}`}>
+                            <img src={car.img} alt={`${car.make} ${car.model}`} />
+                            <div className="car-details">
+                              <h3>{car.year} {car.make} {car.model}</h3>
+                              <p>Price: {car.price}</p>
+                            </div>
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              }
+            />
             <Route path="/car/:carId" element={<CarDetail />} />
           </Routes>
         </main>
@@ -206,7 +233,12 @@ function App() {
           <div className="footer-content">
             <div className="footer-logo">
               {/* You can keep footer rotating logo or static */}
-              <img src={logoBatches[currentBatchIndex][0]} alt="Footer Logo" className="car-logo rotating-footer-logo" style={{ width: '50px', height: '50px', objectFit: 'contain' }} />
+              <img
+                src={logoBatches[currentBatchIndex][0]}
+                alt="Footer Logo"
+                className="car-logo rotating-footer-logo"
+                style={{ width: '50px', height: '50px', objectFit: 'contain' }}
+              />
             </div>
             <div className="footer-details">
               <p>Nabils Surrey Supercar Website</p>
