@@ -570,7 +570,7 @@ h3 {
   text-align: center;
 }
 
-/* Show desktop logo bar only on desktop */
+/* Desktop: show desktop logos, hide mobile logos */
 .desktop-logo-bar {
   display: flex;
 }
@@ -579,22 +579,28 @@ h3 {
   display: none;
 }
 
-.footer-logo-rotating {
+.mobile-logo {
   display: none;
 }
 
-/* Mobile */
+/* Mobile: show mobile logos, hide desktop logos */
 @media (max-width: 768px) {
   .desktop-logo-bar {
-    display: none;  /* Hide 4 logos cycling on mobile */
+    display: none; /* Hide desktop logos */
   }
 
   .mobile-logo-bar {
-    display: block; /* Show rotating footer logo in header on mobile */
-    text-align: center;
+    display: flex; /* Show mobile logos container */
+    justify-content: center;
+    align-items: center;
   }
 
-  .footer-logo-rotating {
-    display: block; /* Show footer rotating logo on mobile */
+  .mobile-logo {
+    display: inline-block; /* Show each mobile logo */
+    width: 60px;   /* Adjust size as needed */
+    height: auto;
+    max-height: 40px;
+    object-fit: contain;
+    margin: 0 10px;
   }
 }
