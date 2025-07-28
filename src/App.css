@@ -449,3 +449,32 @@ h3 {
     width: 90%;
   }
 }
+
+/* Hide rotating logo on desktop, show on mobile */
+.mobile-logo {
+  display: none;
+}
+
+/* Show all logos on desktop */
+.desktop-logos {
+  display: flex;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .mobile-logo {
+    display: block;
+    width: 120px;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .desktop-logos {
+    display: none;
+  }
+
+  .logo-bar {
+    justify-content: center;
+  }
+}
+

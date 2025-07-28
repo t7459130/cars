@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css'; // Ensure CSS is imported
-import { FaSearch, FaBars, FaTimes, FaPhone } from 'react-icons/fa'; // Added phone icon
+import { FaSearch, FaBars, FaTimes, FaPhone } from 'react-icons/fa';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet'; // Import react-helmet
+import { Helmet } from 'react-helmet';
 
 import Sellyourcar from './Sellyourcar'; 
 import Inventory from './Inventory'; 
@@ -34,7 +34,17 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
-  const menuRef = useRef(null); // Reference for the menu
+  const [currentLogoIndex, setCurrentLogoIndex] = useState(0); // New state for logo rotation
+  const menuRef = useRef(null);
+
+  const logos = [
+    astonLogo,
+    bentleyLogo,
+    porscheLogo,
+    rollsLogo,
+    ferrariLogo,
+    lamborghiniLogo,
+  ];
 
   const carsForSale = [
     { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1 },
@@ -43,14 +53,13 @@ function App() {
   ];
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen); // Toggle the menu visibility
+    setIsMenuOpen(!isMenuOpen);
   };
 
   const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
   };
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target) && isMenuOpen) {
@@ -66,17 +75,14 @@ function App() {
 
   const acceptCookies = () => {
     setCookiesAccepted(true);
-    // You can also store this in localStorage to remember the user's choice
     localStorage.setItem('cookiesAccepted', 'true');
   };
 
   const declineCookies = () => {
     setCookiesAccepted(true);
-    // Optionally, store the user's decline choice
     localStorage.setItem('cookiesAccepted', 'false');
   };
 
-  // Check if cookies were accepted previously
   useEffect(() => {
     const cookiesConsent = localStorage.getItem('cookiesAccepted');
     if (cookiesConsent) {
@@ -84,47 +90,54 @@ function App() {
     }
   }, []);
 
+  // Logo rotation for mobile
+  useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      const interval = setInterval(() => {
+        setCurrentLogoIndex((prev) => (prev + 1) % logos.length);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, []);
+
   return (
     <Router>
       <div className="app">
-        {/* Helmet for SEO & Favicon */}
         <Helmet>
-          <title>Car Dealership</title> {/* Default title */}
+          <title>Car Dealership</title>
           <link rel="icon" href={ferrariLogo} type="image/png" />
         </Helmet>
 
-        {/* Sticky Header */}
         <header className="header">
-          {/* Search Bar Icon */}
           <div className="search-bar">
             <button onClick={toggleSearch} className="search-icon">
               <FaSearch />
             </button>
             <Link to="/contact" className="call-me">
               <FaPhone />
-              <span className="phone-number">123-456-7890</span> 
+              <span className="phone-number">123-456-7890</span>
             </Link>
             {isSearchOpen && <input type="text" placeholder="Search..." className="search-input" />}
           </div>
 
-          {/* Logo Bar in the Center */}
           <div className="logo-bar">
-            <img src={astonLogo} alt="Aston Martin Logo" className="car-logo" />
-            <img src={bentleyLogo} alt="Bentley Logo" className="car-logo" />
-            <img src={porscheLogo} alt="Porsche Logo" className="car-logo" />
-            <img src={rollsLogo} alt="Rolls-Royce Logo" className="car-logo" />
-            <img src={ferrariLogo} alt="Ferrari Logo" className="car-logo" />
-            <img src={lamborghiniLogo} alt="Lamborghini Logo" className="car-logo" />
+            {/* Mobile view: single cycling logo */}
+            <img src={logos[currentLogoIndex]} alt="Logo" className="car-logo mobile-logo" />
+            {/* Desktop view: all logos */}
+            <div className="desktop-logos">
+              {logos.map((logo, index) => (
+                <img key={index} src={logo} alt={`Logo ${index}`} className="car-logo" />
+              ))}
+            </div>
           </div>
 
-          {/* Hamburger Menu on the Right */}
           <div className="header-right">
             <button className={`menu-btn ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
               {isMenuOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>
 
-          {/* Collapsible Menu */}
           <nav ref={menuRef} className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
             <ul>
               <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
@@ -139,7 +152,6 @@ function App() {
           </nav>
         </header>
 
-        {/* Banner Section */}
         <section className="banner">
           <img src={bannerImage} alt="Banner" className="banner-image" />
           <div className="banner-text">
@@ -148,15 +160,13 @@ function App() {
           </div>
         </section>
 
-        {/* Main Content */}
         <main>
           <Routes>
             <Route path="/" element={
               <>
                 <Helmet>
-                  <title>Home - Car Dealership</title> {/* Set page title */}
+                  <title>Home - Car Dealership</title>
                 </Helmet>
-                {/* About Us Section */}
                 <section className="about-us">
                   <div className="about-content">
                     <img src={aboutImage} alt="About Us" className="about-image" />
@@ -171,7 +181,6 @@ function App() {
                   </div>
                 </section>
 
-                {/* Latest Arrivals */}
                 <section className="latest-arrivals">
                   <h2>Latest Arrivals</h2>
                   <div className="car-listings">
@@ -192,17 +201,13 @@ function App() {
             } />
             <Route path="/about" element={
               <>
-                <Helmet>
-                  <title>About Us</title> {/* Set page title */}
-                </Helmet>
+                <Helmet><title>About Us</title></Helmet>
                 <h2>About Us Page</h2>
               </>
             } />
             <Route path="/contact" element={
               <>
-                <Helmet>
-                  <title>Contact Us</title> {/* Set page title */}
-                </Helmet>
+                <Helmet><title>Contact Us</title></Helmet>
                 <ContactUs />
               </>
             } />
@@ -211,12 +216,10 @@ function App() {
             <Route path="/services" element={<OtherServices />} />
             <Route path="/testimonials" element={<Testimonials />} />
             <Route path="/inventory" element={<Inventory />} />
-            {/* Route for individual car details */}
             <Route path="/car/:carId" element={<CarDetail />} />
           </Routes>
         </main>
 
-        {/* Footer */}
         <footer className="footer">
           <div className="footer-content">
             <div className="footer-logo">
@@ -244,7 +247,6 @@ function App() {
               <Link to="/contact">Contact Us</Link>
               <Link to="/luxury-cars">Luxury Cars</Link>
               <p>&copy; 2025 All Rights Reserved</p>
-              
               <div className="footer-legal">
                 <Link to="/sitemap">Sitemap</Link> | 
                 <Link to="/cookie-policy">Cookie Policy</Link> | 
