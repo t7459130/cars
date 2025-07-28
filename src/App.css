@@ -1,3 +1,10 @@
+/* App.css */
+
+/* Prevent horizontal scroll caused by offscreen menu */
+body {
+  overflow-x: hidden;
+}
+
 /* Header */
 .header {
   display: flex;
@@ -75,33 +82,21 @@
   color: #000000;
   font-size: 24px;
   padding: 10px;
-  position: relative; /* Changed from absolute for better flow */
-  z-index: 20;
-  transition: color 0.3s ease;
-}
-
-.menu-btn.open {
-  color: #ffbf00; /* Add color change when menu is open */
 }
 
 /* Navbar */
 .nav-menu {
   position: fixed;
   top: 0;
-  right: -100%; /* Start offscreen on right */
+  right: -100vw; /* Use vw to fully hide offscreen */
   width: 100vw; /* Full screen width */
   height: 100vh; /* Full screen height */
   background-color: #333;
   color: #fff;
   transition: right 0.3s ease;
-  padding: 40px 20px; /* Add some padding */
+  padding: 20px;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   z-index: 15;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow-y: auto;
 }
 
 .nav-menu.active {
@@ -111,10 +106,6 @@
 .nav-menu ul {
   list-style-type: none; /* Remove bullet points */
   padding: 0; /* Remove default padding */
-  margin: 0;
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
 }
 
 .nav-menu li {
@@ -124,15 +115,10 @@
 .nav-menu a {
   color: #fff; /* White text */
   text-decoration: none; /* No underline */
-  font-size: 1.8rem; /* Make menu text bigger */
-  font-weight: 600;
-  display: block;
-  transition: color 0.3s ease;
 }
 
 .nav-menu a:hover {
-  color: #ffbf00; /* Highlight color on hover */
-  text-decoration: none;
+  text-decoration: underline; /* Underline on hover */
 }
 
 /* Sell Your Car Section */
@@ -459,50 +445,105 @@ h3 {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 250px; /* Fixed width */
-  margin-right: 10px;
+  width: 250px; /* Set width of input */
 }
 
 .mail-form button {
-  padding: 10px 20px;
+  padding: 10px;
+  margin-left: 10px; /* Space between input and button */
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .mail-form button:hover {
-  background-color: #388E3C;
+  background-color: #45a049; /* Darker shade on hover */
 }
 
-/* Responsive Design */
+/* Cookie Consent Banner */
+.cookie-consent {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.cookie-consent p {
+  margin: 0;
+}
+
+.cookie-consent button {
+  padding: 8px 16px;
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  margin-left: 10px;
+  border-radius: 5px;
+}
+
+.cookie-consent button:hover {
+  background-color: #e65a4e;
+}
+
+/* Responsive Styles for Mobile Devices */
 @media (max-width: 768px) {
-  .nav-menu {
-    width: 100vw;
-    height: 100vh;
-    padding: 60px 20px;
-  }
-
-  .nav-menu ul {
-    max-width: 100%;
-  }
-
-  .name-fields,
-  .car-details {
+  /* Shrink header */
+  .header {
     flex-direction: column;
+    align-items: flex-start;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .name-fields input,
-  .car-details input {
-    width: 100%;
-    margin-bottom: 10px;
+  /* Shrink logo */
+  .car-logo {
+    width: 90px;
+    margin: 5px 10px;
   }
 
-  .sell-your-car input,
-  .sell-your-car select,
-  .sell-your-car textarea {
+  /* Stack logo and search bar vertically */
+  .logo-bar {
     width: 100%;
+    justify-content: space-between;
   }
+
+  .search-bar {
+    margin-top: 5px;
+    width: 100%;
+    justify-content: space-between;
+    padding-right: 40px; /* Make space for hamburger */
+  }
+
+  .search-input {
+    width: 65%;
+    padding: 5px;
+    font-size: 14px;
+  }
+
+  .search-icon {
+    font-size: 18px;
+  }
+
+  /* Fix hamburger positioning */
+  .menu-btn {
+    font-size: 20px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 20;
+  }
+
+  /* Prevent horizontal scroll */
 }
