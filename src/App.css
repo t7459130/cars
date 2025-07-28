@@ -490,3 +490,50 @@ h3 {
 .cookie-consent button:hover {
   background-color: #e65a4e;
 }
+
+/* Responsive Styles for Mobile Devices */
+@media (max-width: 768px) {
+  /* Header layout stack */
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px;
+  }
+
+  .logo-bar {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .car-logo {
+    width: 100px; /* Smaller logo for mobile */
+    margin: 0 10px;
+  }
+
+  .search-bar {
+    width: 100%;
+    margin-top: 10px;
+    justify-content: space-between;
+  }
+
+  .search-input {
+    width: 70%; /* Make room for small screens */
+    margin-left: 0;
+  }
+
+  .search-icon {
+    font-size: 18px; /* Slightly smaller */
+  }
+
+  .menu-btn {
+    font-size: 20px;
+    padding: 8px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+  .nav-menu {
+    width: 80%; /* Smaller menu for smaller screen */
+  }
+}
