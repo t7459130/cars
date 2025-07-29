@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-/* Prevent horizontal scroll caused by offscreen menu */
+/* Prevent horizontal scroll */
 body {
   overflow-x: hidden;
-  font-family: 'Montserrat', sans-serif; /* Changed to Montserrat */
+  font-family: 'Montserrat', sans-serif;
 }
 
 /* Header */
@@ -19,55 +19,53 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo bar */
+/* Logo Bar */
 .logo-bar {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 60%;
 }
 
-.car-logo {
-  width: 150px;
+.desktop-logo {
+  width: 80px;
   height: auto;
-  margin: 0 15px;
-}
-
-.rotating-banner-logo {
-  width: 120px !important;
-  height: auto !important;
   margin: 0 10px;
   object-fit: contain;
-  vertical-align: middle;
-  max-height: 80px;
+  max-height: 60px;
 }
 
 @media (max-width: 768px) {
-  .rotating-banner-logo {
-    width: 60px !important; /* Shrink to 60px on mobile */
-    height: auto !important;
-    max-height: 40px !important;       /* Adjust max height accordingly */
+  .desktop-logo {
+    display: none;
   }
 }
 
-/* Search bar */
-.search-bar {
-  display: flex;
-  align-items: center;
+/* Mobile logo */
+.mobile-logo-bar {
+  display: none;
 }
 
-.search-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
+.mobile-logo {
+  display: none;
 }
 
-.search-input {
-  margin-left: 10px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 200px;
+/* Show mobile logo on small screens */
+@media (max-width: 768px) {
+  .mobile-logo-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mobile-logo {
+    display: inline-block;
+    width: 100px;
+    height: auto;
+    max-height: 40px;
+    object-fit: contain;
+    margin: 0 10px;
+  }
 }
 
 /* Banner */
@@ -91,27 +89,35 @@ body {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* Hamburger Menu */
-/* Navigation Menu */
+/* Menu */
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #000;
+  cursor: pointer;
+  z-index: 1101;
+}
+
 .nav-menu {
   position: fixed;
   top: 0;
-  right: -100vw; /* Off-screen when hidden */
+  right: -100vw;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(17, 17, 17, 0.90); /* Dark overlay */
+  background-color: rgba(17, 17, 17, 0.8);
   color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   transition: right 0.3s ease-in-out;
-  z-index: 1000; /* On top of everything */
+  z-index: 1000;
   text-align: center;
 }
 
 .nav-menu.active {
-  right: 0; /* Slide in */
+  right: 0;
 }
 
 .nav-menu ul {
@@ -135,67 +141,13 @@ body {
   color: #f39c12;
 }
 
-/* Hamburger button styling */
-.menu-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #000;
-  cursor: pointer;
-  z-index: 1100; /* Above nav */
+/* Call Me */
+.call-me {
+  color: black;
+  text-decoration: none;
 }
 
-/* Sell Your Car Section */
-.sell-your-car {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.sell-your-car input,
-.sell-your-car select,
-.sell-your-car textarea {
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: border 0.3s;
-  width: calc(100% - 22px);
-}
-
-/* Flex containers */
-.name-fields, .car-details {
-  display: flex;
-  justify-content: space-between;
-}
-
-.name-fields input,
-.car-details input {
-  width: 48%;
-}
-
-.blurred {
-  filter: blur(5px);
-  pointer-events: none;
-}
-
-/* Larger description field */
-.sell-your-car textarea {
-  width: 100%;
-  height: 100px;
-}
-
-/* Form heading */
-.sell-your-car h2 {
-  text-align: center;
-  color: #2c3e50;
-}
-
-/* About Us Section */
+/* About Us */
 .about-us {
   display: flex;
   justify-content: space-between;
@@ -218,7 +170,7 @@ body {
   margin-left: 20px;
 }
 
-/* Latest Arrivals Section */
+/* Latest Arrivals */
 .latest-arrivals {
   padding: 20px;
   background: white;
@@ -253,43 +205,150 @@ body {
   border-radius: 8px;
 }
 
-/* Mailing List Section */
-.mailing-list {
+/* Sell Your Car */
+.sell-your-car {
+  max-width: 600px;
+  margin: 20px auto;
   padding: 20px;
-  background: #2c3e50;
-  border-radius: 8px;
-  color: white;
-  margin: 20px;
-  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.mailing-form {
+.sell-your-car input,
+.sell-your-car select,
+.sell-your-car textarea {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: calc(100% - 22px);
+}
+
+.name-fields,
+.car-details {
   display: flex;
+  justify-content: space-between;
+}
+
+.name-fields input,
+.car-details input {
+  width: 48%;
+}
+
+.sell-your-car textarea {
+  width: 100%;
+  height: 100px;
+}
+
+.sell-your-car h2 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+/* Testimonials */
+.testimonials {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.testimonial-list {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  margin-top: 20px;
+}
+
+.testimonial-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  width: 300px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.testimonial-card:hover {
+  transform: scale(1.05);
+}
+
+.quote {
+  font-style: italic;
+  color: #555;
+}
+
+.author {
+  font-weight: bold;
   margin-top: 10px;
+  color: #333;
 }
 
-.mailing-form input {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  width: 250px;
-  margin-right: 10px;
+/* Other Services */
+.other-services {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
 }
 
-.mailing-form button {
-  padding: 10px 20px;
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.services-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
 }
 
-.mailing-form button:hover {
-  background-color: #c0392b;
+.service-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  width: 300px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.service-card:hover {
+  transform: scale(1.05);
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: #4CAF50;
+}
+
+/* News & Events */
+.news-and-events {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.events-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.event-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  width: 90%;
+  max-width: 700px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.event-card:hover {
+  transform: scale(1.05);
 }
 
 /* Footer */
@@ -338,110 +397,6 @@ body {
   text-decoration: none;
 }
 
-/* Testimonials Section */
-.testimonials {
-  padding: 20px;
-  text-align: center;
-  background-color: #f9f9f9;
-}
-
-.testimonial-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.testimonial-card {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 10px;
-  width: 300px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-}
-
-.testimonial-card:hover {
-  transform: scale(1.05);
-}
-
-.quote {
-  font-style: italic;
-  color: #555;
-}
-
-.author {
-  font-weight: bold;
-  margin-top: 10px;
-  color: #333;
-}
-
-/* Other Services Section */
-.other-services {
-  padding: 20px;
-  text-align: center;
-  background-color: #f9f9f9;
-}
-
-.services-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.service-card {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 10px;
-  width: 300px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-}
-
-.service-card:hover {
-  transform: scale(1.05);
-}
-
-h2 {
-  margin-bottom: 20px;
-}
-
-h3 {
-  color: #4CAF50;
-}
-
-/* News and Events Section */
-.news-and-events {
-  padding: 20px;
-  text-align: center;
-  background-color: #f9f9f9;
-}
-
-.events-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.event-card {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 10px;
-  width: 90%;
-  max-width: 700px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-}
-
-.event-card:hover {
-  transform: scale(1.05);
-}
-
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .name-fields,
@@ -466,141 +421,5 @@ h3 {
   .testimonial-card,
   .service-card {
     width: 90%;
-  }
-
-  .mobile-logo {
-    display: block;
-    width: 120px;
-    height: 60px; /* Force fixed height */
-    object-fit: contain;
-    margin: 0 auto;
-  }
-
-  .desktop-logos {
-    display: none;  /* Hide 4 rotating logos on mobile */
-  }
-
-  .logo-bar {
-    justify-content: center;
-  }
-
-  .rotating-banner-logo {
-    width: 60px !important; /* Shrink to 60px on mobile */
-    height: auto !important;
-    max-height: 40px !important;       /* Adjust max height accordingly */
-  }
-
-  /* Show only single rotating footer logo on mobile */
-  .mobile-logo-bar {
-    display: block; /* Show single rotating footer logo on mobile */
-    text-align: center;
-  }
-
-  /* Hide desktop logo bar on mobile */
-  .desktop-logo-bar {
-    display: none;
-  }
-
-  /* Footer logo rotating on mobile */
-  .footer-logo-rotating {
-    display: block;
-  }
-}
-
-/* Hide rotating logo on desktop, show on mobile */
-.mobile-logo {
-  display: none;
-}
-
-/* Show all logos on desktop */
-.desktop-logos {
-  display: flex;
-}
-
-.header-left,
-.header-right {
-  width: 20%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.header-right {
-  justify-content: flex-end;
-  z-index: 1101; /* Ensure above nav-menu */
-}
-
-.logo-bar {
-  width: 60%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-}
-
-.call-me {
-  color: black;
-  text-decoration: none;
-}
-
-.menu-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #000;
-  cursor: pointer;
-  z-index: 1101; /* Keep above nav menu */
-}
-
-.nav-menu {
-  position: fixed;
-  top: 0;
-  right: -100vw;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(17, 17, 17, 0.8); /* 50% opacity */
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: right 0.3s ease-in-out;
-  z-index: 1000; /* Below menu button */
-  text-align: center;
-}
-
-/* Desktop: show desktop logos, hide mobile logos */
-.desktop-logo-bar {
-  display: flex;
-}
-
-.mobile-logo-bar {
-  display: none;
-}
-
-.mobile-logo {
-  display: none;
-}
-
-/* Mobile: show mobile logos, hide desktop logos */
-@media (max-width: 768px) {
-  .desktop-logo-bar {
-    display: none; /* Hide desktop logos */
-  }
-
-  .mobile-logo-bar {
-    display: flex; /* Show mobile logos container */
-    justify-content: center;
-    align-items: center;
-  }
-
-  .mobile-logo {
-    display: inline-block; /* Show each mobile logo */
-    width: 100px;   /* Adjust size as needed */
-    height: auto;
-    max-height:40px;
-    object-fit: contain;
-    margin: 0 10px;
   }
 }
