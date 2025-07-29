@@ -1,7 +1,7 @@
 // App.js
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import { FaBars, FaTimes, FaPhone } from 'react-icons/fa';
+import { FaBars, FaTimes, FaPhone, FaSearch } from 'react-icons/fa';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
@@ -33,10 +33,12 @@ import car3 from './images/car3.jpg';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
   const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
   const [currentFooterLogoIndex, setCurrentFooterLogoIndex] = useState(0);
   const menuRef = useRef(null);
+  const searchOverlayRef = useRef(null);
 
   const logoBatches = [
     [ferrariLogo, lamborghiniLogo, rollsLogo, bentleyLogo],
@@ -97,6 +99,7 @@ function App() {
     },
   ];
 
+  // Filters & sorting state
   const [searchTerm, setSearchTerm] = useState('');
   const [filterMake, setFilterMake] = useState('');
   const [filterModel, setFilterModel] = useState('');
@@ -107,18 +110,27 @@ function App() {
   const [filterMileageMax, setFilterMileageMax] = useState('');
   const [sortOption, setSortOption] = useState('');
 
+  // Toggle hamburger menu
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+  // Toggle search overlay
+  const toggleSearchOverlay = () => setIsSearchOverlayOpen(prev => !prev);
+
+  // Close menus if clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target) && isMenuOpen) {
         setIsMenuOpen(false);
       }
+      if (searchOverlayRef.current && !searchOverlayRef.current.contains(event.target) && isSearchOverlayOpen) {
+        setIsSearchOverlayOpen(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isMenuOpen]);
+  }, [isMenuOpen, isSearchOverlayOpen]);
 
+  // Cookies acceptance
   const acceptCookies = () => {
     setCookiesAccepted(true);
     localStorage.setItem('cookiesAccepted', 'true');
@@ -134,6 +146,7 @@ function App() {
     if (consent) setCookiesAccepted(consent === 'true');
   }, []);
 
+  // Rotate logo batches in header
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentBatchIndex((prev) => (prev + 1) % logoBatches.length);
@@ -141,6 +154,7 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Rotate footer logos
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentFooterLogoIndex((prevIndex) => (prevIndex + 1) % footerLogos.length);
@@ -148,6 +162,7 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Filter and sort cars based on state
   const filteredCars = carsForSale
     .filter(car =>
       `${car.make} ${car.model} ${car.variant}`.toLowerCase().includes(searchTerm.toLowerCase())
@@ -201,7 +216,17 @@ function App() {
           </div>
 
           <div className="header-right">
-            <button className={`menu-btn ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+            {/* Search button */}
+            <button
+              className="search-btn"
+              onClick={toggleSearchOverlay}
+              aria-label={isSearchOverlayOpen ? 'Close search filters' : 'Open search filters'}
+            >
+              <FaSearch />
+            </button>
+
+            {/* Hamburger menu button */}
+            <button className={`menu-btn ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu} aria-label="Toggle menu">
               {isMenuOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>
@@ -228,6 +253,73 @@ function App() {
           </div>
         </section>
 
+        {/* Search Overlay menu */}
+        {isSearchOverlayOpen && (
+          <div className="search-overlay" ref={searchOverlayRef} role="dialog" aria-modal="true">
+            <button className="close-search-overlay" onClick={toggleSearchOverlay} aria-label="Close search filters">
+              <FaTimes size={24} />
+            </button>
+            <h2>Search & Filter Cars</h2>
+            <input
+              type="text"
+              placeholder="Search make, model, variant"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
+            <select value={filterMake} onChange={e => setFilterMake(e.target.value)}>
+              <option value="">All Makes</option>
+              {[...new Set(carsForSale.map(c => c.make))].map(m => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+            <select value={filterModel} onChange={e => setFilterModel(e.target.value)}>
+              <option value="">All Models</option>
+              {[...new Set(carsForSale.map(c => c.model))].map(m => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+            <select value={filterYear} onChange={e => setFilterYear(e.target.value)}>
+              <option value="">Any Year</option>
+              {[...new Set(carsForSale.map(c => c.year.toString()))].map(y => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+            <select value={filterFuel} onChange={e => setFilterFuel(e.target.value)}>
+              <option value="">All Fuels</option>
+              {[...new Set(carsForSale.map(c => c.fuelType))].map(f => (
+                <option key={f} value={f}>{f}</option>
+              ))}
+            </select>
+            <select value={filterBody} onChange={e => setFilterBody(e.target.value)}>
+              <option value="">All Body Types</option>
+              {[...new Set(carsForSale.map(c => c.bodyType))].map(b => (
+                <option key={b} value={b}>{b}</option>
+              ))}
+            </select>
+            <select value={filterTrans} onChange={e => setFilterTrans(e.target.value)}>
+              <option value="">All Transmission</option>
+              {[...new Set(carsForSale.map(c => c.transmission))].map(t => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
+            <input
+              type="number"
+              placeholder="Max Mileage"
+              value={filterMileageMax}
+              onChange={e => setFilterMileageMax(e.target.value)}
+            />
+            <select value={sortOption} onChange={e => setSortOption(e.target.value)}>
+              <option value="">Sort By</option>
+              <option value="year-desc">Year (Newest)</option>
+              <option value="year-asc">Year (Oldest)</option>
+              <option value="price-asc">Price (Low→High)</option>
+              <option value="price-desc">Price (High→Low)</option>
+              <option value="mileage-asc">Mileage (Low→High)</option>
+              <option value="mileage-desc">Mileage (High→Low)</option>
+            </select>
+          </div>
+        )}
+
         <main>
           <Routes>
             <Route
@@ -236,66 +328,7 @@ function App() {
                 <>
                   <Helmet><title>Home - Car Dealership</title></Helmet>
 
-                  <section className="search-filters">
-                    <h2>Search & Filter Cars</h2>
-                    <input
-                      type="text"
-                      placeholder="Search make, model, variant"
-                      value={searchTerm}
-                      onChange={e => setSearchTerm(e.target.value)}
-                    />
-                    <select value={filterMake} onChange={e => setFilterMake(e.target.value)}>
-                      <option value="">All Makes</option>
-                      {[...new Set(carsForSale.map(c => c.make))].map(m => (
-                        <option key={m} value={m}>{m}</option>
-                      ))}
-                    </select>
-                    <select value={filterModel} onChange={e => setFilterModel(e.target.value)}>
-                      <option value="">All Models</option>
-                      {[...new Set(carsForSale.map(c => c.model))].map(m => (
-                        <option key={m} value={m}>{m}</option>
-                      ))}
-                    </select>
-                    <select value={filterYear} onChange={e => setFilterYear(e.target.value)}>
-                      <option value="">Any Year</option>
-                      {[...new Set(carsForSale.map(c => c.year.toString()))].map(y => (
-                        <option key={y} value={y}>{y}</option>
-                      ))}
-                    </select>
-                    <select value={filterFuel} onChange={e => setFilterFuel(e.target.value)}>
-                      <option value="">All Fuels</option>
-                      {[...new Set(carsForSale.map(c => c.fuelType))].map(f => (
-                        <option key={f} value={f}>{f}</option>
-                      ))}
-                    </select>
-                    <select value={filterBody} onChange={e => setFilterBody(e.target.value)}>
-                      <option value="">All Body Types</option>
-                      {[...new Set(carsForSale.map(c => c.bodyType))].map(b => (
-                        <option key={b} value={b}>{b}</option>
-                      ))}
-                    </select>
-                    <select value={filterTrans} onChange={e => setFilterTrans(e.target.value)}>
-                      <option value="">All Transmission</option>
-                      {[...new Set(carsForSale.map(c => c.transmission))].map(t => (
-                        <option key={t} value={t}>{t}</option>
-                      ))}
-                    </select>
-                    <input
-                      type="number"
-                      placeholder="Max Mileage"
-                      value={filterMileageMax}
-                      onChange={e => setFilterMileageMax(e.target.value)}
-                    />
-                    <select value={sortOption} onChange={e => setSortOption(e.target.value)}>
-                      <option value="">Sort By</option>
-                      <option value="year-desc">Year (Newest)</option>
-                      <option value="year-asc">Year (Oldest)</option>
-                      <option value="price-asc">Price (Low→High)</option>
-                      <option value="price-desc">Price (High→Low)</option>
-                      <option value="mileage-asc">Mileage (Low→High)</option>
-                      <option value="mileage-desc">Mileage (High→Low)</option>
-                    </select>
-                  </section>
+                  {/* Remove original search filters section here because it's now in overlay */}
 
                   <section className="about-us">
                     <div className="about-content">
@@ -311,95 +344,55 @@ function App() {
                     </div>
                   </section>
 
-                  <section className="latest-arrivals">
-                    <h2>Latest Arrivals</h2>
-                    <div className="car-listings">
-                      {filteredCars.map(car => (
-                        <div key={car.id} className="car-card">
-                          <Link to={`/car/${car.id}`}>
+                  <section className="cars-for-sale">
+                    <h2>Cars For Sale</h2>
+                    {filteredCars.length === 0 ? (
+                      <p>No cars match your criteria.</p>
+                    ) : (
+                      <div className="car-list">
+                        {filteredCars.map(car => (
+                          <div key={car.id} className="car-card">
                             <img src={car.img} alt={`${car.make} ${car.model}`} />
-                            <div className="car-details">
-                              <h3>{car.year} {car.make} {car.model}</h3>
-                              <p>Price: ${car.price.toLocaleString()}</p>
-                              <p>Mileage: {car.mileage.toLocaleString()} mi</p>
-                            </div>
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
+                            <h3>{car.make} {car.model}</h3>
+                            <p>{car.variant} - {car.year}</p>
+                            <p>Price: ${car.price.toLocaleString()}</p>
+                            <p>Mileage: {car.mileage.toLocaleString()} km</p>
+                            <p>Transmission: {car.transmission}</p>
+                            <p>Fuel: {car.fuelType}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </section>
                 </>
               }
             />
-            <Route path="/about" element={<><Helmet><title>About Us</title></Helmet><h2>About Us Page</h2></>} />
-            <Route path="/contact" element={<><Helmet><title>Contact Us</title></Helmet><ContactUs /></>} />
             <Route path="/sell" element={<Sellyourcar />} />
-            <Route path="/news" element={<NewsAndEvents />} />
-            <Route path="/services" element={<OtherServices />} />
+            <Route path="/inventory" element={<Inventory />} />
             <Route path="/testimonials" element={<Testimonials />} />
-            <Route
-              path="/inventory"
-              element={
-                <>
-                  <Helmet><title>Inventory</title></Helmet>
-                  <h2>Inventory</h2>
-                  <div className="car-listings">
-                    {carsForSale.map(car => (
-                      <div key={car.id} className="car-card">
-                        <Link to={`/car/${car.id}`}>
-                          <img src={car.img} alt={`${car.make} ${car.model}`} />
-                          <div className="car-details">
-                            <h3>{car.year} {car.make} {car.model}</h3>
-                            <p>Price: ${car.price.toLocaleString()}</p>
-                          </div>
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                </>
-              }
-            />
-            <Route path="/car/:carId" element={<CarDetail />} />
+            <Route path="/services" element={<OtherServices />} />
+            <Route path="/news" element={<NewsAndEvents />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/cardetail/:id" element={<CarDetail />} />
+            {/* Add other routes as needed */}
           </Routes>
         </main>
 
-        <footer className="footer">
-          <div className="footer-content">
-            <div className="footer-logo footer-logo-rotating">
-              <img
-                src={footerLogos[currentFooterLogoIndex]}
-                alt={`Footer Logo ${currentFooterLogoIndex}`}
-                className="footer-logo-img"
-              />
-            </div>
-
-            <div className="footer-details">
-              <p>Nabils Surrey Supercar Website</p>
-              <p>Surrey, England, UK</p>
-              <p>0777777777</p>
-              <p>
-                NabilsSurreySUppercars are authorised and regulated by the Financial Conduct Authority
-                (“FCA”) under Firm Reference Number (FRN) 660610. We are a credit broker, not a lender...
-              </p>
-              <p>We can introduce you to a limited number of lenders and their finance products...</p>
-            </div>
-
-            <div className="footer-links">
-              <Link to="/inventory">Current Stock</Link>
-              <Link to="/sell">Sell Your Car</Link>
-              <Link to="/sold">Previously Sold</Link>
-              <Link to="/contact">Contact Us</Link>
-              <Link to="/luxury-cars">Luxury Cars</Link>
-              <p>&copy; 2025 All Rights Reserved</p>
-              <div className="footer-legal">
-                <Link to="/sitemap">Sitemap</Link> |{' '}
-                <Link to="/cookie-policy">Cookie Policy</Link> |{' '}
-                <Link to="/privacy-policy">Privacy Policy</Link> |{' '}
-                <Link to="/complaints-procedure">Complaints Procedure</Link> |{' '}
-                <Link to="/modern-slavery">Modern Slavery Statement</Link>
-              </div>
-            </div>
+        {!cookiesAccepted && (
+          <div className="cookie-consent">
+            <p>We use cookies to improve your experience. Accept cookies?</p>
+            <button onClick={acceptCookies}>Accept</button>
+            <button onClick={declineCookies}>Decline</button>
           </div>
+        )}
+
+        <footer>
+          <div className="footer-logos">
+            {footerLogos.map((logo, idx) => (
+              <img key={idx} src={logo} alt="Brand logo" className="footer-logo" />
+            ))}
+          </div>
+          <p>© 2025 Car Dealership. All rights reserved.</p>
         </footer>
       </div>
     </Router>
