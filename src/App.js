@@ -38,21 +38,6 @@ function App() {
   const [currentFooterLogoIndex, setCurrentFooterLogoIndex] = useState(0);
   const menuRef = useRef(null);
 
-  // Search/filter/sort UI state
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterMake, setFilterMake] = useState('');
-  const [filterModel, setFilterModel] = useState('');
-  const [filterYear, setFilterYear] = useState('');
-  const [filterFuel, setFilterFuel] = useState('');
-  const [filterBody, setFilterBody] = useState('');
-  const [filterTrans, setFilterTrans] = useState('');
-  const [filterMileageMax, setFilterMileageMax] = useState('');
-  const [sortOption, setSortOption] = useState('');
-
-  // Toggles for filter and sort dropdowns
-  const [showFilters, setShowFilters] = useState(false);
-  const [showSortOptions, setShowSortOptions] = useState(false);
-
   const logoBatches = [
     [ferrariLogo, lamborghiniLogo, rollsLogo, bentleyLogo],
     [astonLogo, paganiLogo, bugattiLogo, mercedesLogo],
@@ -111,6 +96,16 @@ function App() {
       img: car3,
     },
   ];
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterMake, setFilterMake] = useState('');
+  const [filterModel, setFilterModel] = useState('');
+  const [filterYear, setFilterYear] = useState('');
+  const [filterFuel, setFilterFuel] = useState('');
+  const [filterBody, setFilterBody] = useState('');
+  const [filterTrans, setFilterTrans] = useState('');
+  const [filterMileageMax, setFilterMileageMax] = useState('');
+  const [sortOption, setSortOption] = useState('');
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -175,17 +170,6 @@ function App() {
         default: return 0;
       }
     });
-
-  // Handlers for toggling filter and sort panels
-  const handleFilterToggle = () => {
-    setShowFilters(!showFilters);
-    if (showSortOptions) setShowSortOptions(false);
-  };
-
-  const handleSortToggle = () => {
-    setShowSortOptions(!showSortOptions);
-    if (showFilters) setShowFilters(false);
-  };
 
   return (
     <Router>
@@ -252,96 +236,65 @@ function App() {
                 <>
                   <Helmet><title>Home - Car Dealership</title></Helmet>
 
-                  {/* Centered modern search section */}
-                  <section className="search-center-section">
-                    <div className="search-row">
-                      <input
-                        type="text"
-                        className="search-input"
-                        placeholder="Search your dream car"
-                        value={searchTerm}
-                        onChange={e => setSearchTerm(e.target.value)}
-                      />
-                      <button
-                        className={`btn btn-filter ${showFilters ? 'active' : ''}`}
-                        onClick={handleFilterToggle}
-                        aria-expanded={showFilters}
-                        aria-controls="filter-options"
-                      >
-                        Filter
-                      </button>
-                      <button
-                        className={`btn btn-sort ${showSortOptions ? 'active' : ''}`}
-                        onClick={handleSortToggle}
-                        aria-expanded={showSortOptions}
-                        aria-controls="sort-options"
-                      >
-                        Sort By
-                      </button>
-                    </div>
-
-                    {/* Filter panel */}
-                    {showFilters && (
-                      <div id="filter-options" className="filter-options">
-                        <select value={filterMake} onChange={e => setFilterMake(e.target.value)}>
-                          <option value="">All Makes</option>
-                          {[...new Set(carsForSale.map(c => c.make))].map(m => (
-                            <option key={m} value={m}>{m}</option>
-                          ))}
-                        </select>
-                        <select value={filterModel} onChange={e => setFilterModel(e.target.value)}>
-                          <option value="">All Models</option>
-                          {[...new Set(carsForSale.map(c => c.model))].map(m => (
-                            <option key={m} value={m}>{m}</option>
-                          ))}
-                        </select>
-                        <select value={filterYear} onChange={e => setFilterYear(e.target.value)}>
-                          <option value="">Any Year</option>
-                          {[...new Set(carsForSale.map(c => c.year.toString()))].map(y => (
-                            <option key={y} value={y}>{y}</option>
-                          ))}
-                        </select>
-                        <select value={filterFuel} onChange={e => setFilterFuel(e.target.value)}>
-                          <option value="">All Fuels</option>
-                          {[...new Set(carsForSale.map(c => c.fuelType))].map(f => (
-                            <option key={f} value={f}>{f}</option>
-                          ))}
-                        </select>
-                        <select value={filterBody} onChange={e => setFilterBody(e.target.value)}>
-                          <option value="">All Body Types</option>
-                          {[...new Set(carsForSale.map(c => c.bodyType))].map(b => (
-                            <option key={b} value={b}>{b}</option>
-                          ))}
-                        </select>
-                        <select value={filterTrans} onChange={e => setFilterTrans(e.target.value)}>
-                          <option value="">All Transmission</option>
-                          {[...new Set(carsForSale.map(c => c.transmission))].map(t => (
-                            <option key={t} value={t}>{t}</option>
-                          ))}
-                        </select>
-                        <input
-                          type="number"
-                          placeholder="Max Mileage"
-                          value={filterMileageMax}
-                          onChange={e => setFilterMileageMax(e.target.value)}
-                        />
-                      </div>
-                    )}
-
-                    {/* Sort options panel */}
-                    {showSortOptions && (
-                      <div id="sort-options" className="sort-options">
-                        <select value={sortOption} onChange={e => setSortOption(e.target.value)}>
-                          <option value="">Sort By</option>
-                          <option value="year-desc">Year (Newest)</option>
-                          <option value="year-asc">Year (Oldest)</option>
-                          <option value="price-asc">Price (Low→High)</option>
-                          <option value="price-desc">Price (High→Low)</option>
-                          <option value="mileage-asc">Mileage (Low→High)</option>
-                          <option value="mileage-desc">Mileage (High→Low)</option>
-                        </select>
-                      </div>
-                    )}
+                  <section className="search-filters">
+                    <h2>Search & Filter Cars</h2>
+                    <input
+                      type="text"
+                      placeholder="Search make, model, variant"
+                      value={searchTerm}
+                      onChange={e => setSearchTerm(e.target.value)}
+                    />
+                    <select value={filterMake} onChange={e => setFilterMake(e.target.value)}>
+                      <option value="">All Makes</option>
+                      {[...new Set(carsForSale.map(c => c.make))].map(m => (
+                        <option key={m} value={m}>{m}</option>
+                      ))}
+                    </select>
+                    <select value={filterModel} onChange={e => setFilterModel(e.target.value)}>
+                      <option value="">All Models</option>
+                      {[...new Set(carsForSale.map(c => c.model))].map(m => (
+                        <option key={m} value={m}>{m}</option>
+                      ))}
+                    </select>
+                    <select value={filterYear} onChange={e => setFilterYear(e.target.value)}>
+                      <option value="">Any Year</option>
+                      {[...new Set(carsForSale.map(c => c.year.toString()))].map(y => (
+                        <option key={y} value={y}>{y}</option>
+                      ))}
+                    </select>
+                    <select value={filterFuel} onChange={e => setFilterFuel(e.target.value)}>
+                      <option value="">All Fuels</option>
+                      {[...new Set(carsForSale.map(c => c.fuelType))].map(f => (
+                        <option key={f} value={f}>{f}</option>
+                      ))}
+                    </select>
+                    <select value={filterBody} onChange={e => setFilterBody(e.target.value)}>
+                      <option value="">All Body Types</option>
+                      {[...new Set(carsForSale.map(c => c.bodyType))].map(b => (
+                        <option key={b} value={b}>{b}</option>
+                      ))}
+                    </select>
+                    <select value={filterTrans} onChange={e => setFilterTrans(e.target.value)}>
+                      <option value="">All Transmission</option>
+                      {[...new Set(carsForSale.map(c => c.transmission))].map(t => (
+                        <option key={t} value={t}>{t}</option>
+                      ))}
+                    </select>
+                    <input
+                      type="number"
+                      placeholder="Max Mileage"
+                      value={filterMileageMax}
+                      onChange={e => setFilterMileageMax(e.target.value)}
+                    />
+                    <select value={sortOption} onChange={e => setSortOption(e.target.value)}>
+                      <option value="">Sort By</option>
+                      <option value="year-desc">Year (Newest)</option>
+                      <option value="year-asc">Year (Oldest)</option>
+                      <option value="price-asc">Price (Low→High)</option>
+                      <option value="price-desc">Price (High→Low)</option>
+                      <option value="mileage-asc">Mileage (Low→High)</option>
+                      <option value="mileage-desc">Mileage (High→Low)</option>
+                    </select>
                   </section>
 
                   <section className="about-us">
@@ -380,26 +333,74 @@ function App() {
             />
             <Route path="/about" element={<><Helmet><title>About Us</title></Helmet><h2>About Us Page</h2></>} />
             <Route path="/contact" element={<><Helmet><title>Contact Us</title></Helmet><ContactUs /></>} />
-            <Route path="/inventory" element={<><Helmet><title>Inventory</title></Helmet><Inventory /></>} />
-            <Route path="/sell" element={<><Helmet><title>Sell Your Car</title></Helmet><Sellyourcar /></>} />
-            <Route path="/news" element={<><Helmet><title>News and Events</title></Helmet><NewsAndEvents /></>} />
-            <Route path="/services" element={<><Helmet><title>Other Services</title></Helmet><OtherServices /></>} />
-            <Route path="/testimonials" element={<><Helmet><title>Testimonials</title></Helmet><Testimonials /></>} />
-            <Route path="/car/:id" element={<CarDetail cars={carsForSale} />} />
+            <Route path="/sell" element={<Sellyourcar />} />
+            <Route path="/news" element={<NewsAndEvents />} />
+            <Route path="/services" element={<OtherServices />} />
+            <Route path="/testimonials" element={<Testimonials />} />
+            <Route
+              path="/inventory"
+              element={
+                <>
+                  <Helmet><title>Inventory</title></Helmet>
+                  <h2>Inventory</h2>
+                  <div className="car-listings">
+                    {carsForSale.map(car => (
+                      <div key={car.id} className="car-card">
+                        <Link to={`/car/${car.id}`}>
+                          <img src={car.img} alt={`${car.make} ${car.model}`} />
+                          <div className="car-details">
+                            <h3>{car.year} {car.make} {car.model}</h3>
+                            <p>Price: ${car.price.toLocaleString()}</p>
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              }
+            />
+            <Route path="/car/:carId" element={<CarDetail />} />
           </Routes>
         </main>
 
         <footer className="footer">
-          <p>&copy; 2025 Car Dealership</p>
-        </footer>
+          <div className="footer-content">
+            <div className="footer-logo footer-logo-rotating">
+              <img
+                src={footerLogos[currentFooterLogoIndex]}
+                alt={`Footer Logo ${currentFooterLogoIndex}`}
+                className="footer-logo-img"
+              />
+            </div>
 
-        {!cookiesAccepted && (
-          <div className="cookie-banner">
-            <p>We use cookies to improve your experience. Accept?</p>
-            <button onClick={acceptCookies}>Accept</button>
-            <button onClick={declineCookies}>Decline</button>
+            <div className="footer-details">
+              <p>Nabils Surrey Supercar Website</p>
+              <p>Surrey, England, UK</p>
+              <p>0777777777</p>
+              <p>
+                NabilsSurreySUppercars are authorised and regulated by the Financial Conduct Authority
+                (“FCA”) under Firm Reference Number (FRN) 660610. We are a credit broker, not a lender...
+              </p>
+              <p>We can introduce you to a limited number of lenders and their finance products...</p>
+            </div>
+
+            <div className="footer-links">
+              <Link to="/inventory">Current Stock</Link>
+              <Link to="/sell">Sell Your Car</Link>
+              <Link to="/sold">Previously Sold</Link>
+              <Link to="/contact">Contact Us</Link>
+              <Link to="/luxury-cars">Luxury Cars</Link>
+              <p>&copy; 2025 All Rights Reserved</p>
+              <div className="footer-legal">
+                <Link to="/sitemap">Sitemap</Link> |{' '}
+                <Link to="/cookie-policy">Cookie Policy</Link> |{' '}
+                <Link to="/privacy-policy">Privacy Policy</Link> |{' '}
+                <Link to="/complaints-procedure">Complaints Procedure</Link> |{' '}
+                <Link to="/modern-slavery">Modern Slavery Statement</Link>
+              </div>
+            </div>
           </div>
-        )}
+        </footer>
       </div>
     </Router>
   );
