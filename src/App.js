@@ -1,8 +1,8 @@
 // App.js
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import { FaBars, FaTimes, FaPhone, FaSearch } from 'react-icons/fa';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { FaBars, FaTimes, FaPhone } from 'react-icons/fa';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import Sellyourcar from './Sellyourcar';
@@ -14,16 +14,9 @@ import ContactUs from './ContactUs';
 import CarDetail from './CarDetail';
 
 import aboutImage from './images/car1.jpg';
+import bannerImage from './images/carwallpaper.webp';
 
-import carwallpaper1 from './images/carwallpaper1.jpeg';
-import carwallpaper2 from './images/carwallpaper2.jpeg';
-import carwallpaper3 from './images/carwallpaper3.jpeg';
-import carwallpaper4 from './images/carwallpaper4.jpeg';
-import carwallpaper5 from './images/carwallpaper5.jpeg';
-import carwallpaper6 from './images/carwallpaper6.jpeg';
-import carwallpaper7 from './images/carwallpaper7.jpeg';
-import carwallpaper8 from './images/carwallpaper8.jpeg';
-
+// Logos
 import paganiLogo from './images/pagani.png';
 import mercedesLogo from './images/mercedes.png';
 import bugattiLogo from './images/bugatti.png';
@@ -38,33 +31,12 @@ import car1 from './images/car1.jpg';
 import car2 from './images/car2.jpg';
 import car3 from './images/car3.jpg';
 
-function AppWrapper() {
-  const location = useLocation();
-
-  const getBannerImage = () => {
-    switch (location.pathname) {
-      case '/about': return carwallpaper2;
-      case '/inventory': return carwallpaper3;
-      case '/contact': return carwallpaper4;
-      case '/sell': return carwallpaper5;
-      case '/news': return carwallpaper6;
-      case '/services': return carwallpaper7;
-      case '/testimonials': return carwallpaper8;
-      default: return carwallpaper1; // Home
-    }
-  };
-
-  return <App bannerImage={getBannerImage()} />;
-}
-
-function App({ bannerImage }) {
+function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
   const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
   const [currentFooterLogoIndex, setCurrentFooterLogoIndex] = useState(0);
   const menuRef = useRef(null);
-  const searchOverlayRef = useRef(null);
 
   const logoBatches = [
     [ferrariLogo, lamborghiniLogo, rollsLogo, bentleyLogo],
@@ -136,20 +108,26 @@ function App({ bannerImage }) {
   const [sortOption, setSortOption] = useState('');
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const toggleSearchOverlay = () => setIsSearchOverlayOpen(prev => !prev);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target) && isMenuOpen) {
         setIsMenuOpen(false);
       }
-      if (searchOverlayRef.current && !searchOverlayRef.current.contains(event.target) && isSearchOverlayOpen) {
-        setIsSearchOverlayOpen(false);
-      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isMenuOpen, isSearchOverlayOpen]);
+  }, [isMenuOpen]);
+
+  const acceptCookies = () => {
+    setCookiesAccepted(true);
+    localStorage.setItem('cookiesAccepted', 'true');
+  };
+
+  const declineCookies = () => {
+    setCookiesAccepted(true);
+    localStorage.setItem('cookiesAccepted', 'false');
+  };
 
   useEffect(() => {
     const consent = localStorage.getItem('cookiesAccepted');
@@ -169,16 +147,6 @@ function App({ bannerImage }) {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-
-  const acceptCookies = () => {
-    setCookiesAccepted(true);
-    localStorage.setItem('cookiesAccepted', 'true');
-  };
-
-  const declineCookies = () => {
-    setCookiesAccepted(true);
-    localStorage.setItem('cookiesAccepted', 'false');
-  };
 
   const filteredCars = carsForSale
     .filter(car =>
@@ -204,152 +172,238 @@ function App({ bannerImage }) {
     });
 
   return (
-    <div className="app">
-      <Helmet>
-        <title>Car Dealership</title>
-        <link rel="icon" href={ferrariLogo} type="image/png" />
-      </Helmet>
+    <Router>
+      <div className="app">
+        <Helmet>
+          <title>Car Dealership</title>
+          <link rel="icon" href={ferrariLogo} type="image/png" />
+        </Helmet>
 
-      <header className="header" style={{ position: 'relative' }}>
-        <div className="header-left">
-          <a href="tel:1234567890" className="call-me">
-            <FaPhone size={20} />
-          </a>
-        </div>
+        <header className="header" style={{ position: 'relative' }}>
+          <div className="header-left">
+            <a href="tel:1234567890" className="call-me" style={{ color: '#000', textDecoration: 'none' }}>
+              <FaPhone size={20} />
+            </a>
+          </div>
 
-        <div className="logo-bar desktop-logo-bar">
-          {logoBatches[currentBatchIndex].map((logo, idx) => (
-            <img key={idx} src={logo} alt="Brand logo" className="desktop-logo" />
-          ))}
-        </div>
+          <div className="logo-bar desktop-logo-bar">
+            {logoBatches[currentBatchIndex].map((logo, idx) => (
+              <img key={idx} src={logo} alt={`Logo batch ${currentBatchIndex} - ${idx}`} className="desktop-logo" />
+            ))}
+          </div>
 
-        <div className="logo-bar mobile-logo-bar">
-          <img
-            src={footerLogos[currentFooterLogoIndex]}
-            alt="Brand logo"
-            className="mobile-logo"
-          />
-        </div>
+          <div className="logo-bar mobile-logo-bar">
+            <img
+              src={footerLogos[currentFooterLogoIndex]}
+              alt={`Rotating footer logo mobile ${currentFooterLogoIndex}`}
+              className="mobile-logo"
+            />
+          </div>
 
-        <div className="header-right">
-          <button className="search-btn" onClick={toggleSearchOverlay}>
-            <FaSearch />
-          </button>
-          <button className="menu-btn" onClick={toggleMenu}>
-            {isMenuOpen ? <FaTimes /> : <FaBars />}
-          </button>
-        </div>
+          <div className="header-right">
+            <button className={`menu-btn ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+              {isMenuOpen ? <FaTimes /> : <FaBars />}
+            </button>
+          </div>
 
-        <nav ref={menuRef} className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          <ul>
-            <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
-            <li><Link to="/inventory" onClick={toggleMenu}>Inventory</Link></li>
-            <li><Link to="/about" onClick={toggleMenu}>About Us</Link></li>
-            <li><Link to="/contact" onClick={toggleMenu}>Contact Us</Link></li>
-            <li><Link to="/sell" onClick={toggleMenu}>Sell Your Car</Link></li>
-            <li><Link to="/news" onClick={toggleMenu}>News and Events</Link></li>
-            <li><Link to="/services" onClick={toggleMenu}>Other Services</Link></li>
-            <li><Link to="/testimonials" onClick={toggleMenu}>Testimonials</Link></li>
-          </ul>
-        </nav>
-      </header>
+          <nav ref={menuRef} className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
+            <ul>
+              <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
+              <li><Link to="/inventory" onClick={toggleMenu}>Inventory</Link></li>
+              <li><Link to="/about" onClick={toggleMenu}>About Us</Link></li>
+              <li><Link to="/contact" onClick={toggleMenu}>Contact Us</Link></li>
+              <li><Link to="/sell" onClick={toggleMenu}>Sell Your Car</Link></li>
+              <li><Link to="/news" onClick={toggleMenu}>News and Events</Link></li>
+              <li><Link to="/services" onClick={toggleMenu}>Other Services</Link></li>
+              <li><Link to="/testimonials" onClick={toggleMenu}>Testimonials</Link></li>
+            </ul>
+          </nav>
+        </header>
 
-      {/* Shared Banner Section */}
-      <section className="banner">
-        <img src={bannerImage} alt="Banner" className="banner-image" />
-        <div className="banner-text">
-          <h1>Welcome to Our Car Dealership</h1>
-          <p>Discover our exclusive range of luxury cars.</p>
-        </div>
-      </section>
+        <section className="banner">
+          <img src={bannerImage} alt="Banner" className="banner-image" />
+          <div className="banner-text">
+            <h1>Welcome to Our Car Dealership</h1>
+            <p>Discover our exclusive range of luxury cars.</p>
+          </div>
+        </section>
 
-      {/* Search Overlay */}
-      {isSearchOverlayOpen && (
-        <div className="search-overlay" ref={searchOverlayRef}>
-          <button className="close-search-overlay" onClick={toggleSearchOverlay}>
-            <FaTimes size={24} />
-          </button>
-          <h2>Search & Filter Cars</h2>
-          {/* Filter inputs here... same as before */}
-        </div>
-      )}
+        <main>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Helmet><title>Home - Car Dealership</title></Helmet>
 
-      <main>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Helmet><title>Home - Car Dealership</title></Helmet>
+                  <section className="search-filters">
+                    <h2>Search & Filter Cars</h2>
+                    <input
+                      type="text"
+                      placeholder="Search make, model, variant"
+                      value={searchTerm}
+                      onChange={e => setSearchTerm(e.target.value)}
+                    />
+                    <select value={filterMake} onChange={e => setFilterMake(e.target.value)}>
+                      <option value="">All Makes</option>
+                      {[...new Set(carsForSale.map(c => c.make))].map(m => (
+                        <option key={m} value={m}>{m}</option>
+                      ))}
+                    </select>
+                    <select value={filterModel} onChange={e => setFilterModel(e.target.value)}>
+                      <option value="">All Models</option>
+                      {[...new Set(carsForSale.map(c => c.model))].map(m => (
+                        <option key={m} value={m}>{m}</option>
+                      ))}
+                    </select>
+                    <select value={filterYear} onChange={e => setFilterYear(e.target.value)}>
+                      <option value="">Any Year</option>
+                      {[...new Set(carsForSale.map(c => c.year.toString()))].map(y => (
+                        <option key={y} value={y}>{y}</option>
+                      ))}
+                    </select>
+                    <select value={filterFuel} onChange={e => setFilterFuel(e.target.value)}>
+                      <option value="">All Fuels</option>
+                      {[...new Set(carsForSale.map(c => c.fuelType))].map(f => (
+                        <option key={f} value={f}>{f}</option>
+                      ))}
+                    </select>
+                    <select value={filterBody} onChange={e => setFilterBody(e.target.value)}>
+                      <option value="">All Body Types</option>
+                      {[...new Set(carsForSale.map(c => c.bodyType))].map(b => (
+                        <option key={b} value={b}>{b}</option>
+                      ))}
+                    </select>
+                    <select value={filterTrans} onChange={e => setFilterTrans(e.target.value)}>
+                      <option value="">All Transmission</option>
+                      {[...new Set(carsForSale.map(c => c.transmission))].map(t => (
+                        <option key={t} value={t}>{t}</option>
+                      ))}
+                    </select>
+                    <input
+                      type="number"
+                      placeholder="Max Mileage"
+                      value={filterMileageMax}
+                      onChange={e => setFilterMileageMax(e.target.value)}
+                    />
+                    <select value={sortOption} onChange={e => setSortOption(e.target.value)}>
+                      <option value="">Sort By</option>
+                      <option value="year-desc">Year (Newest)</option>
+                      <option value="year-asc">Year (Oldest)</option>
+                      <option value="price-asc">Price (Low→High)</option>
+                      <option value="price-desc">Price (High→Low)</option>
+                      <option value="mileage-asc">Mileage (Low→High)</option>
+                      <option value="mileage-desc">Mileage (High→Low)</option>
+                    </select>
+                  </section>
 
-                <section className="about-us">
-                  <div className="about-content">
-                    <img src={aboutImage} alt="About Us" className="about-image" />
-                    <div className="about-text">
-                      <h2>About Us</h2>
-                      <p>Welcome to our car dealership. We offer the best selection of luxury cars.</p>
+                  <section className="about-us">
+                    <div className="about-content">
+                      <img src={aboutImage} alt="About Us" className="about-image" />
+                      <div className="about-text">
+                        <h2>About Us</h2>
+                        <p>
+                          Welcome to our car dealership. We offer the best selection
+                          of luxury cars. Our team is dedicated to providing you with
+                          excellent service.
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </section>
+                  </section>
 
-                <section className="cars-for-sale">
-                  <h2>Cars For Sale</h2>
-                  {filteredCars.length === 0 ? (
-                    <p>No cars match your criteria.</p>
-                  ) : (
-                    <div className="car-list">
+                  <section className="latest-arrivals">
+                    <h2>Latest Arrivals</h2>
+                    <div className="car-listings">
                       {filteredCars.map(car => (
                         <div key={car.id} className="car-card">
-                          <img src={car.img} alt={`${car.make} ${car.model}`} />
-                          <h3>{car.make} {car.model}</h3>
-                          <p>{car.variant} - {car.year}</p>
-                          <p>Price: ${car.price.toLocaleString()}</p>
-                          <p>Mileage: {car.mileage.toLocaleString()} km</p>
-                          <p>Transmission: {car.transmission}</p>
-                          <p>Fuel: {car.fuelType}</p>
+                          <Link to={`/car/${car.id}`}>
+                            <img src={car.img} alt={`${car.make} ${car.model}`} />
+                            <div className="car-details">
+                              <h3>{car.year} {car.make} {car.model}</h3>
+                              <p>Price: ${car.price.toLocaleString()}</p>
+                              <p>Mileage: {car.mileage.toLocaleString()} mi</p>
+                            </div>
+                          </Link>
                         </div>
                       ))}
                     </div>
-                  )}
-                </section>
-              </>
-            }
-          />
-          <Route path="/sell" element={<Sellyourcar />} />
-          <Route path="/inventory" element={<Inventory />} />
-          <Route path="/testimonials" element={<Testimonials />} />
-          <Route path="/services" element={<OtherServices />} />
-          <Route path="/news" element={<NewsAndEvents />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/cardetail/:id" element={<CarDetail />} />
-        </Routes>
-      </main>
+                  </section>
+                </>
+              }
+            />
+            <Route path="/about" element={<><Helmet><title>About Us</title></Helmet><h2>About Us Page</h2></>} />
+            <Route path="/contact" element={<><Helmet><title>Contact Us</title></Helmet><ContactUs /></>} />
+            <Route path="/sell" element={<Sellyourcar />} />
+            <Route path="/news" element={<NewsAndEvents />} />
+            <Route path="/services" element={<OtherServices />} />
+            <Route path="/testimonials" element={<Testimonials />} />
+            <Route
+              path="/inventory"
+              element={
+                <>
+                  <Helmet><title>Inventory</title></Helmet>
+                  <h2>Inventory</h2>
+                  <div className="car-listings">
+                    {carsForSale.map(car => (
+                      <div key={car.id} className="car-card">
+                        <Link to={`/car/${car.id}`}>
+                          <img src={car.img} alt={`${car.make} ${car.model}`} />
+                          <div className="car-details">
+                            <h3>{car.year} {car.make} {car.model}</h3>
+                            <p>Price: ${car.price.toLocaleString()}</p>
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              }
+            />
+            <Route path="/car/:carId" element={<CarDetail />} />
+          </Routes>
+        </main>
 
-      {!cookiesAccepted && (
-        <div className="cookie-consent">
-          <p>We use cookies to improve your experience. Accept cookies?</p>
-          <button onClick={acceptCookies}>Accept</button>
-          <button onClick={declineCookies}>Decline</button>
-        </div>
-      )}
+        <footer className="footer">
+          <div className="footer-content">
+            <div className="footer-logo footer-logo-rotating">
+              <img
+                src={footerLogos[currentFooterLogoIndex]}
+                alt={`Footer Logo ${currentFooterLogoIndex}`}
+                className="footer-logo-img"
+              />
+            </div>
 
-      <footer>
-        <div className="footer-logos">
-          {footerLogos.map((logo, idx) => (
-            <img key={idx} src={logo} alt="Brand logo" className="footer-logo" />
-          ))}
-        </div>
-        <p>© 2025 Car Dealership. All rights reserved.</p>
-      </footer>
-    </div>
-  );
-}
+            <div className="footer-details">
+              <p>Nabils Surrey Supercar Website</p>
+              <p>Surrey, England, UK</p>
+              <p>0777777777</p>
+              <p>
+                NabilsSurreySUppercars are authorised and regulated by the Financial Conduct Authority
+                (“FCA”) under Firm Reference Number (FRN) 660610. We are a credit broker, not a lender...
+              </p>
+              <p>We can introduce you to a limited number of lenders and their finance products...</p>
+            </div>
 
-// Wrap App with Router and AppWrapper
-export default function WrappedApp() {
-  return (
-    <Router>
-      <AppWrapper />
+            <div className="footer-links">
+              <Link to="/inventory">Current Stock</Link>
+              <Link to="/sell">Sell Your Car</Link>
+              <Link to="/sold">Previously Sold</Link>
+              <Link to="/contact">Contact Us</Link>
+              <Link to="/luxury-cars">Luxury Cars</Link>
+              <p>&copy; 2025 All Rights Reserved</p>
+              <div className="footer-legal">
+                <Link to="/sitemap">Sitemap</Link> |{' '}
+                <Link to="/cookie-policy">Cookie Policy</Link> |{' '}
+                <Link to="/privacy-policy">Privacy Policy</Link> |{' '}
+                <Link to="/complaints-procedure">Complaints Procedure</Link> |{' '}
+                <Link to="/modern-slavery">Modern Slavery Statement</Link>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </Router>
   );
 }
+
+export default App;
