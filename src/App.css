@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-/* Prevent horizontal scroll */
 body {
   overflow-x: hidden;
   font-family: 'Montserrat', sans-serif;
@@ -41,7 +40,7 @@ body {
   }
 }
 
-/* Mobile logo */
+/* Mobile logo bar */
 .mobile-logo-bar {
   display: none;
 }
@@ -66,6 +65,49 @@ body {
     object-fit: contain;
     margin: 0 10px;
   }
+}
+
+/* Search Container */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  padding: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.search-input {
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  width: 250px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: border 0.3s;
+}
+
+.search-input:focus {
+  border-color: #666;
+  outline: none;
+}
+
+.filter-dropdown {
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: white;
+  cursor: pointer;
+  width: 180px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: border 0.3s;
+}
+
+.filter-dropdown:focus {
+  border-color: #666;
+  outline: none;
 }
 
 /* Banner */
@@ -141,7 +183,6 @@ body {
   color: #f39c12;
 }
 
-/* Call Me */
 .call-me {
   color: black;
   text-decoration: none;
@@ -351,6 +392,45 @@ h3 {
   transform: scale(1.05);
 }
 
+/* Mailing List */
+.mailing-list {
+  padding: 20px;
+  background: #2c3e50;
+  border-radius: 8px;
+  color: white;
+  margin: 20px;
+  text-align: center;
+}
+
+.mailing-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.mailing-form input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 250px;
+  margin-right: 10px;
+}
+
+.mailing-form button {
+  padding: 10px 20px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.mailing-form button:hover {
+  background-color: #c0392b;
+}
+
 /* Footer */
 .footer {
   background-color: #FFD700;
@@ -368,8 +448,8 @@ h3 {
 }
 
 .footer-logo img {
-  width: 100px;
-  height: auto;
+  width: auto;
+  height: 60px;
   object-fit: contain;
 }
 
