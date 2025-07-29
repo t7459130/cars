@@ -119,7 +119,6 @@ body {
   }
 }
 
-
 .filter-dropdown {
   padding: 12px 16px;
   border: 1px solid #ccc;
@@ -141,11 +140,13 @@ body {
 .banner {
   position: relative;
   text-align: center;
+  max-height: 400px; /* Added max height */
+  overflow: hidden;  /* Prevent overflow */
 }
 
 .banner-image {
   width: 100%;
-  max-height: 400px;
+  height: 400px; /* Fixed height for consistency */
   object-fit: cover;
 }
 
@@ -156,6 +157,20 @@ body {
   transform: translate(-50%, -50%);
   color: white;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  font-size: 2.5rem; /* Limit font size */
+  max-width: 90%;
+  padding: 0 15px;
+  line-height: 1.2;
+  white-space: normal;
+}
+
+/* Make banner text responsive */
+@media (max-width: 768px) {
+  .banner-text {
+    font-size: 1.6rem;
+    max-width: 95%;
+    padding: 0 10px;
+  }
 }
 
 /* Menu */
@@ -505,7 +520,27 @@ h3 {
 }
 
 /* Responsive Adjustments */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  .about-us {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-image {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .about-text {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  .car-card {
+    width: 100%;
+    margin: 10px 0;
+  }
+
   .name-fields,
   .car-details {
     flex-direction: column;
@@ -516,268 +551,4 @@ h3 {
     width: 100%;
     margin-bottom: 10px;
   }
-
-  .car-listings,
-  .testimonial-list,
-  .services-list {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .car-card,
-  .testimonial-card,
-  .service-card {
-    width: 90%;
-  }
 }
-
-.modern-search-section {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 0 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.search-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.search-label {
-  font-size: 20px;
-  font-weight: 600;
-  white-space: nowrap;
-  color: #222;
-}
-
-.search-input-modern {
-  flex: 1 1 350px;
-  max-width: 450px;
-  padding: 15px 20px;
-  font-size: 18px;
-  border: none;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  transition: box-shadow 0.3s ease;
-}
-
-.search-input-modern:focus {
-  outline: none;
-  box-shadow: 0 4px 20px rgba(0, 120, 215, 0.6);
-}
-
-.btn-filter-sort {
-  background-color: #0078d7;
-  color: white;
-  border: none;
-  padding: 14px 28px;
-  font-size: 16px;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 120, 215, 0.4);
-  transition: background-color 0.3s ease;
-  white-space: nowrap;
-}
-
-.btn-filter-sort:hover {
-  background-color: #005ea3;
-}
-
-.filter-panel,
-.sort-panel {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-}
-
-.filter-panel select,
-.filter-panel input,
-.sort-panel select {
-  padding: 12px 18px;
-  font-size: 16px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  min-width: 140px;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-  transition: border-color 0.3s ease;
-}
-
-.filter-panel select:focus,
-.filter-panel input:focus,
-.sort-panel select:focus {
-  outline: none;
-  border-color: #0078d7;
-  box-shadow: 0 0 8px rgba(0, 120, 215, 0.5);
-}
-
-.btn-apply-filters {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 14px 32px;
-  font-size: 16px;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
-  transition: background-color 0.3s ease;
-  flex-grow: 1;
-  max-width: 160px;
-}
-
-.btn-apply-filters:hover {
-  background-color: #1e7e34;
-}
-
-/* Responsive */
-@media (max-width: 700px) {
-  .search-row {
-    flex-direction: column;
-  }
-  .search-label {
-    margin-bottom: 5px;
-  }
-  .search-input-modern {
-    max-width: 100%;
-  }
-  .btn-filter-sort {
-    width: 100%;
-    max-width: 320px;
-  }
-  .filter-panel,
-  .sort-panel {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .btn-apply-filters {
-    max-width: 100%;
-  }
-}
-/* Search Overlay */
-.search-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.7);
-  z-index: 2000;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 60px;
-  overflow-y: auto;
-}
-
-.search-overlay-content {
-  background: #fff;
-  padding: 20px;
-  width: 90%;
-  max-width: 600px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  display: flex;
-  flex-direction: column;
-}
-
-.search-row {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.search-input {
-  flex-grow: 1;
-  padding: 10px;
-  font-size: 16px;
-}
-
-.btn {
-  padding: 10px 14px;
-  cursor: pointer;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  font-weight: 600;
-  border-radius: 4px;
-  user-select: none;
-  transition: background-color 0.3s ease;
-}
-
-.btn:hover,
-.btn:focus {
-  background-color: #0056b3;
-}
-
-.btn-filter.active,
-.btn-sort.active {
-  background-color: #0056b3;
-}
-
-.filter-options,
-.sort-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.filter-options select,
-.sort-options select,
-.filter-options input[type="number"] {
-  padding: 8px 10px;
-  font-size: 14px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  min-width: 120px;
-}
-
-.search-btn-row {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.btn-search-submit {
-  background-color: #28a745;
-}
-
-.btn-search-submit:hover,
-.btn-search-submit:focus {
-  background-color: #1e7e34;
-}
-
-.btn-cancel {
-  background-color: #dc3545;
-}
-
-.btn-cancel:hover,
-.btn-cancel:focus {
-  background-color: #a71d2a;
-}
-
-/* Header buttons style overrides */
-.menu-btn.search-btn {
-  background: transparent;
-  border: none;
-  color: #000;
-  font-size: 1.2rem;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .search-overlay-content {
-    width: 95%;
-  }
-}
-
