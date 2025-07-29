@@ -1,7 +1,7 @@
 // App.js
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import { FaBars, FaTimes, FaPhone } from 'react-icons/fa';
+import { FaBars, FaTimes, FaPhone, FaSearch } from 'react-icons/fa';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
@@ -52,6 +52,10 @@ function App() {
   // Toggles for filter and sort dropdowns
   const [showFilters, setShowFilters] = useState(false);
   const [showSortOptions, setShowSortOptions] = useState(false);
+
+  // New: Search overlay toggle
+  const [showSearchOverlay, setShowSearchOverlay] = useState(false);
+  const searchOverlayRef = useRef(null);
 
   const logoBatches = [
     [ferrariLogo, lamborghiniLogo, rollsLogo, bentleyLogo],
@@ -116,13 +120,26 @@ function App() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target) && isMenuOpen) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        isMenuOpen
+      ) {
         setIsMenuOpen(false);
+      }
+      if (
+        searchOverlayRef.current &&
+        !searchOverlayRef.current.contains(event.target) &&
+        showSearchOverlay
+      ) {
+        setShowSearchOverlay(false);
+        setShowFilters(false);
+        setShowSortOptions(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isMenuOpen]);
+  }, [isMenuOpen, showSearchOverlay]);
 
   const acceptCookies = () => {
     setCookiesAccepted(true);
@@ -148,31 +165,44 @@ function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentFooterLogoIndex((prevIndex) => (prevIndex + 1) % footerLogos.length);
+      setCurrentFooterLogoIndex(
+        (prevIndex) => (prevIndex + 1) % footerLogos.length
+      );
     }, 1000);
     return () => clearInterval(interval);
   }, []);
 
   const filteredCars = carsForSale
-    .filter(car =>
-      `${car.make} ${car.model} ${car.variant}`.toLowerCase().includes(searchTerm.toLowerCase())
+    .filter((car) =>
+      `${car.make} ${car.model} ${car.variant}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
     )
-    .filter(car => filterMake ? car.make === filterMake : true)
-    .filter(car => filterModel ? car.model === filterModel : true)
-    .filter(car => filterYear ? car.year.toString() === filterYear : true)
-    .filter(car => filterFuel ? car.fuelType === filterFuel : true)
-    .filter(car => filterBody ? car.bodyType === filterBody : true)
-    .filter(car => filterTrans ? car.transmission === filterTrans : true)
-    .filter(car => filterMileageMax ? car.mileage <= parseInt(filterMileageMax) : true)
+    .filter((car) => (filterMake ? car.make === filterMake : true))
+    .filter((car) => (filterModel ? car.model === filterModel : true))
+    .filter((car) => (filterYear ? car.year.toString() === filterYear : true))
+    .filter((car) => (filterFuel ? car.fuelType === filterFuel : true))
+    .filter((car) => (filterBody ? car.bodyType === filterBody : true))
+    .filter((car) => (filterTrans ? car.transmission === filterTrans : true))
+    .filter((car) =>
+      filterMileageMax ? car.mileage <= parseInt(filterMileageMax) : true
+    )
     .sort((a, b) => {
       switch (sortOption) {
-        case 'price-asc': return a.price - b.price;
-        case 'price-desc': return b.price - a.price;
-        case 'year-asc': return a.year - b.year;
-        case 'year-desc': return b.year - a.year;
-        case 'mileage-asc': return a.mileage - b.mileage;
-        case 'mileage-desc': return b.mileage - a.mileage;
-        default: return 0;
+        case 'price-asc':
+          return a.price - b.price;
+        case 'price-desc':
+          return b.price - a.price;
+        case 'year-asc':
+          return a.year - b.year;
+        case 'year-desc':
+          return b.year - a.year;
+        case 'mileage-asc':
+          return a.mileage - b.mileage;
+        case 'mileage-desc':
+          return b.mileage - a.mileage;
+        default:
+          return 0;
       }
     });
 
@@ -187,6 +217,22 @@ function App() {
     if (showFilters) setShowFilters(false);
   };
 
+  // Open the search overlay
+  const openSearchOverlay = () => {
+    setShowSearchOverlay(true);
+    // Reset filter/sort panel states for clarity
+    setShowFilters(false);
+    setShowSortOptions(false);
+  };
+
+  // Confirm search and close overlay
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setShowSearchOverlay(false);
+    setShowFilters(false);
+    setShowSortOptions(false);
+  };
+
   return (
     <Router>
       <div className="app">
@@ -197,14 +243,24 @@ function App() {
 
         <header className="header" style={{ position: 'relative' }}>
           <div className="header-left">
-            <a href="tel:1234567890" className="call-me" style={{ color: '#000', textDecoration: 'none' }}>
+            <a
+              href="tel:1234567890"
+              className="call-me"
+              style={{ color: '#000', textDecoration: 'none' }}
+              aria-label="Call phone"
+            >
               <FaPhone size={20} />
             </a>
           </div>
 
           <div className="logo-bar desktop-logo-bar">
             {logoBatches[currentBatchIndex].map((logo, idx) => (
-              <img key={idx} src={logo} alt={`Logo batch ${currentBatchIndex} - ${idx}`} className="desktop-logo" />
+              <img
+                key={idx}
+                src={logo}
+                alt={`Logo batch ${currentBatchIndex} - ${idx}`}
+                className="desktop-logo"
+              />
             ))}
           </div>
 
@@ -217,32 +273,217 @@ function App() {
           </div>
 
           <div className="header-right">
-            <button className={`menu-btn ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+            {/* Search icon/button */}
+            <button
+              className="menu-btn search-btn"
+              onClick={openSearchOverlay}
+              aria-label="Open Search"
+            >
+              <FaSearch />
+            </button>
+
+            {/* Hamburger menu */}
+            <button
+              className={`menu-btn ${isMenuOpen ? 'open' : ''}`}
+              onClick={toggleMenu}
+              aria-label="Toggle Menu"
+            >
               {isMenuOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>
 
           <nav ref={menuRef} className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
             <ul>
-              <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
-              <li><Link to="/inventory" onClick={toggleMenu}>Inventory</Link></li>
-              <li><Link to="/about" onClick={toggleMenu}>About Us</Link></li>
-              <li><Link to="/contact" onClick={toggleMenu}>Contact Us</Link></li>
-              <li><Link to="/sell" onClick={toggleMenu}>Sell Your Car</Link></li>
-              <li><Link to="/news" onClick={toggleMenu}>News and Events</Link></li>
-              <li><Link to="/services" onClick={toggleMenu}>Other Services</Link></li>
-              <li><Link to="/testimonials" onClick={toggleMenu}>Testimonials</Link></li>
+              <li>
+                <Link to="/" onClick={toggleMenu}>
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/inventory" onClick={toggleMenu}>
+                  Inventory
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" onClick={toggleMenu}>
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" onClick={toggleMenu}>
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/sell" onClick={toggleMenu}>
+                  Sell Your Car
+                </Link>
+              </li>
+              <li>
+                <Link to="/news" onClick={toggleMenu}>
+                  News and Events
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" onClick={toggleMenu}>
+                  Other Services
+                </Link>
+              </li>
+              <li>
+                <Link to="/testimonials" onClick={toggleMenu}>
+                  Testimonials
+                </Link>
+              </li>
             </ul>
           </nav>
         </header>
 
-        <section className="banner">
-          <img src={bannerImage} alt="Banner" className="banner-image" />
-          <div className="banner-text">
-            <h1>Welcome to Our Car Dealership</h1>
-            <p>Discover our exclusive range of luxury cars.</p>
+        {/* Search overlay */}
+        {showSearchOverlay && (
+          <div className="search-overlay">
+            <div className="search-overlay-content" ref={searchOverlayRef}>
+              <form onSubmit={handleSearchSubmit}>
+                <div className="search-row">
+                  <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Search your dream car"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    autoFocus
+                    aria-label="Search cars"
+                  />
+                  <button
+                    type="button"
+                    className={`btn btn-filter ${showFilters ? 'active' : ''}`}
+                    onClick={handleFilterToggle}
+                    aria-expanded={showFilters}
+                    aria-controls="filter-options"
+                  >
+                    Filter
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn btn-sort ${showSortOptions ? 'active' : ''}`}
+                    onClick={handleSortToggle}
+                    aria-expanded={showSortOptions}
+                    aria-controls="sort-options"
+                  >
+                    Sort By
+                  </button>
+                </div>
+
+                {/* Filter options */}
+                {showFilters && (
+                  <div id="filter-options" className="filter-options">
+                    <select
+                      value={filterMake}
+                      onChange={(e) => setFilterMake(e.target.value)}
+                      aria-label="Filter by Make"
+                    >
+                      <option value="">Make</option>
+                      <option value="Tesla">Tesla</option>
+                      <option value="BMW">BMW</option>
+                      <option value="Audi">Audi</option>
+                    </select>
+                    <select
+                      value={filterModel}
+                      onChange={(e) => setFilterModel(e.target.value)}
+                      aria-label="Filter by Model"
+                    >
+                      <option value="">Model</option>
+                      <option value="Model S">Model S</option>
+                      <option value="i8">i8</option>
+                      <option value="R8">R8</option>
+                    </select>
+                    <select
+                      value={filterYear}
+                      onChange={(e) => setFilterYear(e.target.value)}
+                      aria-label="Filter by Year"
+                    >
+                      <option value="">Year</option>
+                      <option value="2021">2021</option>
+                      <option value="2020">2020</option>
+                      <option value="2019">2019</option>
+                    </select>
+                    <select
+                      value={filterFuel}
+                      onChange={(e) => setFilterFuel(e.target.value)}
+                      aria-label="Filter by Fuel Type"
+                    >
+                      <option value="">Fuel Type</option>
+                      <option value="Electric">Electric</option>
+                      <option value="Hybrid">Hybrid</option>
+                      <option value="Petrol">Petrol</option>
+                    </select>
+                    <select
+                      value={filterBody}
+                      onChange={(e) => setFilterBody(e.target.value)}
+                      aria-label="Filter by Body Type"
+                    >
+                      <option value="">Body Type</option>
+                      <option value="Sedan">Sedan</option>
+                      <option value="Coupe">Coupe</option>
+                    </select>
+                    <select
+                      value={filterTrans}
+                      onChange={(e) => setFilterTrans(e.target.value)}
+                      aria-label="Filter by Transmission"
+                    >
+                      <option value="">Transmission</option>
+                      <option value="Automatic">Automatic</option>
+                      <option value="Manual">Manual</option>
+                    </select>
+                    <input
+                      type="number"
+                      min="0"
+                      placeholder="Max Mileage"
+                      value={filterMileageMax}
+                      onChange={(e) => setFilterMileageMax(e.target.value)}
+                      aria-label="Filter by Max Mileage"
+                    />
+                  </div>
+                )}
+
+                {/* Sort options */}
+                {showSortOptions && (
+                  <div id="sort-options" className="sort-options">
+                    <select
+                      value={sortOption}
+                      onChange={(e) => setSortOption(e.target.value)}
+                      aria-label="Sort cars by"
+                    >
+                      <option value="">Sort By</option>
+                      <option value="price-asc">Price (Low to High)</option>
+                      <option value="price-desc">Price (High to Low)</option>
+                      <option value="year-asc">Year (Old to New)</option>
+                      <option value="year-desc">Year (New to Old)</option>
+                      <option value="mileage-asc">Mileage (Low to High)</option>
+                      <option value="mileage-desc">Mileage (High to Low)</option>
+                    </select>
+                  </div>
+                )}
+
+                <div className="search-btn-row">
+                  <button type="submit" className="btn btn-search-submit">
+                    Search
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-cancel"
+                    onClick={() => {
+                      setShowSearchOverlay(false);
+                      setShowFilters(false);
+                      setShowSortOptions(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </section>
+        )}
 
         <main>
           <Routes>
@@ -250,156 +491,64 @@ function App() {
               path="/"
               element={
                 <>
-                  <Helmet><title>Home - Car Dealership</title></Helmet>
-
-                  {/* Centered modern search section */}
-                  <section className="search-center-section">
-                    <div className="search-row">
-                      <input
-                        type="text"
-                        className="search-input"
-                        placeholder="Search your dream car"
-                        value={searchTerm}
-                        onChange={e => setSearchTerm(e.target.value)}
-                      />
-                      <button
-                        className={`btn btn-filter ${showFilters ? 'active' : ''}`}
-                        onClick={handleFilterToggle}
-                        aria-expanded={showFilters}
-                        aria-controls="filter-options"
-                      >
-                        Filter
-                      </button>
-                      <button
-                        className={`btn btn-sort ${showSortOptions ? 'active' : ''}`}
-                        onClick={handleSortToggle}
-                        aria-expanded={showSortOptions}
-                        aria-controls="sort-options"
-                      >
-                        Sort By
-                      </button>
-                    </div>
-
-                    {/* Filter panel */}
-                    {showFilters && (
-                      <div id="filter-options" className="filter-options">
-                        <select value={filterMake} onChange={e => setFilterMake(e.target.value)}>
-                          <option value="">All Makes</option>
-                          {[...new Set(carsForSale.map(c => c.make))].map(m => (
-                            <option key={m} value={m}>{m}</option>
-                          ))}
-                        </select>
-                        <select value={filterModel} onChange={e => setFilterModel(e.target.value)}>
-                          <option value="">All Models</option>
-                          {[...new Set(carsForSale.map(c => c.model))].map(m => (
-                            <option key={m} value={m}>{m}</option>
-                          ))}
-                        </select>
-                        <select value={filterYear} onChange={e => setFilterYear(e.target.value)}>
-                          <option value="">Any Year</option>
-                          {[...new Set(carsForSale.map(c => c.year.toString()))].map(y => (
-                            <option key={y} value={y}>{y}</option>
-                          ))}
-                        </select>
-                        <select value={filterFuel} onChange={e => setFilterFuel(e.target.value)}>
-                          <option value="">All Fuels</option>
-                          {[...new Set(carsForSale.map(c => c.fuelType))].map(f => (
-                            <option key={f} value={f}>{f}</option>
-                          ))}
-                        </select>
-                        <select value={filterBody} onChange={e => setFilterBody(e.target.value)}>
-                          <option value="">All Body Types</option>
-                          {[...new Set(carsForSale.map(c => c.bodyType))].map(b => (
-                            <option key={b} value={b}>{b}</option>
-                          ))}
-                        </select>
-                        <select value={filterTrans} onChange={e => setFilterTrans(e.target.value)}>
-                          <option value="">All Transmission</option>
-                          {[...new Set(carsForSale.map(c => c.transmission))].map(t => (
-                            <option key={t} value={t}>{t}</option>
-                          ))}
-                        </select>
-                        <input
-                          type="number"
-                          placeholder="Max Mileage"
-                          value={filterMileageMax}
-                          onChange={e => setFilterMileageMax(e.target.value)}
-                        />
-                      </div>
-                    )}
-
-                    {/* Sort options panel */}
-                    {showSortOptions && (
-                      <div id="sort-options" className="sort-options">
-                        <select value={sortOption} onChange={e => setSortOption(e.target.value)}>
-                          <option value="">Sort By</option>
-                          <option value="year-desc">Year (Newest)</option>
-                          <option value="year-asc">Year (Oldest)</option>
-                          <option value="price-asc">Price (Low→High)</option>
-                          <option value="price-desc">Price (High→Low)</option>
-                          <option value="mileage-asc">Mileage (Low→High)</option>
-                          <option value="mileage-desc">Mileage (High→Low)</option>
-                        </select>
-                      </div>
-                    )}
-                  </section>
-
-                  <section className="about-us">
-                    <div className="about-content">
-                      <img src={aboutImage} alt="About Us" className="about-image" />
-                      <div className="about-text">
-                        <h2>About Us</h2>
-                        <p>
-                          Welcome to our car dealership. We offer the best selection
-                          of luxury cars. Our team is dedicated to providing you with
-                          excellent service.
-                        </p>
-                      </div>
+                  <section className="banner">
+                    <img src={bannerImage} alt="Car Banner" />
+                    <div className="banner-content">
+                      <h1>Find Your Dream Car</h1>
+                      <p>Browse our extensive collection of luxury vehicles</p>
                     </div>
                   </section>
 
-                  <section className="latest-arrivals">
-                    <h2>Latest Arrivals</h2>
-                    <div className="car-listings">
-                      {filteredCars.map(car => (
-                        <div key={car.id} className="car-card">
-                          <Link to={`/car/${car.id}`}>
+                  <section className="cars-for-sale">
+                    <h2>Cars for Sale</h2>
+                    <div className="car-list">
+                      {filteredCars.length === 0 ? (
+                        <p>No cars found matching your criteria.</p>
+                      ) : (
+                        filteredCars.map((car) => (
+                          <div key={car.id} className="car-card">
                             <img src={car.img} alt={`${car.make} ${car.model}`} />
-                            <div className="car-details">
-                              <h3>{car.year} {car.make} {car.model}</h3>
+                            <div className="car-info">
+                              <h3>
+                                {car.make} {car.model} {car.variant}
+                              </h3>
+                              <p>Year: {car.year}</p>
                               <p>Price: ${car.price.toLocaleString()}</p>
-                              <p>Mileage: {car.mileage.toLocaleString()} mi</p>
+                              <p>Mileage: {car.mileage.toLocaleString()} km</p>
                             </div>
-                          </Link>
-                        </div>
-                      ))}
+                          </div>
+                        ))
+                      )}
                     </div>
                   </section>
                 </>
               }
             />
-            <Route path="/about" element={<><Helmet><title>About Us</title></Helmet><h2>About Us Page</h2></>} />
-            <Route path="/contact" element={<><Helmet><title>Contact Us</title></Helmet><ContactUs /></>} />
-            <Route path="/inventory" element={<><Helmet><title>Inventory</title></Helmet><Inventory /></>} />
-            <Route path="/sell" element={<><Helmet><title>Sell Your Car</title></Helmet><Sellyourcar /></>} />
-            <Route path="/news" element={<><Helmet><title>News and Events</title></Helmet><NewsAndEvents /></>} />
-            <Route path="/services" element={<><Helmet><title>Other Services</title></Helmet><OtherServices /></>} />
-            <Route path="/testimonials" element={<><Helmet><title>Testimonials</title></Helmet><Testimonials /></>} />
-            <Route path="/car/:id" element={<CarDetail cars={carsForSale} />} />
+            <Route path="/sell" element={<Sellyourcar />} />
+            <Route path="/inventory" element={<Inventory />} />
+            <Route path="/testimonials" element={<Testimonials />} />
+            <Route path="/services" element={<OtherServices />} />
+            <Route path="/news" element={<NewsAndEvents />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/car/:carId" element={<CarDetail />} />
+            {/* Add other routes here */}
           </Routes>
         </main>
 
-        <footer className="footer">
-          <p>&copy; 2025 Car Dealership</p>
-        </footer>
-
         {!cookiesAccepted && (
-          <div className="cookie-banner">
-            <p>We use cookies to improve your experience. Accept?</p>
+          <div className="cookie-consent">
+            <p>
+              We use cookies to improve your experience. By continuing, you agree
+              to our use of cookies.
+            </p>
             <button onClick={acceptCookies}>Accept</button>
             <button onClick={declineCookies}>Decline</button>
           </div>
         )}
+
+        <footer className="footer">
+          <p>&copy; 2025 Car Dealership. All rights reserved.</p>
+        </footer>
       </div>
     </Router>
   );
