@@ -56,15 +56,10 @@ function App() {
   ];
 
   const carsForSale = [
-    { id: 1, make: 'Tesla', model: 'Model S', variant: 'Long Range', year: 2021, price: 80000, img: car1 },
-    { id: 2, make: 'BMW', model: 'i8', variant: 'Coupe', year: 2020, price: 120000, img: car2 },
-    { id: 3, make: 'Audi', model: 'R8', variant: 'V10 Plus', year: 2019, price: 150000, img: car3 },
+    { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1 },
+    { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000', img: car2 },
+    { id: 3, make: 'Audi', model: 'R8', year: 2019, price: '$150,000', img: car3 },
   ];
-
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterMake, setFilterMake] = useState('');
-  const [filterModel, setFilterModel] = useState('');
-  const [sortOption, setSortOption] = useState('');
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -100,29 +95,13 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Footer logo rotation every 1 second
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentFooterLogoIndex((prevIndex) => (prevIndex + 1) % footerLogos.length);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-
-  const filteredCars = carsForSale
-    .filter((car) => {
-      const searchString = `${car.make} ${car.model} ${car.variant}`.toLowerCase();
-      return searchString.includes(searchTerm.toLowerCase());
-    })
-    .filter((car) => (filterMake ? car.make === filterMake : true))
-    .filter((car) => (filterModel ? car.model === filterModel : true))
-    .sort((a, b) => {
-      switch (sortOption) {
-        case 'year-desc': return b.year - a.year;
-        case 'year-asc': return a.year - b.year;
-        case 'price-desc': return b.price - a.price;
-        case 'price-asc': return a.price - b.price;
-        default: return 0;
-      }
-    });
 
   return (
     <Router>
@@ -139,12 +118,19 @@ function App() {
             </a>
           </div>
 
+          {/* Desktop: 4 logos cycling */}
           <div className="logo-bar desktop-logo-bar">
             {logoBatches[currentBatchIndex].map((logo, idx) => (
-              <img key={idx} src={logo} alt={`Logo batch ${currentBatchIndex} - ${idx}`} className="desktop-logo" />
+              <img
+                key={idx}
+                src={logo}
+                alt={`Logo batch ${currentBatchIndex} - ${idx}`}
+                className="desktop-logo"
+              />
             ))}
           </div>
 
+          {/* Mobile: rotating single footer logo */}
           <div className="logo-bar mobile-logo-bar">
             <img
               src={footerLogos[currentFooterLogoIndex]}
@@ -188,36 +174,6 @@ function App() {
               element={
                 <>
                   <Helmet><title>Home - Car Dealership</title></Helmet>
-
-                  <section className="search-filters">
-                    <h2>Search & Filter Cars</h2>
-                    <input
-                      type="text"
-                      placeholder="Search by make, model or variant"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <select value={filterMake} onChange={(e) => setFilterMake(e.target.value)}>
-                      <option value="">All Makes</option>
-                      {[...new Set(carsForSale.map(car => car.make))].map(make => (
-                        <option key={make} value={make}>{make}</option>
-                      ))}
-                    </select>
-                    <select value={filterModel} onChange={(e) => setFilterModel(e.target.value)}>
-                      <option value="">All Models</option>
-                      {[...new Set(carsForSale.map(car => car.model))].map(model => (
-                        <option key={model} value={model}>{model}</option>
-                      ))}
-                    </select>
-                    <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-                      <option value="">Sort By</option>
-                      <option value="year-desc">Year (Newest)</option>
-                      <option value="year-asc">Year (Oldest)</option>
-                      <option value="price-asc">Price (Low to High)</option>
-                      <option value="price-desc">Price (High to Low)</option>
-                    </select>
-                  </section>
-
                   <section className="about-us">
                     <div className="about-content">
                       <img src={aboutImage} alt="About Us" className="about-image" />
@@ -231,17 +187,16 @@ function App() {
                       </div>
                     </div>
                   </section>
-
                   <section className="latest-arrivals">
                     <h2>Latest Arrivals</h2>
                     <div className="car-listings">
-                      {filteredCars.map((car) => (
+                      {carsForSale.map((car) => (
                         <div key={car.id} className="car-card">
                           <Link to={`/car/${car.id}`}>
                             <img src={car.img} alt={`${car.make} ${car.model}`} />
                             <div className="car-details">
                               <h3>{car.year} {car.make} {car.model}</h3>
-                              <p>Price: ${car.price.toLocaleString()}</p>
+                              <p>Price: {car.price}</p>
                             </div>
                           </Link>
                         </div>
@@ -270,7 +225,7 @@ function App() {
                           <img src={car.img} alt={`${car.make} ${car.model}`} />
                           <div className="car-details">
                             <h3>{car.year} {car.make} {car.model}</h3>
-                            <p>Price: ${car.price.toLocaleString()}</p>
+                            <p>Price: {car.price}</p>
                           </div>
                         </Link>
                       </div>
@@ -285,6 +240,7 @@ function App() {
 
         <footer className="footer">
           <div className="footer-content">
+            {/* Footer rotating logo (visible on all devices) */}
             <div className="footer-logo footer-logo-rotating">
               <img
                 src={footerLogos[currentFooterLogoIndex]}
@@ -292,16 +248,20 @@ function App() {
                 className="footer-logo-img"
               />
             </div>
+
             <div className="footer-details">
               <p>Nabils Surrey Supercar Website</p>
               <p>Surrey, England, UK</p>
               <p>0777777777</p>
               <p>
                 NabilsSurreySUppercars are authorised and regulated by the Financial Conduct Authority
-                (“FCA”) under Firm Reference Number (FRN) 660610...
+                (“FCA”) under Firm Reference Number (FRN) 660610. We are a credit broker, not a lender,
+                and we do not charge a fee for our credit broking services.
               </p>
               <p>
-                We can introduce you to a limited number of lenders and their finance products...
+                We can introduce you to a limited number of lenders and their finance products, which may
+                have different interest rates and charges. We typically receive commission from them,
+                calculated by vehicle age or loan amount. Commission does not affect the amount you pay.
               </p>
             </div>
 
