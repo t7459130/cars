@@ -50,6 +50,7 @@ body {
     padding: 0;            /* Remove any internal padding */
     margin: 0 auto;        /* Center container */
     position: relative;    /* Reset any inherited positioning */
+    border: 2px dashed red;
   }
 
   .mobile-logo {
