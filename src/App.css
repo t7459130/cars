@@ -55,6 +55,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
   }
 
   .mobile-logo {
@@ -63,7 +64,7 @@ body {
     height: auto;
     max-height: 40px;
     object-fit: contain;
-    margin: 0 10px;
+    margin: 0 auto;
   }
 }
 
