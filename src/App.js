@@ -1,8 +1,8 @@
 // App.js
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import { FaBars, FaTimes, FaPhone, FaSearch } from 'react-icons/fa';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { FaBars, FaTimes, FaPhone } from 'react-icons/fa';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import Sellyourcar from './Sellyourcar';
@@ -14,13 +14,9 @@ import ContactUs from './ContactUs';
 import CarDetail from './CarDetail';
 
 import aboutImage from './images/car1.jpg';
-import banner1 from './images/carwallpaper1.jpg.jpg';
-import banner2 from './images/carwallpaper2.jpg.jpg';
-import banner3 from './images/carwallpaper3.jpg.jpeg';
-import banner4 from './images/carwallpaper4.jpg.jpg';
-import banner5 from './images/carwallpaper5.jpg.jpg';
-// import About from './components/About';
+import bannerImage from './images/carwallpaper.webp';
 
+// Logos
 import paganiLogo from './images/pagani.png';
 import mercedesLogo from './images/mercedes.png';
 import bugattiLogo from './images/bugatti.png';
@@ -35,164 +31,255 @@ import car1 from './images/car1.jpg';
 import car2 from './images/car2.jpg';
 import car3 from './images/car3.jpg';
 
-function Banner() {
-  const location = useLocation();
-  let img = banner1;
-  let title = 'Welcome to Nabil’s Super Cars';
-  switch (location.pathname) {
-    case '/about':
-      img = banner2;
-      title = 'About Us';
-      break;
-    case '/contact':
-      img = banner3;
-      title = 'Contact Us';
-      break;
-    case '/services':
-      img = banner4;
-      title = 'Other Services';
-      break;
-    case '/testimonials':
-      img = banner5;
-      title = 'Testimonials';
-      break;
-    default:
-      break;
-  }
-  return (
-    <section className="banner">
-      <img src={img} alt="Banner" className="banner-image" />
-      <div className="banner-text">
-        <h1>{title}</h1>
-      </div>
-    </section>
-  );
-}
-
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [cookiesAccepted, setCookiesAccepted] = useState(false);
+  const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
+  const [currentFooterLogoIndex, setCurrentFooterLogoIndex] = useState(0);
   const menuRef = useRef(null);
-  const searchRef = useRef(null);
 
-  const logoBatches = [ [ferrariLogo,lamborghiniLogo,rollsLogo,bentleyLogo],
-                        [astonLogo,paganiLogo,bugattiLogo,mercedesLogo] ];
-  const footerLogos = [ lamborghiniLogo, ferrariLogo, porscheLogo, paganiLogo,
-                        mercedesLogo, astonLogo, bugattiLogo, bentleyLogo, rollsLogo ];
-  const [batchIndex, setBatchIndex] = useState(0);
-  const [footerIndex, setFooterIndex] = useState(0);
-
-  const cars = [
-    { id:1, make:'Tesla', model:'Model S', year:2021, price:80000, mileage:15000, transmission:'Automatic', fuelType:'Electric', bodyType:'Sedan', img:car1 },
-    { id:2, make:'BMW', model:'i8', year:2020, price:120000, mileage:20000, transmission:'Automatic', fuelType:'Hybrid', bodyType:'Coupe', img:car2 },
-    { id:3, make:'Audi', model:'R8', year:2019, price:150000, mileage:18000, transmission:'Automatic', fuelType:'Petrol', bodyType:'Coupe', img:car3 },
+  const logoBatches = [
+    [ferrariLogo, lamborghiniLogo, rollsLogo, bentleyLogo],
+    [astonLogo, paganiLogo, bugattiLogo, mercedesLogo],
   ];
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterMake, setFilterMake] = useState('');
-  const [filterModel, setFilterModel] = useState('');
-  const [filterYear, setFilterYear] = useState('');
-  const [filterFuel, setFilterFuel] = useState('');
-  const [filterBody, setFilterBody] = useState('');
-  const [filterTrans, setFilterTrans] = useState('');
-  const [sortOpt, setSortOpt] = useState('');
+  const footerLogos = [
+    lamborghiniLogo,
+    ferrariLogo,
+    porscheLogo,
+    paganiLogo,
+    mercedesLogo,
+    astonLogo,
+    bugattiLogo,
+    bentleyLogo,
+    rollsLogo,
+  ];
+
+  const carsForSale = [
+    { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1 },
+    { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000', img: car2 },
+    { id: 3, make: 'Audi', model: 'R8', year: 2019, price: '$150,000', img: car3 },
+  ];
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   useEffect(() => {
-    const closeOutside = e => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) setIsMenuOpen(false);
-      if (searchRef.current && !searchRef.current.contains(e.target)) setIsSearchOpen(false);
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target) && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
     };
-    document.addEventListener('mousedown', closeOutside);
-    return () => document.removeEventListener('mousedown', closeOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMenuOpen]);
+
+  const acceptCookies = () => {
+    setCookiesAccepted(true);
+    localStorage.setItem('cookiesAccepted', 'true');
+  };
+
+  const declineCookies = () => {
+    setCookiesAccepted(true);
+    localStorage.setItem('cookiesAccepted', 'false');
+  };
+
+  useEffect(() => {
+    const consent = localStorage.getItem('cookiesAccepted');
+    if (consent) setCookiesAccepted(consent === 'true');
   }, []);
 
   useEffect(() => {
-    const iv1 = setInterval(() => setBatchIndex(i => (i+1)%logoBatches.length), 3000);
-    const iv2 = setInterval(() => setFooterIndex(i => (i+1)%footerLogos.length), 1000);
-    return () => { clearInterval(iv1); clearInterval(iv2); };
+    const interval = setInterval(() => {
+      setCurrentBatchIndex((prev) => (prev + 1) % logoBatches.length);
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
-  const filtered = cars
-    .filter(c => `${c.make} ${c.model}`.toLowerCase().includes(searchTerm.toLowerCase()))
-    .filter(c => !filterMake || c.make===filterMake)
-    .filter(c => !filterModel || c.model===filterModel)
-    .filter(c => !filterYear || c.year.toString()===filterYear)
-    .filter(c => !filterFuel || c.fuelType===filterFuel)
-    .filter(c => !filterBody || c.bodyType===filterBody)
-    .filter(c => !filterTrans || c.transmission===filterTrans)
-    .sort((a,b) => {
-      if (sortOpt==='price-asc') return a.price-b.price;
-      if (sortOpt==='price-desc') return b.price-a.price;
-      return 0;
-    });
+  // Footer logo rotation every 1 second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentFooterLogoIndex((prevIndex) => (prevIndex + 1) % footerLogos.length);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <Router>
       <div className="app">
-        <Helmet><title>Car Dealership</title><link rel="icon" href={ferrariLogo} type="image/png" /></Helmet>
-        <header className="header">
-          <div className="header-left"><a href="tel:1234567890" className="call-me"><FaPhone size={20} /></a></div>
+        <Helmet>
+          <title>Car Dealership</title>
+          <link rel="icon" href={ferrariLogo} type="image/png" />
+        </Helmet>
+
+        <header className="header" style={{ position: 'relative' }}>
+          <div className="header-left">
+            <a href="tel:1234567890" className="call-me" style={{ color: '#000', textDecoration: 'none' }}>
+              <FaPhone size={20} />
+            </a>
+          </div>
+
+          {/* Desktop: 4 logos cycling */}
           <div className="logo-bar desktop-logo-bar">
-            {logoBatches[batchIndex].map((l,i)=><img key={i} src={l} className="desktop-logo" alt="" />)}
+            {logoBatches[currentBatchIndex].map((logo, idx) => (
+              <img
+                key={idx}
+                src={logo}
+                alt={`Logo batch ${currentBatchIndex} - ${idx}`}
+                className="desktop-logo"
+              />
+            ))}
           </div>
+
+          {/* Mobile: rotating single footer logo */}
           <div className="logo-bar mobile-logo-bar">
-            <img src={footerLogos[footerIndex]} className="mobile-logo" alt="" />
+            <img
+              src={footerLogos[currentFooterLogoIndex]}
+              alt={`Rotating footer logo mobile ${currentFooterLogoIndex}`}
+              className="mobile-logo"
+            />
           </div>
+
           <div className="header-right">
-            <button className="search-btn" onClick={()=>setIsSearchOpen(true)} aria-label="open search"><FaSearch /></button>
-            <button className="menu-btn" onClick={()=>setIsMenuOpen(open=>!open)} aria-label="toggle menu">
+            <button className={`menu-btn ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
               {isMenuOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>
+
           <nav ref={menuRef} className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
             <ul>
-              {['/','/inventory','/about','/contact','/sell','/news','/services','/testimonials'].map((path,i) => (
-                <li key={i}><Link to={path} onClick={()=>setIsMenuOpen(false)}>{path=== '/'? 'Home' : path.slice(1).replace('-', ' ')}</Link></li>
-              ))}
+              <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
+              <li><Link to="/inventory" onClick={toggleMenu}>Inventory</Link></li>
+              <li><Link to="/about" onClick={toggleMenu}>About Us</Link></li>
+              <li><Link to="/contact" onClick={toggleMenu}>Contact Us</Link></li>
+              <li><Link to="/sell" onClick={toggleMenu}>Sell Your Car</Link></li>
+              <li><Link to="/news" onClick={toggleMenu}>News and Events</Link></li>
+              <li><Link to="/services" onClick={toggleMenu}>Other Services</Link></li>
+              <li><Link to="/testimonials" onClick={toggleMenu}>Testimonials</Link></li>
             </ul>
           </nav>
         </header>
 
-        <Banner />
-
-        {isSearchOpen && (
-          <div className="search-overlay" ref={searchRef} role="dialog" aria-modal="true">
-            <button className="close-search-overlay" onClick={()=>setIsSearchOpen(false)}><FaTimes /></button>
-            <h2>Search & Filter</h2>
-            <input type="text" placeholder="Search..." value={searchTerm} onChange={e=>setSearchTerm(e.target.value)} />
-            <select value={filterMake} onChange={e=>setFilterMake(e.target.value)}>
-              <option value="">All Makes</option>
-              {[...new Set(cars.map(c=>c.make))].map(m=><option key={m} value={m}>{m}</option>)}
-            </select>
-            {/* replicate for model, year, fuel, body, transmission */}
-            <select value={sortOpt} onChange={e=>setSortOpt(e.target.value)}>
-              <option value="">Sort</option>
-              <option value="price-asc">Price Low→High</option>
-              <option value="price-desc">Price High→Low</option>
-            </select>
-            <section className="latest-arrivals-overlay">
-              <h3>Latest Stock</h3>
-              <div className="car-listings">
-                {cars.map(c=>(<div key={c.id} className="car-card"><img src={c.img} alt="" /><div className="car-details"><h4>{c.year} {c.make} {c.model}</h4><p>${c.price.toLocaleString()}</p></div></div>))}
-              </div>
-            </section>
+        <section className="banner">
+          <img src={bannerImage} alt="Banner" className="banner-image" />
+          <div className="banner-text">
+            <h1>Welcome to Our Car Dealership</h1>
+            <p>Discover our exclusive range of luxury cars.</p>
           </div>
-        )}
+        </section>
 
         <main>
           <Routes>
-            <Route path="/" element={<section className="latest-arrivals"><h2>Welcome!</h2></section>} />
-            {/* <Route path="/about" element={<About />} /> */}
-            {/* Add other routes similarly */}
-            <Route path="/inventory" element={<Inventory />} />
-            <Route path="/car/:id" element={<CarDetail />} />
+            <Route
+              path="/"
+              element={
+                <>
+                  <Helmet><title>Home - Car Dealership</title></Helmet>
+                  <section className="about-us">
+                    <div className="about-content">
+                      <img src={aboutImage} alt="About Us" className="about-image" />
+                      <div className="about-text">
+                        <h2>About Us</h2>
+                        <p>
+                          Welcome to our car dealership. We offer the best selection
+                          of luxury cars. Our team is dedicated to providing you with
+                          excellent service.
+                        </p>
+                      </div>
+                    </div>
+                  </section>
+                  <section className="latest-arrivals">
+                    <h2>Latest Arrivals</h2>
+                    <div className="car-listings">
+                      {carsForSale.map((car) => (
+                        <div key={car.id} className="car-card">
+                          <Link to={`/car/${car.id}`}>
+                            <img src={car.img} alt={`${car.make} ${car.model}`} />
+                            <div className="car-details">
+                              <h3>{car.year} {car.make} {car.model}</h3>
+                              <p>Price: {car.price}</p>
+                            </div>
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </>
+              }
+            />
+            <Route path="/about" element={<><Helmet><title>About Us</title></Helmet><h2>About Us Page</h2></>} />
+            <Route path="/contact" element={<><Helmet><title>Contact Us</title></Helmet><ContactUs /></>} />
+            <Route path="/sell" element={<Sellyourcar />} />
+            <Route path="/news" element={<NewsAndEvents />} />
+            <Route path="/services" element={<OtherServices />} />
+            <Route path="/testimonials" element={<Testimonials />} />
+            <Route
+              path="/inventory"
+              element={
+                <>
+                  <Helmet><title>Inventory</title></Helmet>
+                  <h2>Inventory</h2>
+                  <div className="car-listings">
+                    {carsForSale.map((car) => (
+                      <div key={car.id} className="car-card">
+                        <Link to={`/car/${car.id}`}>
+                          <img src={car.img} alt={`${car.make} ${car.model}`} />
+                          <div className="car-details">
+                            <h3>{car.year} {car.make} {car.model}</h3>
+                            <p>Price: {car.price}</p>
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              }
+            />
+            <Route path="/car/:carId" element={<CarDetail />} />
           </Routes>
         </main>
 
         <footer className="footer">
           <div className="footer-content">
-            <div className="footer-logo"><img src={footerLogos[footerIndex]} alt="" className="footer-logo-img" /></div>
-            <div className="footer-details">…</div>
+            {/* Footer rotating logo (visible on all devices) */}
+            <div className="footer-logo footer-logo-rotating">
+              <img
+                src={footerLogos[currentFooterLogoIndex]}
+                alt={`Footer Logo ${currentFooterLogoIndex}`}
+                className="footer-logo-img"
+              />
+            </div>
+
+            <div className="footer-details">
+              <p>Nabils Surrey Supercar Website</p>
+              <p>Surrey, England, UK</p>
+              <p>0777777777</p>
+              <p>
+                NabilsSurreySUppercars are authorised and regulated by the Financial Conduct Authority
+                (“FCA”) under Firm Reference Number (FRN) 660610. We are a credit broker, not a lender,
+                and we do not charge a fee for our credit broking services.
+              </p>
+              <p>
+                We can introduce you to a limited number of lenders and their finance products, which may
+                have different interest rates and charges. We typically receive commission from them,
+                calculated by vehicle age or loan amount. Commission does not affect the amount you pay.
+              </p>
+            </div>
+
+            <div className="footer-links">
+              <Link to="/inventory">Current Stock</Link>
+              <Link to="/sell">Sell Your Car</Link>
+              <Link to="/sold">Previously Sold</Link>
+              <Link to="/contact">Contact Us</Link>
+              <Link to="/luxury-cars">Luxury Cars</Link>
+              <p>&copy; 2025 All Rights Reserved</p>
+              <div className="footer-legal">
+                <Link to="/sitemap">Sitemap</Link> |{' '}
+                <Link to="/cookie-policy">Cookie Policy</Link> |{' '}
+                <Link to="/privacy-policy">Privacy Policy</Link> |{' '}
+                <Link to="/complaints-procedure">Complaints Procedure</Link> |{' '}
+                <Link to="/modern-slavery">Modern Slavery Statement</Link>
+              </div>
+            </div>
           </div>
         </footer>
       </div>
