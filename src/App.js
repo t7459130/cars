@@ -19,7 +19,7 @@ import banner2 from './images/carwallpaper2.jpg.jpg';
 import banner3 from './images/carwallpaper3.jpg.jpeg';
 import banner4 from './images/carwallpaper4.jpg.jpg';
 import banner5 from './images/carwallpaper5.jpg.jpg';
-
+// import About from './components/About';
 
 import paganiLogo from './images/pagani.png';
 import mercedesLogo from './images/mercedes.png';
@@ -173,11 +173,7 @@ function App() {
             <section className="latest-arrivals-overlay">
               <h3>Latest Stock</h3>
               <div className="car-listings">
-                {cars.map(c=>(
-                  <div key={c.id} className="car-card">
-                    <img src={c.img} alt="" /><div className="car-details"><h4>{c.year} {c.make} {c.model}</h4><p>${c.price.toLocaleString()}</p></div>
-                  </div>
-                ))}
+                {cars.map(c=>(<div key={c.id} className="car-card"><img src={c.img} alt="" /><div className="car-details"><h4>{c.year} {c.make} {c.model}</h4><p>${c.price.toLocaleString()}</p></div></div>))}
               </div>
             </section>
           </div>
@@ -186,7 +182,7 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<section className="latest-arrivals"><h2>Welcome!</h2></section>} />
-            <Route path="/about" element={<About />} />
+            {/* <Route path="/about" element={<About />} /> */}
             {/* Add other routes similarly */}
             <Route path="/inventory" element={<Inventory />} />
             <Route path="/car/:id" element={<CarDetail />} />
