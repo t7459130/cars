@@ -55,7 +55,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 100vw;          /* Full viewport width */
+    padding: 0;            /* Remove any internal padding */
+    margin: 0 auto;        /* Center container */
+    position: relative;    /* Reset any inherited positioning */
   }
 
   .mobile-logo {
