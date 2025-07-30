@@ -40,17 +40,8 @@ body {
   }
 }
 
-/* Mobile logo bar */
-.mobile-logo-bar {
-  display: none;
-}
-
-.mobile-logo {
-  display: none;
-}
-
 /* Show mobile logo on small screens */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .mobile-logo-bar {
     display: flex;
     justify-content: center;
