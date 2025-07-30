@@ -23,7 +23,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50%;
+  width: 60%;
 }
 
 .desktop-logo {
@@ -40,6 +40,15 @@ body {
   }
 }
 
+/* Mobile logo bar */
+.mobile-logo-bar {
+  display: none;
+}
+
+.mobile-logo {
+  display: none;
+}
+
 /* Show mobile logo on small screens */
 @media (max-width: 1200px) {
   .mobile-logo-bar {
@@ -50,7 +59,6 @@ body {
     padding: 0;            /* Remove any internal padding */
     margin: 0 auto;        /* Center container */
     position: relative;    /* Reset any inherited positioning */
-    border: 2px dashed red;
   }
 
   .mobile-logo {
