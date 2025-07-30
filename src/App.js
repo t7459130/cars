@@ -31,31 +31,28 @@ import car3 from './images/car3.jpg';
 
 function Banner() {
   const location = useLocation();
-  let img = banner1;
   let title = 'Welcome to Nabil’s Super Cars';
+
   switch (location.pathname) {
     case '/about':
-      img = banner2;
       title = 'About Us';
       break;
     case '/contact':
-      img = banner3;
       title = 'Contact Us';
       break;
     case '/services':
-      img = banner4;
       title = 'Other Services';
       break;
     case '/testimonials':
-      img = banner5;
       title = 'Testimonials';
       break;
     default:
       break;
   }
+
   return (
     <section className="banner">
-      <img src={img} alt="Banner" className="banner-image" />
+      <img src={aboutImage} alt="Banner" className="banner-image" />
       <div className="banner-text">
         <h1>{title}</h1>
       </div>
