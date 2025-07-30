@@ -14,11 +14,11 @@ import ContactUs from './ContactUs';
 import CarDetail from './CarDetail';
 
 import aboutImage from './images/car1.jpg';
-import banner1 from '/src/images/carwallpaper1.jpg.jpg';
-import banner2 from '/src/images/carwallpaper2.jpg.jpg';
-import banner3 from '/src/images/carwallpaper3.jpg.jpeg';
-import banner4 from '/src/images/carwallpaper4.jpg.jpg';
-import banner5 from '/src/images/carwallpaper5.jpg.jpg';
+import banner1 from 'src/images/carwallpaper1.jpg.jpg';
+import banner2 from 'src/images/carwallpaper2.jpg.jpg';
+import banner3 from 'src/images/carwallpaper3.jpg.jpeg';
+import banner4 from 'src/images/carwallpaper4.jpg.jpg';
+import banner5 from 'src/images/carwallpaper5.jpg.jpg';
 
 import paganiLogo from './images/pagani.png';
 import mercedesLogo from './images/mercedes.png';
