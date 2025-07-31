@@ -237,7 +237,7 @@ function AppContent() {
                 </>
               }
             />
-            <Route path="/car/:carId" element={<CarDetail />} />
+            <Route path="/car/:carId" element={<CarDetail cars={cars} />} />
             <Route path="/admin/add-car" element={<AddCarPage onAddCar={addCar} />} />
           </Routes>
         </main>

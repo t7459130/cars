@@ -618,3 +618,51 @@ h3 {
     cursor: pointer;
   }
 }
+
+/* In App.css */
+
+.detail-page {
+  max-width: 1000px;
+  margin: 80px auto 40px;
+  padding: 0 20px;
+}
+
+.car-image-viewer {
+  position: relative;
+  text-align: center;
+}
+.car-image-viewer img {
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+  object-fit: contain;
+}
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.7);
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+.nav-arrow.left {
+  left: 10px;
+}
+.nav-arrow.right {
+  right: 10px;
+}
+
+.car-details-block {
+  margin-top: 20px;
+  line-height: 1.6;
+}
+.car-details-block h2 {
+  margin-bottom: 10px;
+}
+.car-details-block p {
+  margin: 4px 0;
+}
+.description {
+  margin-top: 20px;
+}
