@@ -1,5 +1,7 @@
 // SearchOverlay.js
 import React, { useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
+
 
 const filterOptions = {
   transmission: ['Automatic', 'Manual'],
