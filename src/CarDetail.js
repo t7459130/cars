@@ -1,41 +1,33 @@
+// CarDetail.js
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Import useParams to get carId
+import { useParams } from 'react-router-dom';
 
-// Import the car images and data
-import car1 from './images/car1.jpg';
-import car2 from './images/car2.jpg';
-import car3 from './images/car3.jpg';
+function CarDetail({ cars }) {
+  const { carId } = useParams();
+  const car = cars?.find((c) => String(c.id) === carId);
 
-const carsForSale = [
-  { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1, description: 'The Tesla Model S is an all-electric luxury sedan with cutting-edge technology and performance.' },
-  { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000', img: car2, description: 'The BMW i8 is a plug-in hybrid sports car combining futuristic design and efficiency.' },
-  { id: 3, make: 'Audi', model: 'R8', year: 2019, price: '$150,000', img: car3, description: 'The Audi R8 is a high-performance sports car with striking looks and powerful performance.' },
-];
-
-const CarDetail = () => {
-  const { carId } = useParams(); // Get carId from the URL
-  const navigate = useNavigate(); // Optional: To navigate if car not found
-
-  // Find the car data based on the carId
-  const car = carsForSale.find((car) => car.id.toString() === carId);
-
-  if (!car) {
-    return (
-      <div>
-        <h2>Car Not Found</h2>
-        <button onClick={() => navigate('/')}>Go Back</button>
-      </div>
-    );
-  }
+  if (!car) return <p>Car not found</p>;
 
   return (
     <div className="car-detail">
-      <h1>{car.make} {car.model} ({car.year})</h1>
-      <img src={car.img} alt={`${car.make} ${car.model}`} />
-      <p>{car.description}</p>
-      <p><strong>Price: {car.price}</strong></p>
+      <h2>{car.year} {car.make} {car.model}</h2>
+      <div className="car-images">
+        {car.images?.map((img, idx) => (
+          <img key={idx} src={img} alt={`Car ${idx}`} />
+        ))}
+      </div>
+      <p><strong>Variant:</strong> {car.variant}</p>
+      <p><strong>Price:</strong> £{car.price}</p>
+      <p><strong>Transmission:</strong> {car.transmission}</p>
+      <p><strong>Fuel Type:</strong> {car.fuelType}</p>
+      <p><strong>Mileage:</strong> {car.mileage}</p>
+      <p><strong>Body Style:</strong> {car.bodyStyle}</p>
+      <p><strong>Colour:</strong> {car.colour}</p>
+      <p><strong>Engine Size:</strong> {car.engineSize}</p>
+      <p><strong>Fuel Economy:</strong> {car.fuelEconomy}</p>
+      <p><strong>Description:</strong> {car.description}</p>
     </div>
   );
-};
+}
 
 export default CarDetail;

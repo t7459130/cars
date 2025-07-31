@@ -3,19 +3,10 @@ import React, { useState } from 'react';
 
 function CarForm({ onAddCar }) {
   const [carData, setCarData] = useState({
-    make: '',
-    model: '',
-    variant: '',
-    year: '',
-    price: '',
-    transmission: '',
-    fuelType: '',
-    mileage: '',
-    bodyStyle: '',
-    colour: '',
-    engineSize: '',
-    fuelEconomy: '',
-    images: [],
+    make: '', model: '', variant: '', year: '', price: '',
+    transmission: '', fuelType: '', mileage: '', bodyStyle: '',
+    colour: '', engineSize: '', fuelEconomy: '', images: [],
+    description: '',
   });
 
   const handleChange = (e) => {
@@ -42,7 +33,8 @@ function CarForm({ onAddCar }) {
     setCarData({
       make: '', model: '', variant: '', year: '', price: '',
       transmission: '', fuelType: '', mileage: '', bodyStyle: '',
-      colour: '', engineSize: '', fuelEconomy: '', images: []
+      colour: '', engineSize: '', fuelEconomy: '', images: [],
+      description: '',
     });
   };
 
@@ -80,12 +72,23 @@ function CarForm({ onAddCar }) {
       </div>
 
       <div className="form-group">
-        <input name="engineSize" placeholder="Engine Size (e.g. 2.0L)" value={carData.engineSize} onChange={handleChange} />
-        <input name="fuelEconomy" placeholder="Fuel Economy (mpg or L/100km)" value={carData.fuelEconomy} onChange={handleChange} />
+        <input name="engineSize" placeholder="Engine Size" value={carData.engineSize} onChange={handleChange} />
+        <input name="fuelEconomy" placeholder="Fuel Economy" value={carData.fuelEconomy} onChange={handleChange} />
       </div>
 
       <div className="form-group">
-        <label>Upload Images (multi-select allowed)</label>
+        <textarea
+          name="description"
+          placeholder="Description"
+          value={carData.description}
+          onChange={handleChange}
+          rows={4}
+          required
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Upload Images</label>
         <input type="file" accept="image/*" multiple onChange={handleFileInput} />
         <div className="image-previews">
           {carData.images.map((src, idx) => (
