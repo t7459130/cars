@@ -124,7 +124,6 @@ function AppContent() {
           <div className="header‑icons">
             <button onClick={openSearch} className="search-btn"><FaSearch size={20} /></button>
             <button className={`menu-btn ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
-              style={{ position: 'relative', zIndex: 1001 }}
               {isMenuOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>
