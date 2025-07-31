@@ -31,17 +31,11 @@ import car1 from './images/car1.jpg';
 import car2 from './images/car2.jpg';
 import car3 from './images/car3.jpg';
 
-// NEW imports
-import CarForm from './CarForm';
-import SearchOverlay from './SearchOverlay';
-
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
   const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
   const [currentFooterLogoIndex, setCurrentFooterLogoIndex] = useState(0);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
   const menuRef = useRef(null);
 
   const logoBatches = [
@@ -61,11 +55,11 @@ function App() {
     rollsLogo,
   ];
 
-  const [cars, setCars] = useState([
-    { id: 1, make: 'Tesla', model: 'Model S', variant: '', year: 2021, price: '80000', transmission: 'Automatic', img: car1, image: car1 },
-    { id: 2, make: 'BMW', model: 'i8', variant: '', year: 2020, price: '120000', transmission: 'Automatic', img: car2, image: car2 },
-    { id: 3, make: 'Audi', model: 'R8', variant: '', year: 2019, price: '150000', transmission: 'Manual', img: car3, image: car3 },
-  ]);
+  const carsForSale = [
+    { id: 1, make: 'Tesla', model: 'Model S', year: 2021, price: '$80,000', img: car1 },
+    { id: 2, make: 'BMW', model: 'i8', year: 2020, price: '$120,000', img: car2 },
+    { id: 3, make: 'Audi', model: 'R8', year: 2019, price: '$150,000', img: car3 },
+  ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -101,16 +95,13 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Footer logo rotation every 1 second
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentFooterLogoIndex((prevIndex) => (prevIndex + 1) % footerLogos.length);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-
-  const addCar = (newCar) => {
-    setCars((prev) => [...prev, { ...newCar, id: Date.now() }]);
-  };
 
   return (
     <Router>
@@ -127,6 +118,7 @@ function App() {
             </a>
           </div>
 
+          {/* Desktop: 4 logos cycling */}
           <div className="logo-bar desktop-logo-bar">
             {logoBatches[currentBatchIndex].map((logo, idx) => (
               <img
@@ -138,6 +130,7 @@ function App() {
             ))}
           </div>
 
+          {/* Mobile: rotating single footer logo */}
           <div className="logo-bar mobile-logo-bar">
             <img
               src={footerLogos[currentFooterLogoIndex]}
@@ -171,13 +164,8 @@ function App() {
           <div className="banner-text">
             <h1>Welcome to Our Car Dealership</h1>
             <p>Discover our exclusive range of luxury cars.</p>
-            <button onClick={() => setIsSearchOpen(true)} className="open-search-btn">Search & Filter</button>
           </div>
         </section>
-
-        {/* NEW COMPONENTS */}
-        <SearchOverlay cars={cars} isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
-        <CarForm onAddCar={addCar} />
 
         <main>
           <Routes>
@@ -202,13 +190,13 @@ function App() {
                   <section className="latest-arrivals">
                     <h2>Latest Arrivals</h2>
                     <div className="car-listings">
-                      {cars.map((car) => (
+                      {carsForSale.map((car) => (
                         <div key={car.id} className="car-card">
                           <Link to={`/car/${car.id}`}>
-                            <img src={car.image || car.img} alt={`${car.make} ${car.model}`} />
+                            <img src={car.img} alt={`${car.make} ${car.model}`} />
                             <div className="car-details">
                               <h3>{car.year} {car.make} {car.model}</h3>
-                              <p>Price: ${car.price}</p>
+                              <p>Price: {car.price}</p>
                             </div>
                           </Link>
                         </div>
@@ -231,13 +219,13 @@ function App() {
                   <Helmet><title>Inventory</title></Helmet>
                   <h2>Inventory</h2>
                   <div className="car-listings">
-                    {cars.map((car) => (
+                    {carsForSale.map((car) => (
                       <div key={car.id} className="car-card">
                         <Link to={`/car/${car.id}`}>
-                          <img src={car.image || car.img} alt={`${car.make} ${car.model}`} />
+                          <img src={car.img} alt={`${car.make} ${car.model}`} />
                           <div className="car-details">
                             <h3>{car.year} {car.make} {car.model}</h3>
-                            <p>Price: ${car.price}</p>
+                            <p>Price: {car.price}</p>
                           </div>
                         </Link>
                       </div>
@@ -252,6 +240,7 @@ function App() {
 
         <footer className="footer">
           <div className="footer-content">
+            {/* Footer rotating logo (visible on all devices) */}
             <div className="footer-logo footer-logo-rotating">
               <img
                 src={footerLogos[currentFooterLogoIndex]}
