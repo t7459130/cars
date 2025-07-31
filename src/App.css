@@ -573,22 +573,20 @@ h3 {
 
 @media (max-width: 768px) {
   .header {
-    position: relative;
+    position: relative; /* for absolute children */
     padding: 10px 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* space between left and right containers */
+    height: 50px; /* fixed header height for alignment */
   }
 
-  /* Left side: Call */
   .header-left {
-    flex: 1;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
-    justify-content: flex-start;
     align-items: center;
   }
 
-  /* Center: Logo */
   .mobile-logo-bar {
     position: absolute;
     left: 50%;
@@ -601,15 +599,14 @@ h3 {
     align-items: center;
   }
 
-  /* Right side: Hamburger + Search */
   .header-icons {
-    flex: 1;
+    position: absolute;
+    right: 15px; /* same padding as header */
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
     gap: 15px;
-    position: relative; /* remove absolute for natural flow */
-    padding-right: 0;
+    align-items: center;
   }
 
   .search-btn,
@@ -621,5 +618,3 @@ h3 {
     cursor: pointer;
   }
 }
-
-
