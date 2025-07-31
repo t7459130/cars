@@ -1,7 +1,7 @@
 // App.js
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import { FaBars, FaTimes, FaPhone } from 'react-icons/fa';
+import { FaBars, FaTimes, FaPhone, FaSearch } from 'react-icons/fa';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
@@ -16,7 +16,7 @@ import CarDetail from './CarDetail';
 import aboutImage from './images/car1.jpg';
 import bannerImage from './images/carwallpaper.webp';
 
-// Logos
+// Logos imports
 import paganiLogo from './images/pagani.png';
 import mercedesLogo from './images/mercedes.png';
 import bugattiLogo from './images/bugatti.png';
@@ -37,41 +37,48 @@ import SearchOverlay from './SearchOverlay';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cookiesAccepted, setCookiesAccepted] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
   const [currentFooterLogoIndex, setCurrentFooterLogoIndex] = useState(0);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
+  
   const menuRef = useRef(null);
 
   const logoBatches = [
     [ferrariLogo, lamborghiniLogo, rollsLogo, bentleyLogo],
     [astonLogo, paganiLogo, bugattiLogo, mercedesLogo],
   ];
-
   const footerLogos = [
-    lamborghiniLogo,
-    ferrariLogo,
-    porscheLogo,
-    paganiLogo,
-    mercedesLogo,
-    astonLogo,
-    bugattiLogo,
-    bentleyLogo,
-    rollsLogo,
+    lamborghiniLogo, ferrariLogo, porscheLogo, paganiLogo,
+    mercedesLogo, astonLogo, bugattiLogo, bentleyLogo, rollsLogo
   ];
 
   const [cars, setCars] = useState([
-    { id: 1, make: 'Tesla', model: 'Model S', variant: '', year: 2021, price: '80000', transmission: 'Automatic', img: car1, image: car1 },
-    { id: 2, make: 'BMW', model: 'i8', variant: '', year: 2020, price: '120000', transmission: 'Automatic', img: car2, image: car2 },
-    { id: 3, make: 'Audi', model: 'R8', variant: '', year: 2019, price: '150000', transmission: 'Manual', img: car3, image: car3 },
+    {
+      id: 1, make: 'Tesla', model: 'Model S', variant: 'Long Range',
+      year: 2021, price: '80000', transmission: 'Automatic',
+      fuelType: 'Electric', mileage: '15000', bodyStyle: 'Sedan',
+      colour: 'Red', engineSize: '', fuelEconomy: '',
+      images: [car1]
+    },
+    {
+      id: 2, make: 'BMW', model: 'i8', variant: '',
+      year: 2020, price: '120000', transmission: 'Automatic',
+      fuelType: 'Hybrid', mileage: '8000', bodyStyle: 'Coupe',
+      colour: 'Blue', engineSize: '', fuelEconomy: '',
+      images: [car2]
+    },
+    {
+      id: 3, make: 'Audi', model: 'R8', variant: '',
+      year: 2019, price: '150000', transmission: 'Manual',
+      fuelType: 'Petrol', mileage: '5000', bodyStyle: 'Coupe',
+      colour: 'Black', engineSize: '5.2L', fuelEconomy: '',
+      images: [car3]
+    }
   ]);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target) && isMenuOpen) {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target) && isMenuOpen) {
         setIsMenuOpen(false);
       }
     };
@@ -79,37 +86,26 @@ function App() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isMenuOpen]);
 
-  const acceptCookies = () => {
-    setCookiesAccepted(true);
-    localStorage.setItem('cookiesAccepted', 'true');
-  };
-
-  const declineCookies = () => {
-    setCookiesAccepted(true);
-    localStorage.setItem('cookiesAccepted', 'false');
-  };
-
   useEffect(() => {
-    const consent = localStorage.getItem('cookiesAccepted');
-    if (consent) setCookiesAccepted(consent === 'true');
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentBatchIndex((prev) => (prev + 1) % logoBatches.length);
+    const cycle = setInterval(() => {
+      setCurrentBatchIndex(prev => (prev + 1) % logoBatches.length);
     }, 3000);
-    return () => clearInterval(interval);
+    return () => clearInterval(cycle);
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentFooterLogoIndex((prevIndex) => (prevIndex + 1) % footerLogos.length);
+    const cycle2 = setInterval(() => {
+      setCurrentFooterLogoIndex(prev => (prev + 1) % footerLogos.length);
     }, 1000);
-    return () => clearInterval(interval);
+    return () => clearInterval(cycle2);
   }, []);
+
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
+  const openSearch = () => setIsSearchOpen(true);
+  const closeSearch = () => setIsSearchOpen(false);
 
   const addCar = (newCar) => {
-    setCars((prev) => [...prev, { ...newCar, id: Date.now() }]);
+    setCars(prev => [...prev, { ...newCar, id: Date.now() }]);
   };
 
   return (
@@ -127,26 +123,8 @@ function App() {
             </a>
           </div>
 
-          <div className="logo-bar desktop-logo-bar">
-            {logoBatches[currentBatchIndex].map((logo, idx) => (
-              <img
-                key={idx}
-                src={logo}
-                alt={`Logo batch ${currentBatchIndex} - ${idx}`}
-                className="desktop-logo"
-              />
-            ))}
-          </div>
-
-          <div className="logo-bar mobile-logo-bar">
-            <img
-              src={footerLogos[currentFooterLogoIndex]}
-              alt={`Rotating footer logo mobile ${currentFooterLogoIndex}`}
-              className="mobile-logo"
-            />
-          </div>
-
-          <div className="header-right">
+          <div className="header-icons">
+            <button onClick={openSearch} className="search-btn"><FaSearch size={20} /></button>
             <button className={`menu-btn ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
               {isMenuOpen ? <FaTimes /> : <FaBars />}
             </button>
@@ -171,12 +149,11 @@ function App() {
           <div className="banner-text">
             <h1>Welcome to Our Car Dealership</h1>
             <p>Discover our exclusive range of luxury cars.</p>
-            <button onClick={() => setIsSearchOpen(true)} className="open-search-btn">Search & Filter</button>
           </div>
         </section>
 
-        {/* NEW COMPONENTS */}
-        <SearchOverlay cars={cars} isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+        {/* NEW OVERLAY & FORM */}
+        <SearchOverlay cars={cars} isOpen={isSearchOpen} onClose={closeSearch} />
         <CarForm onAddCar={addCar} />
 
         <main>
@@ -205,10 +182,10 @@ function App() {
                       {cars.map((car) => (
                         <div key={car.id} className="car-card">
                           <Link to={`/car/${car.id}`}>
-                            <img src={car.image || car.img} alt={`${car.make} ${car.model}`} />
+                            <img src={car.images?.[0]} alt={`${car.make} ${car.model}`} />
                             <div className="car-details">
                               <h3>{car.year} {car.make} {car.model}</h3>
-                              <p>Price: ${car.price}</p>
+                              <p>Price: £{car.price}</p>
                             </div>
                           </Link>
                         </div>
@@ -234,10 +211,10 @@ function App() {
                     {cars.map((car) => (
                       <div key={car.id} className="car-card">
                         <Link to={`/car/${car.id}`}>
-                          <img src={car.image || car.img} alt={`${car.make} ${car.model}`} />
+                          <img src={car.images?.[0]} alt={`${car.make} ${car.model}`} />
                           <div className="car-details">
                             <h3>{car.year} {car.make} {car.model}</h3>
-                            <p>Price: ${car.price}</p>
+                            <p>Price: £{car.price}</p>
                           </div>
                         </Link>
                       </div>
@@ -259,7 +236,6 @@ function App() {
                 className="footer-logo-img"
               />
             </div>
-
             <div className="footer-details">
               <p>Nabils Surrey Supercar Website</p>
               <p>Surrey, England, UK</p>
@@ -275,7 +251,6 @@ function App() {
                 calculated by vehicle age or loan amount. Commission does not affect the amount you pay.
               </p>
             </div>
-
             <div className="footer-links">
               <Link to="/inventory">Current Stock</Link>
               <Link to="/sell">Sell Your Car</Link>
