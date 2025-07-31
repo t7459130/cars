@@ -571,12 +571,11 @@ h3 {
   width: 80px; height: 60px; object-fit: cover; margin: 5px;
 }
 
-/* === MOBILE HEADER FIX === */
 @media (max-width: 768px) {
   .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     padding: 10px;
     position: sticky;
     top: 0;
@@ -584,6 +583,7 @@ h3 {
     z-index: 10;
   }
 
+  /* Left side empty space to help center */
   .header-left {
     flex: 1;
     display: flex;
@@ -591,11 +591,16 @@ h3 {
     align-items: center;
   }
 
+  /* Center logo bar: fixed width and centered */
   .mobile-logo-bar {
-    flex: 1;
+    flex: 0 0 100px; /* fixed width */
     display: flex !important;
     justify-content: center !important;
     align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none; /* So clicks pass through to icons */
   }
 
   .mobile-logo {
@@ -605,6 +610,7 @@ h3 {
     object-fit: contain;
   }
 
+  /* Right side container for icons */
   .header-icons {
     flex: 1;
     display: flex;
@@ -622,4 +628,3 @@ h3 {
     cursor: pointer;
   }
 }
-
