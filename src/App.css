@@ -573,8 +573,8 @@ h3 {
 
 @media (max-width: 768px) {
   .header {
-    position: relative; /* needed for absolute children */
-    padding: 10px 15px; /* add some horizontal padding */
+    position: relative; /* container for absolute children */
+    padding: 10px 15px;
   }
 
   .header-left {
@@ -598,12 +598,13 @@ h3 {
 
   .header-icons {
     position: absolute;
-    right: 15px;  /* match header horizontal padding */
+    right: 0;          /* Flush right */
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     gap: 10px;
     align-items: center;
+    padding-right: 15px; /* to match header padding and not touch screen edge */
   }
 
   .search-btn,
@@ -615,3 +616,4 @@ h3 {
     cursor: pointer;
   }
 }
+
