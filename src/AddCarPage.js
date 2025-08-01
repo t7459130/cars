@@ -1,4 +1,3 @@
-// AddCarPage.js
 import React, { useState } from 'react';
 import { useAdmin } from './AdminContext';
 import CarForm from './CarForm';
@@ -6,6 +5,7 @@ import CarForm from './CarForm';
 const AddCarPage = () => {
   const { isAdmin, loginAsAdmin, logout } = useAdmin();
   const [passwordInput, setPasswordInput] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -14,10 +14,28 @@ const AddCarPage = () => {
     setPasswordInput('');
   };
 
-  const handleAddCar = (carData) => {
-    console.log('New car added:', carData);
-    alert('Car added successfully (not saved yet — implement backend)');
-    // Implement backend logic here
+  const handleAddCar = async (carData) => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/add-car', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(carData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add car');
+      }
+
+      const result = await response.json();
+      console.log('Server response:', result);
+      alert('Car added successfully!');
+    } catch (error) {
+      console.error('Add car error:', error);
+      alert('Error adding car');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isAdmin) {
@@ -41,6 +59,7 @@ const AddCarPage = () => {
     <div className="add-car-page">
       <button onClick={logout}>Logout</button>
       <h2>Add New Car to Inventory</h2>
+      {loading && <p>Saving car...</p>}
       <CarForm onAddCar={handleAddCar} />
     </div>
   );
