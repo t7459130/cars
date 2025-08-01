@@ -1,41 +1,58 @@
-// CarForm.js
 import React, { useState } from 'react';
 
 function CarForm({ onAddCar }) {
   const [carData, setCarData] = useState({
     make: '', model: '', variant: '', year: '', price: '',
     transmission: '', fuelType: '', mileage: '', bodyStyle: '',
-    colour: '', engineSize: '', fuelEconomy: '', images: [],
-    description: '',
+    colour: '', engineSize: '', fuelEconomy: '', description: ''
   });
+
+  const [imageFiles, setImageFiles] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCarData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFiles = (files) => {
-    const urls = Array.from(files).map((f) => URL.createObjectURL(f));
-    setCarData((prev) => ({ ...prev, images: [...prev.images, ...urls] }));
-  };
-
   const handleFileInput = (e) => {
-    handleFiles(e.target.files);
+    const files = Array.from(e.target.files);
+    setImageFiles((prev) => [...prev, ...files]);
+
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setImagePreviews((prev) => [...prev, ...previews]);
   };
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    if (carData.images.length === 0) {
+
+    if (imageFiles.length === 0) {
       alert('Please upload at least one image');
       return;
     }
-    onAddCar(carData);
+
+    const formData = new FormData();
+
+    // Append text fields
+    Object.entries(carData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    // Append image files
+    imageFiles.forEach((file, idx) => {
+      formData.append('images', file); // append as array (Node will parse this as `images[]`)
+    });
+
+    onAddCar(formData);
+
+    // Reset form
     setCarData({
       make: '', model: '', variant: '', year: '', price: '',
       transmission: '', fuelType: '', mileage: '', bodyStyle: '',
-      colour: '', engineSize: '', fuelEconomy: '', images: [],
-      description: '',
+      colour: '', engineSize: '', fuelEconomy: '', description: ''
     });
+    setImageFiles([]);
+    setImagePreviews([]);
   };
 
   return (
@@ -91,7 +108,7 @@ function CarForm({ onAddCar }) {
         <label>Upload Images</label>
         <input type="file" accept="image/*" multiple onChange={handleFileInput} />
         <div className="image-previews">
-          {carData.images.map((src, idx) => (
+          {imagePreviews.map((src, idx) => (
             <img key={idx} src={src} alt={`preview-${idx}`} className="preview-img" />
           ))}
         </div>

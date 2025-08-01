@@ -14,13 +14,12 @@ const AddCarPage = () => {
     setPasswordInput('');
   };
 
-  const handleAddCar = async (carData) => {
+  const handleAddCar = async (formData) => {
     setLoading(true);
     try {
       const response = await fetch('/api/add-car', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(carData),
+        body: formData, // No headers here — browser sets them for multipart
       });
 
       if (!response.ok) {
