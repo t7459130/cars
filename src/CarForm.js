@@ -9,6 +9,7 @@ function CarForm({ onAddCar }) {
     colour: '', engineSize: '', fuelEconomy: '', images: [],
     description: '',
   });
+
   const [uploading, setUploading] = useState(false);
 
   const handleChange = (e) => {
@@ -23,7 +24,6 @@ function CarForm({ onAddCar }) {
     try {
       const uploadedUrls = [];
       for (let file of files) {
-        // Upload each file to Vercel Blob
         const blob = await upload(file.name, file, { access: 'public' });
         uploadedUrls.push(blob.url);
       }
@@ -40,10 +40,15 @@ function CarForm({ onAddCar }) {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+    if (!carData.make || !carData.model || !carData.year || !carData.price) {
+      alert("Please fill in required fields.");
+      return;
+    }
     if (carData.images.length === 0) {
       alert('Please upload at least one image');
       return;
     }
+
     onAddCar(carData);
     setCarData({
       make: '', model: '', variant: '', year: '', price: '',
@@ -55,15 +60,32 @@ function CarForm({ onAddCar }) {
 
   return (
     <form onSubmit={onFormSubmit}>
-      {/* your inputs here */}
       <input name="make" value={carData.make} onChange={handleChange} placeholder="Make" required />
-      {/* ...other inputs */}
+      <input name="model" value={carData.model} onChange={handleChange} placeholder="Model" required />
+      <input name="variant" value={carData.variant} onChange={handleChange} placeholder="Variant" />
+      <input name="year" type="number" value={carData.year} onChange={handleChange} placeholder="Year" required />
+      <input name="price" type="number" value={carData.price} onChange={handleChange} placeholder="Price" required />
+      <input name="transmission" value={carData.transmission} onChange={handleChange} placeholder="Transmission" />
+      <input name="fuelType" value={carData.fuelType} onChange={handleChange} placeholder="Fuel Type" />
+      <input name="mileage" value={carData.mileage} onChange={handleChange} placeholder="Mileage" />
+      <input name="bodyStyle" value={carData.bodyStyle} onChange={handleChange} placeholder="Body Style" />
+      <input name="colour" value={carData.colour} onChange={handleChange} placeholder="Colour" />
+      <input name="engineSize" value={carData.engineSize} onChange={handleChange} placeholder="Engine Size" />
+      <input name="fuelEconomy" value={carData.fuelEconomy} onChange={handleChange} placeholder="Fuel Economy" />
+      <textarea
+        name="description"
+        value={carData.description}
+        onChange={handleChange}
+        placeholder="Description"
+        rows={3}
+      />
+
       <label>Upload Images</label>
       <input type="file" accept="image/*" multiple onChange={handleFileInput} disabled={uploading} />
       {uploading && <p>Uploading images...</p>}
-      <div>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {carData.images.map((url, idx) => (
-          <img key={idx} src={url} alt={`Car image ${idx}`} style={{ width: 100, marginRight: 10 }} />
+          <img key={idx} src={url} alt={`Car ${idx}`} style={{ width: 100, marginRight: 10 }} />
         ))}
       </div>
 
